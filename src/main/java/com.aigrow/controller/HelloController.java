@@ -1,6 +1,6 @@
 package com.aigrow.controller;
 
-//test
+//test2
 public class HelloController {
     public HelloController(){
         System.out.println("hello world");
