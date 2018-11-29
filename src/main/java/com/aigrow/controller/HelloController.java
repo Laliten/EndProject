@@ -11,4 +11,7 @@ public class HelloController {
     public void sayHello2(){
         System.out.println("sayHello2");
     }
+    public void sayHello3(){
+        System.out.println("sayHello3");
+    }
 }

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="EndProject:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="com.aigrow.war">
+      <element id="artifact" artifact-name="EndProject:war exploded" />
+    </root>
+  </artifact>
+</component>
