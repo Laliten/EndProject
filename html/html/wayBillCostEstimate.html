@@ -1,10 +1,157 @@
-<!DOCTYPE html>
-<html lang="en">
+<%--
+Created by IntelliJ IDEA.
+User: YangDeJian
+Date: 2018-11-28
+Time: 16:05
+To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>运费估计</title>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+    <style type="text/css">
+        .zm-banner-bac {
+            position: absolute;
+            z-index: -99;
+            display: block;
+            width: 100%;
+            height: 500px;
+            background-image: url("image/city_banner.png");
+            background-size: cover;
+            background-position: 0 -100px;
+        }
+
+        .zm-banner {
+            margin-top: 30px;
+        }
+
+        .zm-main-container {
+            padding-top: 520px;
+        }
+
+
+        .zm-slogan-container{
+            padding: 60px 0 40px;
+        }
+
+        .zm-slogan{
+            text-align: center;
+            color: #222;
+            font-size: 32px;
+            font-weight: 600;
+        }
+
+        .form-control-inline {
+            width:200px;
+            display:inline;
+        }
+
+        .title{
+            font-size: 30px;
+        }
+
+        .intro{
+            font-size: 25px;
+        }
+
+        body{
+            font-family: "黑体";
+        }
+
+        .border{
+            border:1px solid #000;
+            width: 600px;
+        }
+
+    </style>
 </head>
 <body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <ul class="nav navbar-nav">
+            <a class="navbar-brand">运费估计</a>
+            <li class="dropdown">
+                <ul class="dropdown-menu">
+                </ul>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav pull-right">
+        </ul>
+    </div>
+</nav>
+<div class="zm-banner text-center">
+    <div class="zm-banner-bac">
+        <h1 style="color: #fff; padding-top: 200px">***--为你选出性价比最高的公司</h1>
+        <input type="text" class="form-control form-control-inline" style="width: 300px;margin-left: 0px;z-index: 99" placeholder="搜索。。。">
+        <button class="btn btn-primary">搜索</button>
+    </div>
+</div>
+<div class="zm-main-container">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-1 col-lg-1"></div>
+            <div class="col-md-10 col-lg-10">
+                <div class="zm-slogan-container">
+                    <div class="zm-slogan">
+                        ***，专业服务100年
+                    </div>
+                </div>
+                <p class="text-left title"><b>编辑您的信息</b></p>
+                <div class="table-responsive border" style="margin-bottom: 50px">
+                    <form>
+                        <span class="intro">起点</span><select class="form-control input-lg form-control-inline" style="width: 100px" name="start" id="start">
+                        <option value="杭州">杭州</option>
+                        <option value="北京">北京</option>
+                    </select>
+                        <br>
+                        <br>
+                        <span class="intro">终点</span><select class="form-control input-lg form-control-inline" style="width: 100px" name="destination" id="destination">
+                        <option value="杭州">杭州</option>
+                        <option value="北京">北京</option>
+                    </select>
+                        <br>
+                        <br>
+                        <div class="input-group">
+                            <span class="intro" style="float: left;">重量</span><input type="text" name="weight" class="form-control form-control-inline" style="width: 100px;"><button class="btn btn-default" type="button">kg</button>
+                        </div>
+                        <br>
+                        <br>
+                        查询信息仅供参考，具体价格请以咨询当地 快递网点报价为准
+                        <br>
+                        <br>
+                        <input type="submit" name="" class="btn btn-primary" value="查询">
+                    </form>
+                </div>
+                <table class="table">
+                    <caption>查询结果</caption>
+                    <thead>
+                    <tr>
+                        <th>公司名称</th>
+                        <th>运送方式</th>
+                        <th>运送价格</th>
+                        <th>运送时间</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Tanmay</td>
+                        <td>Bangalore</td>
+                    </tr>
+                    <tr>
+                        <td>Sachin</td>
+                        <td>Mumbai</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
+<script type="text/javascript">
+    $
+</script>
 </body>
 </html>
