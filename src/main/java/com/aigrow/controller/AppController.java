@@ -17,7 +17,7 @@ public class AppController {
      */
     @RequestMapping("/index")
     public String index(){
-        return "login";
+        return "user/login";
     }
 
     /**
@@ -26,7 +26,7 @@ public class AppController {
      */
     @RequestMapping("/register")
     public String register(){
-        return "register";
+        return "user/register";
     }
 
     /**
@@ -35,7 +35,7 @@ public class AppController {
      */
     @RequestMapping("/error")
     public String error(){
-        return "error";
+        return "error/error";
     }
 
     /**
@@ -54,7 +54,7 @@ public class AppController {
      */
     @RequestMapping("/doRegister")
     public String doRegister(){
-        return "userHome";
+        return "user/userHome";
     }
 
 }

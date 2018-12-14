@@ -16,7 +16,7 @@ public class PostController {
      */
     @RequestMapping("/nearby")
     public String nearby(){
-        return "nearby";
+        return "user/nearby";
     }
 
     /**

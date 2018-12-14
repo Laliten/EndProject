@@ -21,7 +21,7 @@ public class PackageController {
      */
     @RequestMapping("/packageCost")
     public String packageCost(){
-        return "costEstimate";
+        return "user/costEstimate";
     }
 
     /**
@@ -52,7 +52,7 @@ public class PackageController {
      */
     @RequestMapping("/wayBillInfo")
     public String wayBillInfo(){
-        return "wayBillInfo";
+        return "user/wayBillInfo";
     }
 
     /**

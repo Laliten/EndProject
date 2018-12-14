@@ -47,12 +47,21 @@ public class PersonController {
     }
 
     /**
+     * 处理用户的单个删除
+     * @return
+     */
+    @RequestMapping("/singleDelete")
+    public Json singleDelete(){
+        return null;
+    }
+
+    /**
      * 处理用户的密码修改，成功后重新登录
      * @return
      */
     @RequestMapping("/modifyPassword")
     public String modifyPassword(){
-        return "login";
+        return "user/login";
     }
 
     /**
