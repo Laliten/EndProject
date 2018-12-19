@@ -1,7 +1,10 @@
 package com.aigrow.service;
 
+import com.aigrow.model.dto.Page;
 import com.aigrow.model.dto.UserDto;
 import com.aigrow.model.entity.User;
+
+import java.util.List;
 
 /**
  * @author YangDeJian
@@ -20,4 +23,11 @@ public interface UserService {
      * @return
      */
     int register(User user);
+
+    /**
+     * 仅限管理员使用，获取所有的管理员
+     * @param page
+     * @return
+     */
+    List<UserDto> getAllAdmins(Page page);
 }

@@ -1,9 +1,12 @@
 package com.aigrow.service.impl;
 
 import com.aigrow.dao.UserDao;
+import com.aigrow.model.dto.Page;
 import com.aigrow.model.dto.UserDto;
+import com.aigrow.model.entity.Package;
 import com.aigrow.model.entity.User;
 import com.aigrow.service.UserService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +20,19 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
+
+    /**
+     * 仅限管理员使用，获取所有的管理员
+     *
+     * @param page
+     * @return
+     */
+    @Override
+    public List<UserDto> getAllAdmins(Page page) {
+        String hql = "from User u where u.type=1";
+        List<User> userList = userDao.find(hql, page.getNextPage(), page.getPageSize());
+        return this.e2d(userList);
+    }
 
     /**
      * 进行登录验证，正确则返回一个dto对象，失败则返回null
@@ -57,9 +73,15 @@ public class UserServiceImpl implements UserService {
      */
     private UserDto e2d(User user){
         UserDto userDto = new UserDto();
-        /**
-         * 代码写在这里
-         */
+        if (user != null){
+            BeanUtils.copyProperties(user, userDto);
+            if (user.getPackageSet() != null && user.getPackageSet().size() != 0){
+                for (Package p: user.getPackageSet()) {
+                    userDto.getPackagesId().add(p.getId());
+                    userDto.getPackagesName().add(p.getName());
+                }
+            }
+        }
         return userDto;
     }
 
@@ -70,9 +92,13 @@ public class UserServiceImpl implements UserService {
      */
     private List<UserDto> e2d(List<User> userList){
         List<UserDto> userDtos = new ArrayList<>();
-        /**
-         * 代码写在这里
-         */
+        if (userList != null){
+            for (User u:userList) {
+                userDtos.add(this.e2d(u));
+            }
+        }
         return userDtos;
     }
+
+
 }

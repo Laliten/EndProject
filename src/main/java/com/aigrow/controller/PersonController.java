@@ -4,6 +4,8 @@ import com.aigrow.model.dto.Json;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * @author YangDeJian
  */
@@ -15,7 +17,9 @@ public class PersonController {
      * @return
      */
     @RequestMapping("/adminManager")
-    public Json doAdminManager(){
+    public Json doAdminManager(HttpSession session){
+
+
         return null;
     }
 
