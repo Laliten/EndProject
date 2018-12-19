@@ -41,11 +41,13 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public int register(User user) {
-        int state = userDao.count(user);
-        /**
-         * 代码写在这里
-         */
-        return 1;
+        String hql = "select count(*) from User u where u.account=?";
+        long state = userDao.count(hql, user.getAccount());
+        if (state == 1){
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
     /**

@@ -2,33 +2,24 @@ package com.aigrow.dao.impl;
 
 import com.aigrow.dao.UserDao;
 import com.aigrow.model.entity.User;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 /**
  * @author YangDeJian
  */
 @Repository
-public class UserDaoImpl implements UserDao {
+public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
     /**
-     * 通过对user对象与后台数据的对比，判断是否存在该用户
-     * 若不存在，则返回null
+     * 判断用户名是否唯一
      *
-     * @param user
+     * @param hql
+     * @param account
      * @return
      */
     @Override
-    public User get(User user) {
-        return null;
-    }
-
-    /**
-     * 通过查询后台用户名的数量进行用户名是否存在
-     *
-     * @param user
-     * @return
-     */
-    @Override
-    public int count(User user) {
-        return 0;
+    public Long count(String hql, String account) {
+        Query q = this.getCurrentSession().createQuery(hql).setString(1,account);
+        return (Long) q.uniqueResult();
     }
 }

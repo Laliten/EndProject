@@ -1,30 +1,50 @@
 <!DOCTYPE html>
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <title>运费估计</title>
     <link rel="stylesheet" href="../css/costEstimate/plugins/kuCity.css">
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.2/bootstrap-table.min.css">
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.2/bootstrap-table.min.js"></script>
-
-    <!-- Latest compiled and minified Locales -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.2/locale/bootstrap-table-zh-CN.min.js"></script>
 
     <link rel="stylesheet" href="../css/costEstimate/costEsitmate.css">
 
     <link rel="stylesheet" href="../css/costEstimate/plugins/bc.grid-1.0.0.min.css">
 
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.2/bootstrap-table.min.css">
+
+    <script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.2/bootstrap-table.min.js"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.2/locale/bootstrap-table-zh-CN.min.js"></script>
+
     <script src="../js/costEstimate/plugins/bc.grid.min.js"></script>
 
     <script type="text/javascript">
-        $(document).ready(function($){
+        $(document).ready(function ($) {
             $('.grid-container').gridQuote();
         });
     </script>
+    <style>
+        div .shadow{
+            text-align: center;
+        }
+        div{
+            min-width: 600px;
+        }
+        div[name=right]{
+            min-width: 50px;
+        }
+        div[name=centerDiv]{
+            float: none;
+            margin: 0 auto;
+        }
+        .row{
+            margin: 0 auto;
+        }
+        #container{
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -32,10 +52,8 @@
         <ul class="nav navbar-nav">
             <a class="navbar-brand">运费估计</a>
             <span class="navbar-brand" style="margin-left: 1300px;cursor: pointer;" id="history">历史记录</span>
-                <li class="dropdown">
-                <ul class="dropdown-menu">
-
-                </ul>
+            <li class="dropdown">
+                <ul class="dropdown-menu"></ul>
             </li>
         </ul>
         <ul class="nav navbar-nav pull-right">
@@ -45,73 +63,93 @@
 <div class="zm-banner text-center">
     <div class="zm-banner-bac">
         <h1 style="color: #fff; padding-top: 30px">快递帮--为你选出性价比最高的公司</h1>
-        <input type="text" class="form-control form-control-inline" style="width: 300px;margin-left: 0px;z-index: 99" placeholder="搜索。。。">
+        <input type="text" class="form-control form-control-inline" style="width: 300px;margin-left: 0px;z-index: 99"
+               placeholder="搜索。。。">
         <button class="btn btn-primary">搜索</button>
     </div>
 </div>
 <div class="zm-main-container">
-    <div class="container-fluid">
+    <div id="container" style="text-align: center">
         <div class="row">
-            <div class="col-md-1 col-lg-1"></div>
-            <div class="col-md-10 col-lg-10">
-                <div class="zm-slogan-container">
-                    <div class="zm-slogan">
-                        快递帮，专业服务100年
+            <div class="zm-slogan zm-slogan-container">
+                快递帮，专业服务100年
+            </div>
+        </div>
+        <div class="row">
+            <div name="centerDiv" class="col-sm-9">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="shadow" style="padding-top: 6%;padding-bottom: 6%">
+                            <form name="filterForm">
+                                <span class="intro">起点</span>
+                                    <input type="text" name="start" class="search form-control form-control-inline">
+                                <span class="intro">终点</span>
+                                    <input type="text" name="destination" class="search form-control form-control-inline">
+                                <span class="intro">重量</span>
+                                    <input type="text" name="weight" class="form-control form-control-inline">
+                                <button class="btn btn-default" type="button">kg</button>
+                                <input type="button" class="btn btn-primary form-control-inline"
+                                       value="查询" id="Search">
+                                <div style="padding-top: 1%">
+                                    <button style="cursor: pointer;text-align: center" id="get"
+                                            class="btn btn-primary dropdown-toggle" type="button">
+                                        筛选条件<span class="caret"></span>
+                                    </button>
+                                </div>
+                            </form>
+                            <br>
+                            <br>
+                            <div class="condition">
+                                <span>价格（元）</span>
+                                <input type="text" name="value_min" class="form-control form-control-inline" placeholder="最低">--->
+                                <input
+                                        type="text" name="value_max" class="form-control form-control-inline" placeholder="最高">
+                                <span>时间（天）</span>
+                                <input type="text" name="day_min" class="form-control form-control-inline" placeholder="最低">---><input
+                                    type="text" name="day_max" class="form-control form-control-inline" placeholder="最高">
+                                <br>
+                                <br>
+                                <span>体积</span>
+                                <input type="text" name="x" class="form-control form-control-inline">x
+                                <input type="text" name="y" class="form-control form-control-inline">x
+                                <input type="text" name="z" class="form-control form-control-inline">
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="shadow" style="padding-top: 60px;padding-bottom: 60px">
-                <form>
-                    <span class="intro" style="margin-left: 20%">起点</span>
-                    <input type="text" name="start" class="search form-control form-control-inline">
-                    <span class="intro" style="margin-left: 2%">终点</span>
-                    <input type="text" name="destination" class="search form-control form-control-inline">
-                    <span class="intro" style="margin-left: 2%">重量</span><input type="text" name="weight" class="form-control form-control-inline"><button class="btn btn-default" type="button">kg</button>
-                    <input type="button" name="" class="btn btn-primary form-control-inline" value="查询" style="width: 100px;margin-left: 2%" id="Search">
-                    <br>
-                    <br>
-                    <button style="margin-left: 560px;cursor: pointer;text-align: center" id="get" class="btn btn-primary dropdown-toggle" type="button">筛选条件 <span class="caret"></span></button>
-                </form>
-                <br>
-                <br>
-
-                <div class="condition">
-                    <span>价格（元）</span>
-                    <input type="text" name="value_min" class="form-control form-control-inline" placeholder="最低">---><input type="text" name="value_max" class="form-control form-control-inline" placeholder="最高">
-                    <span>时间（天）</span>
-                    <input type="text" name="day_min" class="form-control form-control-inline" placeholder="最低">---><input type="text" name="day_max" class="form-control form-control-inline" placeholder="最高">
-                    <br>
-                    <br>
-                    <span>体积</span>
-                    <input type="text" name="x" class="form-control form-control-inline">x<input type="text" name="y" class="form-control form-control-inline">x<input type="text" name="z" class="form-control form-control-inline">
-                </div>
-                </div>
-                <br>
-                <br>
-                <span class="intro shadow" style="margin-top: 60px;margin-left: 50%">查询结果</span>
-                <div class="content shadow" style="background-color: #F8F8FF;margin-top: 60px">
-
-                    <br>
-                    <table id="theContent" style="margin-left: 0px;width: 100%">
-
-                    </table>
+            </div>
+        </div>
+        <div  class="row">
+            <div name="centerDiv" class="col-sm-9">
+                <div class="panel panel-default">
+                    <div class="panel-heading" style="text-align: center">
+                        <span class="intro">查询结果</span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="content" style="background-color: #F8F8FF;">
+                            <table id="theContent" style="margin-left: 0px;width: 100%"></table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div class="right">
+
+
+<div name="right" class="right">
     <br>
     <br>
     <br>
-<div class="list">
-    <span class="intro">编号</span>：12138
-    <br>
-    <span class="intro">包裹</span>：Java程序设计
-    <br>
-    <span class="intro">公司名称</span>：顺丰
-    <br>
-    <span class="intro">备注</span>：很快
-</div>
+    <div class="list">
+        <span class="intro">编号</span>：12138
+        <br>
+        <span class="intro">包裹</span>：Java程序设计
+        <br>
+        <span class="intro">公司名称</span>：顺丰
+        <br>
+        <span class="intro">备注</span>：很快
+    </div>
 </div>
 <script src="http://www.jq22.com/jquery/jquery-1.9.1.js"></script>
 <script src="../js/costEstimate/plugins/kuCity.js"></script>
@@ -127,34 +165,97 @@
             })
         })
     })
-    $("#history").click(function(){
+    $("#history").click(function () {
         $(".right").animate({
-            height:"toggle"
+            height: "toggle"
         });
     })
 
-   document.onclick=
-    function (e) {
-        var X = e.screenX;
-        var Y = e.screenY;
-        if (X<1219&&Y<821&&Y>142){
-            $(".right").animate({
-                height:"hide"
-            });
+    document.onclick =
+        function (e) {
+            var X = e.screenX;
+            var Y = e.screenY;
+            if (X < 1219 && Y < 821 && Y > 142) {
+                $(".right").animate({
+                    height: "hide"
+                });
+            }
         }
-    }
 </script>
 
 <script>
-    var data = [{"id":1,"pid":0,"name":"顺丰","value":1,"customer_service_tel":138991484151,"trust_degree":"1","time":"23","sign":"Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!"},
-        {"id":2,"pid":0,"name":"申通","value":2,"customer_service_tel":84119561216,"trust_degree":"1","time":"10","sign":"Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!"},
-        {"id":3,"pid":-1,"name":"中通","value":4,"customer_service_tel":84119561216,"trust_degree":"2","time":"12","sign":"Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!"},
-        {"id":4,"pid":1,"name":"百事","value":3,"customer_service_tel":84119561216,"trust_degree":"3","time":"31","sign":"Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!"},
-        {"id":5,"pid":2,"name":"圆通","value":5,"customer_service_tel":84119561216,"trust_degree":"1","time":"12","sign":"Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!"},
-        {"id":6,"pid":4,"name":"Meng","value":3,"customer_service_tel":84119561216,"trust_degree":"2","time":"21","sign":"Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!"},
-        {"id":7,"pid":6,"name":"Meng111","value":20,"customer_service_tel":84119561216,"trust_degree":"1","time":"21","sign":"Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!"}];
+    var data = [{
+        "id": 1,
+        "pid": 0,
+        "name": "顺丰",
+        "value": 1,
+        "customer_service_tel": 138991484151,
+        "trust_degree": "1",
+        "time": "23",
+        "sign": "Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!"
+    },
+        {
+            "id": 2,
+            "pid": 0,
+            "name": "申通",
+            "value": 2,
+            "customer_service_tel": 84119561216,
+            "trust_degree": "1",
+            "time": "10",
+            "sign": "Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!"
+        },
+        {
+            "id": 3,
+            "pid": -1,
+            "name": "中通",
+            "value": 4,
+            "customer_service_tel": 84119561216,
+            "trust_degree": "2",
+            "time": "12",
+            "sign": "Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!"
+        },
+        {
+            "id": 4,
+            "pid": 1,
+            "name": "百事",
+            "value": 3,
+            "customer_service_tel": 84119561216,
+            "trust_degree": "3",
+            "time": "31",
+            "sign": "Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!"
+        },
+        {
+            "id": 5,
+            "pid": 2,
+            "name": "圆通",
+            "value": 5,
+            "customer_service_tel": 84119561216,
+            "trust_degree": "1",
+            "time": "12",
+            "sign": "Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!"
+        },
+        {
+            "id": 6,
+            "pid": 4,
+            "name": "Meng",
+            "value": 3,
+            "customer_service_tel": 84119561216,
+            "trust_degree": "2",
+            "time": "21",
+            "sign": "Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!"
+        },
+        {
+            "id": 7,
+            "pid": 6,
+            "name": "Meng111",
+            "value": 20,
+            "customer_service_tel": 84119561216,
+            "trust_degree": "1",
+            "time": "21",
+            "sign": "Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!"
+        }];
     $(function () {
-        var grid=BCGrid.create("#theContent",{
+        var grid = BCGrid.create("#theContent", {
             columns: [
                 {id: 'id', name: 'id', display: 'ID', align: 'center', hide: true},
                 {
@@ -168,8 +269,8 @@
                 {name: 'time', display: '花费时间', enableSort: true}
 
             ],
-            dataSource:'local',
-            localData:data
+            dataSource: 'local',
+            localData: data
         });
 
     });
