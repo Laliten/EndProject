@@ -15,6 +15,16 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.2/locale/bootstrap-table-zh-CN.min.js"></script>
 
     <link rel="stylesheet" href="../css/costEstimate/costEsitmate.css">
+
+    <link rel="stylesheet" href="../css/costEstimate/plugins/bc.grid-1.0.0.min.css">
+
+    <script src="../js/costEstimate/plugins/bc.grid.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function($){
+            $('.grid-container').gridQuote();
+        });
+    </script>
 </head>
 <body>
 <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -49,20 +59,22 @@
                         快递帮，专业服务100年
                     </div>
                 </div>
-                <p class="text-left title"><b>编辑您的信息</b></p>
+                <div class="shadow" style="padding-top: 60px;padding-bottom: 60px">
                 <form>
-                    <span class="intro" style="">起点</span>
+                    <span class="intro" style="margin-left: 20%">起点</span>
                     <input type="text" name="start" class="search form-control form-control-inline">
-                    <span class="intro" style="margin-left: 50px">终点</span>
+                    <span class="intro" style="margin-left: 2%">终点</span>
                     <input type="text" name="destination" class="search form-control form-control-inline">
-                    <span class="intro" style="margin-left: 50px">重量</span><input type="text" name="weight" class="form-control form-control-inline"><button class="btn btn-default" type="button">kg</button>
-                    <input type="button" name="" class="btn btn-primary form-control-inline" value="查询" style="width: 100px;margin-left: 50px" id="Search">
-                    <span style="margin-left: 50px;cursor: pointer;" id="get">筛选条件---></span>
+                    <span class="intro" style="margin-left: 2%">重量</span><input type="text" name="weight" class="form-control form-control-inline"><button class="btn btn-default" type="button">kg</button>
+                    <input type="button" name="" class="btn btn-primary form-control-inline" value="查询" style="width: 100px;margin-left: 2%" id="Search">
+                    <br>
+                    <br>
+                    <button style="margin-left: 560px;cursor: pointer;text-align: center" id="get" class="btn btn-primary dropdown-toggle" type="button">筛选条件 <span class="caret"></span></button>
                 </form>
                 <br>
                 <br>
 
-                <div class="condition" style="display: none;">
+                <div class="condition">
                     <span>价格（元）</span>
                     <input type="text" name="value_min" class="form-control form-control-inline" placeholder="最低">---><input type="text" name="value_max" class="form-control form-control-inline" placeholder="最高">
                     <span>时间（天）</span>
@@ -72,13 +84,16 @@
                     <span>体积</span>
                     <input type="text" name="x" class="form-control form-control-inline">x<input type="text" name="y" class="form-control form-control-inline">x<input type="text" name="z" class="form-control form-control-inline">
                 </div>
+                </div>
                 <br>
                 <br>
+                <span class="intro shadow" style="margin-top: 60px;margin-left: 50%">查询结果</span>
+                <div class="content shadow" style="background-color: #F8F8FF;margin-top: 60px">
 
-                <div class="content">
-                    <span class="intro">查询结果</span>
                     <br>
-                    <table id="theContent"></table>
+                    <table id="theContent" style="margin-left: 0px;width: 100%">
+
+                    </table>
                 </div>
             </div>
         </div>
@@ -88,9 +103,15 @@
     <br>
     <br>
     <br>
-    <div id="theHistory">
-        无历史记录
-    </div>
+<div class="list">
+    <span class="intro">编号</span>：12138
+    <br>
+    <span class="intro">包裹</span>：Java程序设计
+    <br>
+    <span class="intro">公司名称</span>：顺丰
+    <br>
+    <span class="intro">备注</span>：很快
+</div>
 </div>
 <script src="http://www.jq22.com/jquery/jquery-1.9.1.js"></script>
 <script src="../js/costEstimate/plugins/kuCity.js"></script>
@@ -99,19 +120,59 @@
     $('.search3').kuCity();
 </script>
 <script>
-    $("#history").click(function(){
-        $(".right").toggle();
-    })
-    $("#get").click(function(){
-        $('.condition').toggle();
-    })
-
-    $("#Search").click(function(){
-        var $table = $("#theContent");
-        $table.bootstrap-table({
-            url:""
+    $(function () {
+        $("#get").click(function () {
+            $(".condition").animate({
+                height: "toggle"
+            })
         })
     })
+    $("#history").click(function(){
+        $(".right").animate({
+            height:"toggle"
+        });
+    })
+
+   document.onclick=
+    function (e) {
+        var X = e.screenX;
+        var Y = e.screenY;
+        if (X<1219&&Y<821&&Y>142){
+            $(".right").animate({
+                height:"hide"
+            });
+        }
+    }
+</script>
+
+<script>
+    var data = [{"id":1,"pid":0,"name":"顺丰","value":1,"customer_service_tel":138991484151,"trust_degree":"1","time":"23","sign":"Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!"},
+        {"id":2,"pid":0,"name":"申通","value":2,"customer_service_tel":84119561216,"trust_degree":"1","time":"10","sign":"Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!"},
+        {"id":3,"pid":-1,"name":"中通","value":4,"customer_service_tel":84119561216,"trust_degree":"2","time":"12","sign":"Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!"},
+        {"id":4,"pid":1,"name":"百事","value":3,"customer_service_tel":84119561216,"trust_degree":"3","time":"31","sign":"Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!"},
+        {"id":5,"pid":2,"name":"圆通","value":5,"customer_service_tel":84119561216,"trust_degree":"1","time":"12","sign":"Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!"},
+        {"id":6,"pid":4,"name":"Meng","value":3,"customer_service_tel":84119561216,"trust_degree":"2","time":"21","sign":"Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!"},
+        {"id":7,"pid":6,"name":"Meng111","value":20,"customer_service_tel":84119561216,"trust_degree":"1","time":"21","sign":"Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!Youth is just a section of unoptimized code!"}];
+    $(function () {
+        var grid=BCGrid.create("#theContent",{
+            columns: [
+                {id: 'id', name: 'id', display: 'ID', align: 'center', hide: true},
+                {
+                    id: 'name', name: 'name', display: '公司名称'
+                },
+                {
+                    name: 'customer_service_tel', display: '客服电话'
+                },
+                {name: 'value', display: '价格', enableSort: true},
+                {name: 'trust_degree', display: '信用等级', enableSort: true},
+                {name: 'time', display: '花费时间', enableSort: true}
+
+            ],
+            dataSource:'local',
+            localData:data
+        });
+
+    });
 </script>
 </body>
 </html>

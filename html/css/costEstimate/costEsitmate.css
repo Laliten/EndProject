@@ -31,7 +31,7 @@
 }
 
 .form-control-inline {
-    width:150px;
+    width: 10%;
     display:inline;
 }
 
@@ -40,7 +40,7 @@
 }
 
 .intro{
-    font-size: 15px;
+    font-size: 20px;
 }
 
 body{
@@ -53,10 +53,12 @@ body{
 }
 
 .condition{
+    display: none;
     text-align: center;
 }
 
 .content{
+    position: relative;
     height: 700px;
     text-align: center;
 }
@@ -66,7 +68,20 @@ body{
     right: 0px;
     top: 0px;
     height: 1000px;
-    background-color: #F5F5F5;
+    background-color: #FFFFFF;
     width: 300px;
     display: none;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 1);
 }
+
+.shadow{
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 1);
+}
+
+.list{
+    text-align: left;
+    border-bottom: 1px solid gray;
+    size: 15px;
+}
+
+
