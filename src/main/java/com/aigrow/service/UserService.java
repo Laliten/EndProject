@@ -29,5 +29,5 @@ public interface UserService {
      * @param page
      * @return
      */
-    List<UserDto> getAllAdmins(Page page);
+    List<UserDto> getAllUsers(Page page, String type);
 }
