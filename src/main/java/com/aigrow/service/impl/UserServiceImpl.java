@@ -31,8 +31,8 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public List<UserDto> getAllAdmins(Page page) {
-        String hql = "from User u where u.type=1";
+    public List<UserDto> getAllUsers(Page page, String type) {
+        String hql = "from User u where u.type="+type;
         List<User> userList = userDao.find(hql, page.getNextPage(), page.getPageSize());
         return this.e2d(userList);
     }
