@@ -2,6 +2,7 @@ package com.aigrow.dao;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 基础功能操作类
@@ -61,6 +62,17 @@ public interface BaseDao<T> {
      * @return 对象
      */
     public T get(String hql);
+
+    /**
+     * 通过HQL语句获取一个对象
+     *
+     * @param hql
+     *            HQL语句
+     * @param params
+     *            参数
+     * @return 对象
+     */
+    public T get(String hql, Map<String, Object> params);
 
     /**
      * 获得对象列表
