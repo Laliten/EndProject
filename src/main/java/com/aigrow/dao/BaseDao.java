@@ -64,6 +64,17 @@ public interface BaseDao<T> {
     public T get(String hql);
 
     /**
+     * 通过HQL语句获取一个对象
+     *
+     * @param hql
+     *            HQL语句
+     * @param params
+     *            参数
+     * @return 对象
+     */
+    public T get(String hql, Map<String, Object> params);
+
+    /**
      * 获得对象列表
      *
      * @param hql

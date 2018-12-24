@@ -5,10 +5,10 @@ package com.aigrow.model.dto;
  * @author YangDeJian
  */
 public class Page {
-    private int pageSize;
-    private int currentPage;
-    private int totalPages;
-    private int nextPage;
+    private int pageSize = 10;
+    private int currentPage = 1;
+    private int totalPages = 1;
+    private int nextPage = 2;
 
     public int getNextPage() {
         return nextPage;

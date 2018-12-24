@@ -10,8 +10,11 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author YangDeJian
@@ -28,8 +31,8 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public List<UserDto> getAllAdmins(Page page) {
-        String hql = "from User u where u.type=1";
+    public List<UserDto> getAllUsers(Page page, String type) {
+        String hql = "from User u where u.type="+type;
         List<User> userList = userDao.find(hql, page.getNextPage(), page.getPageSize());
         return this.e2d(userList);
     }
@@ -37,33 +40,67 @@ public class UserServiceImpl implements UserService {
     /**
      * 进行登录验证，正确则返回一个dto对象，失败则返回null
      *
-     * @param user
+     * @param userDto
      * @return
      */
     @Override
-    public UserDto login(User user) {
-        UserDto userDto = this.e2d(user);
-        /**
-         * 代码写在这里
-         */
-        return userDto;
+    public UserDto login(UserDto userDto) {
+        Map<String,Object> params = new HashMap<String,Object>();
+        String username = userDto.getAccount();
+        String password = userDto.getPassword();
+        String type = userDto.getType();
+        params.put("account",username);
+        params.put("password",password);
+        params.put("type",type);
+
+        User user = userDao.get("from User c where c.account = :account and c.password = :password and c.type = :type",params);
+        if(user != null){
+            return this.e2d(user);
+        }
+        return null;
     }
 
     /**
-     * 进行注册验证，验证用户名是否唯一，正确返回0，失败返回1
+     *进行注册验证，正确返回1，失败返回0
      *
-     * @param user
+     * @param userDto
      * @return
      */
     @Override
-    public int register(User user) {
-        String hql = "select count(*) from User u where u.account=?";
-        long state = userDao.count(hql, user.getAccount());
-        if (state == 1){
-            return 1;
-        } else {
+    public int register(UserDto userDto) {
+        User user = new User();
+        user.setType("0");
+        Serializable num = userDao.save(this.d2e(userDto));
+        if(num == null){
             return 0;
+        }else {
+            return 1;
         }
+    }
+
+    /**
+     * 进行注册用户名验证，若存在返回userDto，不存在返回null
+     * @param account
+     * @return 0||1
+     */
+    @Override
+    public long checkUsername(String account) {
+        String hql = "select count(*) from User u where u.account=?";
+        return userDao.count(hql, account);
+    }
+
+
+    /**
+     * 将user实体类对象转换为userDto对象
+     * @param userDto
+     * @return
+     */
+    private User d2e(UserDto userDto){
+        User user = new User();
+        if (userDto != null){
+            BeanUtils.copyProperties(userDto, user);
+        }
+        return user;
     }
 
     /**

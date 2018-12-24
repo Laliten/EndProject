@@ -14,4 +14,5 @@ public interface UserDao extends BaseDao<User>{
      * @return
      */
     public Long count(String hql, String account);
+
 }
