@@ -2,6 +2,7 @@ package com.aigrow.dao;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 基础功能操作类
@@ -102,4 +103,10 @@ public interface BaseDao<T> {
      * @return 响应结果数目
      */
     public int executeHql(String hql);
+
+    List<T> findByHQL(String hql, Map<String,Object> map,int row,int page);
+
+    List<T> findByHQL(String hql,Map<String,Object> map);
+
+    List<T> findBySQL(String sql,Map<String,Object> map);
 }

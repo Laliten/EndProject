@@ -98,4 +98,36 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
         return q.executeUpdate();
     }
 
+    @Override
+    public List<T> findByHQL(String hql, Map<String, Object> map, int row, int page) {
+        Query query = this.getCurrentSession().createQuery(hql);
+        if (map!=null&&map.isEmpty()){
+            for (String key:map.keySet()){
+                query.setParameter(key,map.get(key));
+            }
+        }
+        return query.setMaxResults(row).setFirstResult((page-1)*row).list();
+    }
+
+    @Override
+    public List<T> findByHQL(String hql, Map<String, Object> map) {
+        Query query = this.getCurrentSession().createQuery(hql);
+        if (map!=null&&!map.isEmpty()){
+            for (String key:map.keySet()){
+                query.setParameter(key,map.get(key));
+            }
+        }
+        return query.list();
+    }
+
+    @Override
+    public List<T> findBySQL(String sql, Map<String, Object> map) {
+        SQLQuery query = this.getCurrentSession().createSQLQuery(sql);
+        if (map!=null&&!map.isEmpty()){
+            for (String key:map.keySet()){
+                query.setParameter(key,map.get(key));
+            }
+        }
+        return query.list();
+    }
 }
