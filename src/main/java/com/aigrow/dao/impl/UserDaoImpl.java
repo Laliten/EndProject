@@ -5,6 +5,8 @@ import com.aigrow.model.entity.User;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * @author YangDeJian
  */
@@ -22,4 +24,7 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
         Query q = this.getCurrentSession().createQuery(hql).setString(1,account);
         return (Long) q.uniqueResult();
     }
+
+
+
 }

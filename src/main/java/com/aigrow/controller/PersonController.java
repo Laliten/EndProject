@@ -111,13 +111,5 @@ public class PersonController {
         return viewName;
     }
 
-    /**
-     * 处理单个用户的删除
-     * @param viewName
-     * @return
-     */
-    @RequestMapping("/singleDelete")
-    public String delete(String viewName){
-        return viewName;
-    }
+
 }
