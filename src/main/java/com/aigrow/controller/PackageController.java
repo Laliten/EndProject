@@ -56,7 +56,7 @@ public class PackageController {
         Page page = new Page();
         Map<String,Object> map = new HashMap<>();
         List<CostEstimateDto> costEstimateDtoList = new ArrayList<>();
-        costEstimateDtoList = meterService.cost(weight,destination,page);
+        costEstimateDtoList = meterService.cost(weight,destination,page,start);
         for (int i=0;i<costEstimateDtoList.size();i++){
             costEstimateDtoList.get(i).setStart(start);
         }

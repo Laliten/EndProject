@@ -13,9 +13,10 @@ public interface MeterService {
      * @param weight
      * @param destination
      * @param page
+     * @param start
      * @return
      */
-    List cost(int weight, String destination,Page page,String start);
+    List cost(int weight, String destination,Page page, String start);
 
     /**
      * 获取对应公司名字的计价表
@@ -24,5 +25,4 @@ public interface MeterService {
      * @return
      */
     List<MeterDto> getCompanyMeter(String companyName, Page page);
-
 }
