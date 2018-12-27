@@ -26,9 +26,10 @@ public interface UserService {
     /**
      * 仅限管理员使用，获取所有的管理员
      * @param page
+     * @param type
      * @return
      */
-    List<UserDto> getAllAdmins(Page page);
+    List<UserDto> getAllUsers(Page page,  String type);
 
     /**
      * 进行注册验证，验证用户名是否唯一，正确返回0，失败返回1
