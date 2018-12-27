@@ -18,9 +18,20 @@ public class Meter {
     @Column(name = "next_weight_price")
     private Integer nextWeightPrice;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "company_code")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "company_id")
     private Company company;
+
+    @Column(name = "first_weight")
+    private int first_weight;
+
+    public int getFirst_weight() {
+        return first_weight;
+    }
+
+    public void setFirst_weight(int first_weight) {
+        this.first_weight = first_weight;
+    }
 
     public Meter() {
     }

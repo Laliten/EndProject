@@ -37,4 +37,6 @@ public interface UserService {
      * @return
      */
     long checkUsername(String account);
+
+    List<UserDto> getAllUsers(Page page, String type);
 }

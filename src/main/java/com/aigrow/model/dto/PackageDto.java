@@ -7,12 +7,21 @@ public class PackageDto {
     private int id;
     private String name;
     private int weight;
-    private int size;
+    private Integer size;
     private String description;
     private String type;
     private int userId;
     private String userName;
     private String wayBillCode;
+    private String company_name;
+
+    public String getCompany_name() {
+        return company_name;
+    }
+
+    public void setCompany_name(String company_name) {
+        this.company_name = company_name;
+    }
 
     public int getId() {
         return id;
