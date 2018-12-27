@@ -3,10 +3,12 @@ package com.aigrow.service.impl;
 import com.aigrow.dao.CompanyDao;
 import com.aigrow.dao.MeterDao;
 import com.aigrow.model.dto.CostEstimateDto;
+import com.aigrow.model.dto.MeterDto;
 import com.aigrow.model.dto.Page;
 import com.aigrow.model.entity.Company;
 import com.aigrow.model.entity.Meter;
 import com.aigrow.service.MeterService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,8 +18,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author JDB
+ */
 @Service
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class MeterServiceImpl implements MeterService{
     @Autowired
     private MeterDao meterDao;
@@ -52,5 +57,27 @@ public class MeterServiceImpl implements MeterService{
             }
         }
         return costEstimateDtos;
+    }
+
+    private MeterDto e2d(Meter meter){
+        MeterDto meterDto = new MeterDto();
+        if (meter != null) {
+            BeanUtils.copyProperties(meter, meterDto);
+            if (meter.getCompany() != null) {
+                meterDto.setCompanyName(meter.getCompany().getName());
+                meterDto.setCompanyCode(meter.getCompany().getCode());
+            }
+        }
+        return meterDto;
+    }
+
+    private List<MeterDto> e2d(List<Meter> meters){
+        List<MeterDto> meterDtos = new ArrayList<>();
+        if (meters != null && meters.size() != 0){
+            for (Meter m : meters){
+                meterDtos.add(this.e2d(m));
+            }
+        }
+        return meterDtos;
     }
 }

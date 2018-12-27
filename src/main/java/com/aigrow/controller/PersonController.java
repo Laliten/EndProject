@@ -59,7 +59,7 @@ public class PersonController {
             j.setObj(userDtos);
         } else {
             j.setSuccess(false);
-            j.setMsg("当前还未有管理员");
+            j.setMsg("当前还未有用户");
         }
         return j;
     }

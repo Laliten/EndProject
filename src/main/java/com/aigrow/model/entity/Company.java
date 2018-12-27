@@ -21,6 +21,9 @@ public class Company {
     private String trustDegree;
     @Column
     private String place;
+    @Column
+    private String code;
+
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "company")
     private Set<WayBill> wayBillSet = new HashSet<>();
@@ -63,13 +66,13 @@ public class Company {
         this.name = name;
     }
 
-//    public String getCode() {
-//        return code;
-//    }
-//
-//    public void setCode(String code) {
-//        this.code = code;
-//    }
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 
     public String getCustmoerServiceTel() {
         return custmoerServiceTel;

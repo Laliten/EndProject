@@ -3,6 +3,7 @@ package com.aigrow.controller;
 import com.aigrow.model.dto.Json;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @author YangDeJian
@@ -52,10 +53,13 @@ public class MeterController {
      * 处理单击计价表按钮下的申通按钮的请求
      * @return
      */
+    @ResponseBody
     @RequestMapping("/shenTong")
-    public String shenTong(){
+    public Json shenTong(){
+        Json json = new Json();
 
-        return "admin/shenTong";
+
+        return json;
     }
 
     /**
@@ -67,7 +71,5 @@ public class MeterController {
         return "/admin/tianTian";
     }
 
-    /**
-     * 有多少个计价表，就有多少个方法
-     */
+
 }
