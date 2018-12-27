@@ -105,6 +105,17 @@ public interface BaseDao<T> {
      */
     public Long count(String hql);
 
+    /**
+     * 统计数目
+     *
+     * @param hql
+     *            HQL语句(select count(*) from T where xx = :xx)
+     * @param params
+     *            参数
+     * @return long
+     */
+    public Long count(String hql, Map<String, Object> params);
+
 
     /**
      * 执行一条HQL语句

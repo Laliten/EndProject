@@ -106,7 +106,7 @@ public class AppController {
 
         long num = userService.checkUsername(userDto.getAccount());
 
-        if (num == 0){
+        if (num == 1){
             resultMap.put("type","true");
         } else {
             resultMap.put("type","false");
