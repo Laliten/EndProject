@@ -7,7 +7,6 @@ import com.aigrow.model.dto.MeterDto;
 import com.aigrow.model.dto.Page;
 import com.aigrow.model.entity.Company;
 import com.aigrow.model.entity.Meter;
-import com.aigrow.model.entity.Package;
 import com.aigrow.service.MeterService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,15 +29,15 @@ public class MeterServiceImpl implements MeterService{
     @Autowired
     private CompanyDao companyDao;
     @Override
-    public List cost(int weight, String destination, Page page) {
+    public List cost(int weight, String destination, Page page,String start) {
         List<CostEstimateDto> costEstimateDtos = new ArrayList<>();
         List<Meter> meters = new ArrayList<>();
         List<Company> companyList = new ArrayList<>();
         Map<String,Object> map = new HashMap<>();
         map.put("destination",destination);
-        meters = meterDao.findByHQL("from Meter m where m.destination=:destination",map);
+        meters = meterDao.find("from Meter m where m.destination=:destination", map);
         Map<String,Object> map1 = new HashMap<>();
-        companyList  = companyDao.findBySQL("select tcompany.* from tcompany,tmeter where destination='"+destination+"' and tcompany.`code`=tmeter.company_code",map1);
+        companyList = companyDao.find("select c from Company c,Meter m where m.destination=:destination and m.company.id = c.id", map);
         if (meters!=null) {
             for (int i = 0; i < meters.size(); i++) {
                 int cost;
@@ -53,6 +52,7 @@ public class MeterServiceImpl implements MeterService{
                 costEstimateDto.setDestination(destination);
                 costEstimateDto.setName(company.getName());
                 costEstimateDto.setTrustDegree(company.getTrustDegree());
+                costEstimateDto.setStart(start);
                 costEstimateDtos.add(costEstimateDto);
             }
         }

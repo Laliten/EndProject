@@ -13,5 +13,5 @@ public interface MeterService {
      * @param page
      * @return
      */
-    List cost(int weight, String destination,Page page);
+    List cost(int weight, String destination,Page page,String start);
 }

@@ -30,15 +30,15 @@ public class PackageServiceImpl implements PackageService{
         Map<String,Object> map1 = new HashMap<>();
         map.put("id",id);
         List<PackageDto> packageDtoList = new ArrayList<>();
-        List<Package> packageList = packageDao.findBySQL("select tpackage.* from tpackage,tuser where tpackage.user_id=tuser.id and tuser.id=:id",map);
+        List<Package> packageList = packageDao.find("select p from Package p,User u where u.id=:id and u.id=p.user.id", map);
         map1.put("id",id);
-        List<Company> companyList = companyDao.findBySQL("select tcompany.* from tcompany,tuser,twayBill where twayBill.sender=tuser.id and tcompany.code=twayBill.company_code and tuser.id=?",map1);
+        List<Company> companyList = companyDao.find("select c from Company c, Package p where p.wayBill.company.id=c.id and p.user.id = :id", map1);
         for (int i=0;i<packageList.size();i++){
             PackageDto packageDto = new PackageDto();
             Package p = new Package();
             p = packageList.get(i);
             BeanUtils.copyProperties(p,packageDto);
-            packageDto.setCompany_name(companyList.get(i).getName());
+            packageDto.setCompanyName(companyList.get(i).getName());
             packageDtoList.add(packageDto);
         }
         return packageDtoList;
