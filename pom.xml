@@ -49,7 +49,7 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-tx</artifactId>
-      <version>4.3.3.RELEASE</version>
+      <version>4.3.5.RELEASE</version>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
@@ -64,7 +64,7 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-orm</artifactId>
-      <version>4.3.3.RELEASE</version>
+      <version>4.3.5.RELEASE</version>
     </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -77,11 +77,11 @@
       <artifactId>hibernate-core</artifactId>
       <version>3.6.0.Final</version>
     </dependency>
-    <dependency>
-      <groupId>javassist</groupId>
-      <artifactId>javassist</artifactId>
-      <version>3.9.0</version>
-    </dependency>
+    <!--<dependency>-->
+      <!--<groupId>javassist</groupId>-->
+      <!--<artifactId>javassist</artifactId>-->
+      <!--<version>3.9.0</version>-->
+    <!--</dependency>-->
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-core</artifactId>
@@ -132,6 +132,16 @@
       <artifactId>slf4j-log4j12</artifactId>
       <version>1.6.1</version>
     </dependency>
+    <dependency>
+      <groupId>org.javassist</groupId>
+      <artifactId>javassist</artifactId>
+      <version>3.17.1-GA</version>
+    </dependency>
+      <dependency>
+          <groupId>javax.servlet</groupId>
+          <artifactId>jstl</artifactId>
+          <version>1.2</version>
+      </dependency>
   </dependencies>
 
   <build>

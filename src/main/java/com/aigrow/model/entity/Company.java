@@ -15,8 +15,6 @@ public class Company {
     private Integer id;
     @Column
     private String name;
-    @Column
-    private String code;
     @Column(name = "customer_service_tel")
     private String custmoerServiceTel;
     @Column(name = "trust_degree")
@@ -27,6 +25,16 @@ public class Company {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "company")
     private Set<WayBill> wayBillSet = new HashSet<>();
 
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "company")
+    private Set<Meter> meterSet = new HashSet<>();
+
+    public Set<Meter> getMeterSet() {
+        return meterSet;
+    }
+
+    public void setMeterSet(Set<Meter> meterSet) {
+        this.meterSet = meterSet;
+    }
 
     public Company() {
     }
@@ -55,13 +63,13 @@ public class Company {
         this.name = name;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
+//    public String getCode() {
+//        return code;
+//    }
+//
+//    public void setCode(String code) {
+//        this.code = code;
+//    }
 
     public String getCustmoerServiceTel() {
         return custmoerServiceTel;
