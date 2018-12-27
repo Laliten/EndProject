@@ -80,10 +80,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Override
-    public List<UserDto> getAllAdmins(Page page) {
-        return null;
-    }
 
     /**
      * 进行注册用户名验证，若存在返回userDto，不存在返回null

@@ -38,5 +38,5 @@ public interface UserService {
      */
     long checkUsername(String account);
 
-    List<UserDto> getAllUsers(Page page, String type);
+
 }
