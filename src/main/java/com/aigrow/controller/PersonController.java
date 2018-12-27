@@ -2,16 +2,23 @@ package com.aigrow.controller;
 
 import com.aigrow.model.dto.Json;
 import com.aigrow.model.dto.Page;
+import com.aigrow.model.dto.SessionInfo;
 import com.aigrow.model.dto.UserDto;
+import com.aigrow.model.entity.User;
 import com.aigrow.service.UserService;
+import com.aigrow.util.ConfigUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author YangDeJian
@@ -59,7 +66,7 @@ public class PersonController {
             j.setObj(userDtos);
         } else {
             j.setSuccess(false);
-            j.setMsg("当前还未有管理员");
+            j.setMsg("当前还未有管理");
         }
         return j;
     }
@@ -67,38 +74,91 @@ public class PersonController {
     /**
      * 处理用户的批量删除, 重新获取所有用户
      * @return
+     * @author xuqihao
      */
     @RequestMapping("/batchDelete")
-    public Json batchDelete(){
-
-        return null;
+    public Json batchDelete(String ids,HttpSession session){
+        Json j=new Json();
+        if(ids!=null&&ids.length()>0){
+            for (String id:ids.split(",")){
+                if (id!=null){
+                    this.singleDelete(id,session);
+                }
+                j.setSuccess(true);
+                j.setMsg("用户删除成功！");
+            }
+        }
+        return j;
     }
-
-    /**
-     * 处理用户的添加，重新获取所有用户
-     * @return
-     */
-    @RequestMapping("/add")
-    public Json add(){
-        return null;
-    }
-
     /**
      * 处理用户的单个删除
      * @return
+     * @author xuqihao
      */
     @RequestMapping("/singleDelete")
-    public Json singleDelete(){
-        return null;
+    public Json singleDelete(String id,HttpSession session){
+        SessionInfo sessionInfo= (SessionInfo) session.getAttribute(ConfigUtil.getSessionInfoName());
+        Json j=new Json();
+        if(id!=null&&!id.equalsIgnoreCase(sessionInfo.getId())){
+            userService.delete(id);
+        }
+        j.setSuccess(true);
+        j.setMsg("删除成功！");
+        return j;
     }
+    /**
+     * 处理用户的添加，重新获取所有用户
+     * @return
+     *
+     */
+    @RequestMapping("/add")
+    @ResponseBody
+    public Json add(User user){
+        Json j=new Json();
+        try {
+            userService.add(user);
+            j.setSuccess(true);
+            j.setMsg("添加用户成功！");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return j;
+    }
+    /**
+     * 跳转到编辑用户密码页面
+     *
+     * @param id
+     * @param request
+     * @return
+     */
+    @RequestMapping("/editPwdPage")
+    public String editPwdPage(Integer id, HttpServletRequest request){
+//        User u=userService.get(id);
+//        request.setAttribute("user",u);
+        return "/personController/modifyPassword";
+    }
+
 
     /**
      * 处理用户的密码修改，成功后重新登录
      * @return
+     * @author xuqihao
      */
     @RequestMapping("/modifyPassword")
-    public String modifyPassword(){
-        return "user/login";
+    @ResponseBody
+    public Json modifyPassword(HttpSession session, String oldPwd, String newPwd){
+        Json j=new Json();
+        if (session!=null){
+            SessionInfo sessionInfo= (SessionInfo) session.getAttribute(ConfigUtil.getSessionInfoName());
+            if (sessionInfo!=null){
+                userService.editUserPwd(sessionInfo,oldPwd,newPwd);
+                j.setSuccess(true);
+                j.setMsg("修改密码成功,下次登录生效！");
+            }else {
+                j.setMsg("原密码错误！");
+            }
+        }
+        return j;
     }
 
     /**
@@ -108,8 +168,10 @@ public class PersonController {
      */
     @RequestMapping("/modifyUserInfo")
     public String modifyUserInfo(String viewName){
+
         return viewName;
     }
+
 
 
 }
