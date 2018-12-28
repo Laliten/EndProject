@@ -1,6 +1,5 @@
 package com.aigrow.controller;
 
-import com.aigrow.model.dto.Json;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 

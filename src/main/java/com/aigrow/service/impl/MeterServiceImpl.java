@@ -26,10 +26,12 @@ import java.util.Map;
 public class MeterServiceImpl implements MeterService{
     @Autowired
     private MeterDao meterDao;
+
     @Autowired
     private CompanyDao companyDao;
+
     @Override
-    public List cost(int weight, String destination, Page page,String start) {
+    public List cost(int weight, String destination, Page page, String start) {
         List<CostEstimateDto> costEstimateDtos = new ArrayList<>();
         List<Meter> meters = new ArrayList<>();
         List<Company> companyList = new ArrayList<>();
@@ -57,6 +59,26 @@ public class MeterServiceImpl implements MeterService{
             }
         }
         return costEstimateDtos;
+    }
+
+    /**
+     * 获取对应公司名字的计价表
+     *
+     * @param companyName
+     * @param page
+     * @return
+     */
+    @Override
+    public List<MeterDto> getCompanyMeter(String companyName, Page page) {
+        String hql = "from Meter m where m.company.name=:companyName";
+        Map<String, Object> map = new HashMap<>(0);
+        map.put("companyName", companyName);
+        List<Meter> meters = meterDao.find(hql, map, page.getNextPage(), page.getPageSize());
+
+        if (meters != null){
+            return this.e2d(meters);
+        }
+        return null;
     }
 
     private MeterDto e2d(Meter meter){

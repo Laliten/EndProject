@@ -88,8 +88,10 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public long checkUsername(String account) {
-        String hql = "select count(*) from User u where u.account=?";
-        return userDao.count(hql, account);
+        Map<String,Object> params = new HashMap<String, Object>();
+        params.put("account",account);
+        String hql = "select count(*) from User u where u.account=:account";
+        return userDao.count(hql, params);
     }
 
 
