@@ -2,6 +2,7 @@ package com.aigrow.dao.impl;
 
 import com.aigrow.dao.BaseDao;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;

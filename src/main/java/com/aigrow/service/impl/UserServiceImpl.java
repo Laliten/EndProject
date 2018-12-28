@@ -2,6 +2,7 @@ package com.aigrow.service.impl;
 
 import com.aigrow.dao.UserDao;
 import com.aigrow.model.dto.Page;
+import com.aigrow.model.dto.SessionInfo;
 import com.aigrow.model.dto.UserDto;
 import com.aigrow.model.entity.Package;
 import com.aigrow.model.entity.User;
@@ -78,6 +79,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+
     /**
      * 进行注册用户名验证，若存在返回userDto，不存在返回null
      * @param account
@@ -136,6 +138,31 @@ public class UserServiceImpl implements UserService {
         }
         return userDtos;
     }
+
+    /**
+     * xuqihao
+     * @param id
+     */
+    @Override
+    public void delete(String id){
+        userDao.delete(userDao.get(User.class,id));
+    }
+
+    @Override
+    public boolean editUserPwd(SessionInfo sessionInfo, String oldPwd, String newPwd){
+        User u=userDao.get(User.class,sessionInfo.getId());
+        if (u.getPassword().equalsIgnoreCase(oldPwd)){
+            u.setPassword(newPwd);
+            return true;
+        }
+        return false ;
+    }
+
+    @Override
+    public void add(User user) throws Exception{
+
+    }
+
 
 
 }

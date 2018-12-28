@@ -56,18 +56,7 @@
     <script type="text/javascript" src="../../src/main/webapp/jilb/jquery.easyui.min.js"></script>
     <link type="text/css" href="../../src/main/webapp/jilb/easyui.css"/>
     <script type="text/javascript">
-        var datagrid;
-        $(function () {
-            datagrid=$('#datagrid').datagrid({
-                url: '${pageContext.request.contextPath}/PersonController/dataGrid',
-                pagination:true,
-                rownumbers: true,
-                singleSelect: false,
-                pageSize: 15,
-                checkOnSelect: false,
 
-            })
-        })
     </script>
 </head>
 <body>

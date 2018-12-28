@@ -74,7 +74,6 @@ public class PersonController {
     /**
      * 处理用户的批量删除, 重新获取所有用户
      * @return
-     * @author xuqihao
      */
     @RequestMapping("/batchDelete")
     public Json batchDelete(String ids,HttpSession session){
@@ -93,7 +92,6 @@ public class PersonController {
     /**
      * 处理用户的单个删除
      * @return
-     * @author xuqihao
      */
     @RequestMapping("/singleDelete")
     public Json singleDelete(String id,HttpSession session){
@@ -109,7 +107,6 @@ public class PersonController {
     /**
      * 处理用户的添加，重新获取所有用户
      * @return
-     *
      */
     @RequestMapping("/add")
     @ResponseBody
@@ -142,7 +139,6 @@ public class PersonController {
     /**
      * 处理用户的密码修改，成功后重新登录
      * @return
-     * @author xuqihao
      */
     @RequestMapping("/modifyPassword")
     @ResponseBody
@@ -172,6 +168,22 @@ public class PersonController {
         return viewName;
     }
 
+    /**
+     * 点击管理员按钮，跳转到管理员界面
+     *
+     */
+    @ResponseBody
+    @RequestMapping("/manage_manager")
+    public List manage_manager(){
+        return null;
+    }
 
-
+    /**
+     * 点击用户按钮，跳转到用户界面
+     */
+    @ResponseBody
+    @RequestMapping("/user")
+    public List user(){
+        return null;
+    }
 }
