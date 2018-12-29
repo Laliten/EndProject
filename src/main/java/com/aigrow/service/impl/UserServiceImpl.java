@@ -70,13 +70,18 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public int register(UserDto userDto) {
-        User user = new User();
-        user.setType("0");
-        Serializable num = userDao.save(this.d2e(userDto));
-        if(num == null){
+        if(userDto.getAccount()==null){
             return 0;
-        }else {
-            return 1;
+        }
+        else {
+            User user = new User();
+            user.setType("0");
+            Serializable num = userDao.save(this.d2e(userDto));
+            if (num == null) {
+                return 0;
+            } else {
+                return 1;
+            }
         }
     }
 
