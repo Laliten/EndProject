@@ -1,7 +1,10 @@
 package com.aigrow.controller;
 
 
-import com.aigrow.model.dto.*;
+import com.aigrow.model.dto.CostEstimateDto;
+import com.aigrow.model.dto.Json;
+import com.aigrow.model.dto.PackageDto;
+import com.aigrow.model.dto.Page;
 import com.aigrow.service.MeterService;
 import com.aigrow.service.PackageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,16 +50,13 @@ public class PackageController {
      * @return
      */
 
-
+    @ResponseBody
     @RequestMapping(value = "/costQuery",method = RequestMethod.POST)
-    public @ResponseBody List costQuery(HttpSession session, @RequestParam("weight")Integer weight, @RequestParam("destination")String destination, @RequestParam("start")String start){
+    public List<CostEstimateDto> costQuery(HttpSession session, @RequestParam("weight") Integer weight, @RequestParam("destination") String destination, @RequestParam("start") String start) {
         Page page = new Page();
         Map<String,Object> map = new HashMap<>();
         List<CostEstimateDto> costEstimateDtoList = new ArrayList<>();
-        costEstimateDtoList = meterService.cost(weight,destination,page);
-        for (int i=0;i<costEstimateDtoList.size();i++){
-            costEstimateDtoList.get(i).setStart(start);
-        }
+        costEstimateDtoList = meterService.cost(weight,destination,page,start);
         map.put("data",costEstimateDtoList);
         map.put("total",costEstimateDtoList.size());
         return costEstimateDtoList;
@@ -94,13 +94,13 @@ public class PackageController {
 
     /**
      * 用户历史运单记录
-     * @param id
+     * @param user_id
      * @return
      */
     @RequestMapping("/history")
-    public ModelAndView history(int id){
+    public ModelAndView history(int user_id){
         ModelAndView modelAndView = new ModelAndView("user/history");
-        List<PackageDto> packageDtoList = packageService.getHistory(id);
+        List<PackageDto> packageDtoList = packageService.getHistory(user_id);
         modelAndView.addObject("packageDtoList",packageDtoList);
         return modelAndView;
     }
