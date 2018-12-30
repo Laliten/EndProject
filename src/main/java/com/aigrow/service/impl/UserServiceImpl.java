@@ -75,8 +75,9 @@ public class UserServiceImpl implements UserService {
         }
         else {
             User user = new User();
+            user = d2e(userDto);
             user.setType("0");
-            Serializable num = userDao.save(this.d2e(userDto));
+            Serializable num = userDao.save(user);
             if (num == null) {
                 return 0;
             } else {
@@ -101,7 +102,7 @@ public class UserServiceImpl implements UserService {
 
 
     /**
-     * 将user实体类对象转换为userDto对象
+     * 将userDto对象转换为user实体类对象
      * @param userDto
      * @return
      */

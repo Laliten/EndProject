@@ -2,9 +2,13 @@ package com.aigrow.dao;
 
 import com.aigrow.model.entity.Meter;
 
-import java.util.List;
-import java.util.Map;
-
 public interface MeterDao extends BaseDao<Meter>{
+
+    /**
+     * 批量删除
+     * @param meterIds
+     * @return
+     */
+    void batchDelete(String meterIds);
 
 }

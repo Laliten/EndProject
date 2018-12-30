@@ -25,4 +25,25 @@ public interface MeterService {
      * @return
      */
     List<MeterDto> getCompanyMeter(String companyName, Page page);
+
+    /**
+     * 添加对应公司的计价单
+     * @param meterDto
+     * @return
+     */
+    int add(MeterDto meterDto);
+
+    /**
+     * 删除一条价格
+     * @param meterId
+     * @return
+     */
+    void singleDelete(int meterId);
+
+    /**
+     * 批量删除
+     * @param meterIds
+     * @return
+     */
+    void batchDelete(String meterIds);
 }
