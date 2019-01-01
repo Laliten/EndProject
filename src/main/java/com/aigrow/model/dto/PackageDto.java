@@ -13,15 +13,7 @@ public class PackageDto {
     private int userId;
     private String userName;
     private String wayBillCode;
-    private String company_name;
-
-    public String getCompany_name() {
-        return company_name;
-    }
-
-    public void setCompany_name(String company_name) {
-        this.company_name = company_name;
-    }
+    private String companyName;
 
     public int getId() {
         return id;
@@ -47,11 +39,11 @@ public class PackageDto {
         this.weight = weight;
     }
 
-    public int getSize() {
+    public Integer getSize() {
         return size;
     }
 
-    public void setSize(int size) {
+    public void setSize(Integer size) {
         this.size = size;
     }
 
@@ -93,5 +85,13 @@ public class PackageDto {
 
     public void setWayBillCode(String wayBillCode) {
         this.wayBillCode = wayBillCode;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 }

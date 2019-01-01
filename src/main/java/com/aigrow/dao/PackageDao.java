@@ -10,11 +10,5 @@ import java.util.Map;
  * @author dingquanbo
  */
 public interface PackageDao extends BaseDao<Package>{
-    /**
-     * 重写findBySQL方法，通过sql语句查询
-     * @param sql
-     * @param map
-     * @return
-     */
-    List findBySQL(String sql, Map<String,Object> map);
+
 }
