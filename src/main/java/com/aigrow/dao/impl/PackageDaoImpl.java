@@ -18,27 +18,5 @@ import java.util.Map;
  */
 @Repository
 public class PackageDaoImpl extends BaseDaoImpl<Package> implements PackageDao{
-    @Autowired
-    private SessionFactory sessionFactory;
 
-    public Session getCurrentSession() {
-        return this.sessionFactory.getCurrentSession();
-    }
-
-    /**
-     * 重写findBySQL方法，通过sql语句查询
-     * @param sql
-     * @param map
-     * @return
-     */
-    public List findBySQL(String sql, Map<String, Object> map){
-        SQLQuery sqlQuery = this.getCurrentSession().createSQLQuery(sql);
-        sqlQuery.addEntity(Package.class);
-        if (map!=null&&!map.isEmpty()){
-            for (String key:map.keySet()){
-                sqlQuery.setParameter(key,map.get(key));
-            }
-        }
-        return sqlQuery.list();
-    }
 }
