@@ -89,7 +89,8 @@
                                 <span class="intro">终点</span>
                                 <input type="text" name="destination" class="search form-control form-control-inline" id="destination">
                                 <span class="intro">重量</span>
-                                <input type="text" name="weight" class="form-control form-control-inline" id="weight">
+                                <input type="text" name="weight" value="12" class="form-control form-control-inline"
+                                       id="weight">
                                 <button class="btn btn-default" type="button">kg</button>
                                 <input type="button" class="btn btn-primary form-control-inline"
                                        value="查询" id="Search">
@@ -129,7 +130,7 @@
                         <span class="intro">查询结果</span>
                     </div>
                     <div class="panel-body">
-                        <table id="table" class="table table-hover table-bordered"></table>
+                        <table id="table" class="table table-hover table-bordered" style="table-layout: fixed;width: 100%"></table>
                     </div>
                 </div>
             </div>
@@ -150,7 +151,7 @@
         <%--<span class="intro">公司名称</span>：顺丰--%>
         <%--<br>--%>
         <%--<span class="intro">备注</span>：很快--%>
-        <iframe src="/packageController/history?id=123"></iframe>
+        <iframe src="/packageController/history?user_id=123"></iframe>
     </div>
 </div>
 <script src="../../static/js/costEstimate/plugins/kuCity.js"></script>
@@ -184,7 +185,7 @@
         }
 
         $("#Search").click(function () {
-            var str;
+            var str = new Array();
             var datas;
             $("#table").bootstrapTable('destroy');
             var destination = $("#destination").val();
@@ -194,49 +195,46 @@
                 url:'/packageController/costQuery?destination='+destination+'&weight='+weight+'&start='+start,
                 type:"post",
                 success:function (res) {
-                    str="[{";
-                    datas = eval(res)
+                    datas = eval(res);
                     for (var i=0;i<datas.length;i++){
-                        str+="'name':'123',";
+                        str.push({"name":datas[i].name,"1":datas[i].start,"2":datas[i].destination,"3":datas[i].cost,"4":datas[i].trustDegree})
                     }
-                    str+="'total':'"+datas.length+"'";
-                    str+="}]"
-                    alert(str)
+                    $("#table").bootstrapTable({
+                        data: str,
+                        striped: true,
+                        pageSize: 8,
+                        pagination: true,
+                        pageNumber: 1,
+                        clickToSelect: true,
+                        dataType: "json",
+                        method: "POST",
+                        contentType: "application/x-www-form-urlencoded;charset=utf-8",
+                        dataField: "data",
+
+                        columns: [
+                            {
+                                field: 'name', title: '公司名称'
+                                ,width:100
+                            },
+                            {
+                                filed: 'start',
+                                title: '起点',
+                                width:100
+                            }, {
+                                filed: 'destination',
+                                title: "终点",width:100
+                            }, {
+                                filed: "cost",
+                                title: "花费",
+                                sortable: true, width:100,
+                            }, {
+                                filed: "trustDegree",
+                                title: "信用等级", width:100,
+                            }
+                        ]
+                    })
                 }
             })
-          $("#table").bootstrapTable({
-              data:str,
-              striped: true,
-              pageSize: 2,
-              pagination: true,
-              pageNumber:1,
-              clickToSelect : true,
-              dataType:"json",
-              method:"POST",
-              contentType : "application/x-www-form-urlencoded;charset=utf-8",
-              dataField:"data",
-              columns:[
-                  {
-                      field: 'name', title: '公司名称',align:"center"
-                  },
-                  {
-                      filed: '1',
-                      title: '起点',
-                      align:"center",
-                      visible:true
-              },{
-                      filed:'destination',
-                      title:"终点",align:"center"
-              },{
-                      filed:"cost",
-                      title:"花费",
-                      sortable:true,align:"center"
-              },{
-                  filed:"trustDegree",
-                  title:"信用等级",align:"center"
-              }
-              ]
-          })
         })
 </script>
 </body>

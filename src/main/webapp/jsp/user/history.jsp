@@ -14,7 +14,7 @@
     <br>
     <span class="intro">包裹</span>：${packageDtoList.name}
     <br>
-    <span class="intro">公司名称</span>：${packageDtoList.company_name}
+    <span class="intro">公司名称</span>：${packageDtoList.companyName}
     <br>
     <span class="intro">备注</span>：${packageDtoList.description}
 </c:forEach>
