@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -79,6 +80,69 @@ public class MeterServiceImpl implements MeterService{
             return this.e2d(meters);
         }
         return null;
+    }
+
+    /**
+     * 添加对应公司的计价单
+     * @param meterDto
+     * @return
+     */
+    @Override
+    public int add(MeterDto meterDto) {
+        Meter meter = new Meter();
+        meter = d2e(meterDto);
+        Serializable num = meterDao.save(meter);
+        if (num == null) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
+    /**
+     * 删除一条价格
+     * @param meterId
+     * @return
+     */
+    @Override
+    public void singleDelete(int meterId) {
+        if(meterId==0){
+            return;
+        }
+        Meter meter = meterDao.get(Meter.class,meterId);
+        meterDao.delete(meter);
+    }
+
+    /**
+     * 批量删除
+     * @param meterIds
+     * @return
+     */
+    @Override
+    public void batchDelete(String meterIds) {
+        meterDao.batchDelete(meterIds);
+    }
+
+    /**
+     * 将meterDto对象转换为meter实体类对象
+     * @param meterDto
+     * @return
+     */
+    private Meter d2e(MeterDto meterDto){
+        Meter meter = new Meter();
+        Map<String, Object> map = new HashMap<>(0);
+        map.put("companyCode",meterDto.getCompanyCode());
+        map.put("companyName",meterDto.getCompanyName());
+        if (meterDto != null){
+            BeanUtils.copyProperties(meterDto, meter);
+            if(meterDto.getCompanyCode()!=null){
+                meter.setCompany(companyDao.get("from Company c where c.code=:companyCode",map));
+            }
+            if(meterDto.getCompanyName()!=null){
+                meter.setCompany(companyDao.get("from Company c where c.name=:companyName",map));
+            }
+        }
+        return meter;
     }
 
     private MeterDto e2d(Meter meter){

@@ -144,6 +144,7 @@ public interface BaseDao<T> {
      */
     public Long count(String hql, Map<String, Object> params);
 
+
     /**
      * 执行一条HQL语句
      *
@@ -221,13 +222,12 @@ public interface BaseDao<T> {
      */
     public int executeSql(String sql);
 
+
     /**
      * 执行SQL语句
      *
-     * @param sql
-     *            SQL语句
-     * @param params
-     *            参数
+     * @param sql    SQL语句
+     * @param params 参数
      * @return 响应行数
      */
     public int executeSql(String sql, Map<String, Object> params);
@@ -235,8 +235,7 @@ public interface BaseDao<T> {
     /**
      * 统计
      *
-     * @param sql
-     *            SQL语句
+     * @param sql SQL语句
      * @return 数目
      */
     public BigInteger countBySql(String sql);
@@ -244,12 +243,9 @@ public interface BaseDao<T> {
     /**
      * 统计
      *
-     * @param sql
-     *            SQL语句
-     * @param params
-     *            参数
+     * @param sql    SQL语句
+     * @param params 参数
      * @return 数目
      */
     public BigInteger countBySql(String sql, Map<String, Object> params);
-
 }

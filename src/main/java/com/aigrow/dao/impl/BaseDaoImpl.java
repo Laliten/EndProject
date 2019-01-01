@@ -146,6 +146,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
         return (Long) q.uniqueResult();
     }
 
+
     @Override
     public int executeHql(String hql) {
         Query q = this.getCurrentSession().createQuery(hql);

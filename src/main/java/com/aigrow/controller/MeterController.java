@@ -25,9 +25,17 @@ public class MeterController {
      * @return
      */
     @RequestMapping("/add")
-    public Json add(){
-
-        return null;
+    @ResponseBody
+    public Json add(MeterDto meterDto){
+        Json json = new Json();
+        int num = meterService.add(meterDto);
+        if(num==1){
+            json.setMsg("添加成功！");
+        }
+        else {
+            json.setMsg("添加失败！");
+        }
+        return json;
     }
 
     /**
@@ -35,8 +43,12 @@ public class MeterController {
      * @return
      */
     @RequestMapping("/singleDelete")
-    public Json singleDelete(){
-        return null;
+    @ResponseBody
+    public Json singleDelete(MeterDto meterDto){
+        Json json = new Json();
+        meterService.singleDelete(meterDto.getId());
+        json.setMsg("删除成功！");
+        return json;
     }
 
     /**
@@ -44,8 +56,12 @@ public class MeterController {
      * @return
      */
     @RequestMapping("/batchDelete")
-    public Json batchDelete(){
-        return null;
+    @ResponseBody
+    public Json batchDelete(String meterIds){
+        Json json = new Json();
+        meterService.batchDelete(meterIds);
+        json.setMsg("删除成功！");
+        return json;
     }
 
     /**
