@@ -34,6 +34,13 @@ public interface MeterService {
     int add(MeterDto meterDto);
 
     /**
+     * 修改对应公司的计价单
+     * @param meterDto
+     * @return
+     */
+    int update(MeterDto meterDto);
+
+    /**
      * 删除一条价格
      * @param meterId
      * @return

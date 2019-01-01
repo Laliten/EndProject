@@ -100,6 +100,39 @@ public class UserServiceImpl implements UserService {
         return userDao.count(hql, params);
     }
 
+    /**
+     * 进行批量删除
+     *
+     * @param userIds
+     */
+    @Override
+    public void batchDelete(String userIds) {
+        if (userIds == null){
+            return;
+        }
+        userDao.batchDelete(userIds);
+    }
+
+    /**
+     * 添加用户
+     *
+     * @param userDto
+     * @return
+     */
+    @Override
+    public int add(UserDto userDto) {
+        return 0;
+    }
+
+    /**
+     * 删除用户
+     *
+     * @param userId
+     */
+    @Override
+    public void singleDelete(int userId) {
+
+    }
 
     /**
      * 将userDto对象转换为user实体类对象

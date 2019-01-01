@@ -38,5 +38,23 @@ public interface UserService {
      */
     long checkUsername(String account);
 
+    /**
+     * 进行批量删除
+     * @param userIds
+     */
+    void batchDelete(String userIds);
+
+    /**
+     * 添加用户
+     * @param userDto
+     * @return
+     */
+    int add(UserDto userDto);
+
+    /**
+     * 删除用户
+     * @param userId
+     */
+    void singleDelete(int userId);
 
 }

@@ -39,6 +39,25 @@ public class MeterController {
     }
 
     /**
+     * 处理计价表下的修改功能
+     * @param meterDto
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/update")
+    public Json update(MeterDto meterDto){
+        Json json = new Json();
+        int num = meterService.update(meterDto);
+        if(num == 1){
+            json.setMsg("添加成功！");
+        }
+        else {
+            json.setMsg("添加失败！");
+        }
+        return json;
+    }
+
+    /**
      * 处理表中的删除按钮的请求，处理结束返回Json对象用于显示
      * @return
      */
@@ -59,7 +78,9 @@ public class MeterController {
     @ResponseBody
     public Json batchDelete(String meterIds){
         Json json = new Json();
+
         meterService.batchDelete(meterIds);
+        json.setSuccess(true);
         json.setMsg("删除成功！");
         return json;
     }
@@ -68,10 +89,10 @@ public class MeterController {
      * 处理点击计价表按钮或其下的韵达按钮的请求
      * @return
      */
-    @RequestMapping({"/index","/yunda"})
-    public String index(){
+    @RequestMapping({"/index"})
+    public String index(String companyName){
 
-        return "admin/yunDa";
+        return "admin/"+companyName.trim();
     }
 
     /**

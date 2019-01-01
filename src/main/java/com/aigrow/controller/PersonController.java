@@ -68,9 +68,14 @@ public class PersonController {
      * @return
      */
     @RequestMapping("/batchDelete")
-    public Json batchDelete(){
+    public Json batchDelete(String userIds){
+        Json json = new Json();
 
-        return null;
+        userService.batchDelete(userIds);
+        json.setSuccess(true);
+        json.setMsg("删除成功！");
+
+        return json;
     }
 
     /**

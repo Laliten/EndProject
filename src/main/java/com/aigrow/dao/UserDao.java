@@ -7,5 +7,9 @@ import com.aigrow.model.entity.User;
  * @author YangDeJian
  */
 public interface UserDao extends BaseDao<User>{
-
+    /**
+     * 根据用户id列表进行用户的删除
+     * @param userIds
+     */
+    void batchDelete(String userIds);
 }

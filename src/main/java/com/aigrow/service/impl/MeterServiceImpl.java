@@ -89,14 +89,26 @@ public class MeterServiceImpl implements MeterService{
      */
     @Override
     public int add(MeterDto meterDto) {
-        Meter meter = new Meter();
-        meter = d2e(meterDto);
+        Meter meter = this.d2e(meterDto);
         Serializable num = meterDao.save(meter);
         if (num == null) {
             return 0;
         } else {
             return 1;
         }
+    }
+
+    /**
+     * 修改对应公司的计价单
+     *
+     * @param meterDto
+     * @return
+     */
+    @Override
+    public int update(MeterDto meterDto) {
+        Meter meter = this.d2e(meterDto);
+        meterDao.update(meter);
+        return 1;
     }
 
     /**
@@ -120,6 +132,9 @@ public class MeterServiceImpl implements MeterService{
      */
     @Override
     public void batchDelete(String meterIds) {
+        if (meterIds == null){
+            return;
+        }
         meterDao.batchDelete(meterIds);
     }
 
