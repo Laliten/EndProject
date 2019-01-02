@@ -57,4 +57,10 @@ public interface UserService {
      */
     void singleDelete(int userId);
 
+    /**
+     * 更新用户信息
+     * @param userDto
+     * @return
+     */
+    int update(UserDto userDto);
 }

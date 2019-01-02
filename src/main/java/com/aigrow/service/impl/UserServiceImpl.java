@@ -121,7 +121,25 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public int add(UserDto userDto) {
-        return 0;
+        User user = this.d2e(userDto);
+        Serializable num = userDao.save(user);
+        if (num != null){
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
+    /**
+     * 更新用户信息
+     *
+     * @param userDto
+     */
+    @Override
+    public int update(UserDto userDto) {
+        User user = this.d2e(userDto);
+        userDao.update(user);
+        return 1;
     }
 
     /**
@@ -131,7 +149,11 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void singleDelete(int userId) {
-
+        if (userId == 0){
+            return;
+        }
+        User user = userDao.get(User.class, userId);
+        userDao.delete(user);
     }
 
     /**
