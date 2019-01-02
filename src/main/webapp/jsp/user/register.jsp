@@ -82,17 +82,17 @@
             });
         });
     </script>
-    <link rel="stylesheet" href="../../css/login.css">
+    <link rel="stylesheet" href="../../css/login/login.css">
 </head>
-<body style="background:url(../../image/2.jpg); background-size:cover; background-repeat:no-repeat">
+<body style="background:url(../../image/login/2.jpg); background-size:cover; background-repeat:no-repeat">
 <header>
     <div class="header-line"></div>
 </header>
 <div class="content">
-    <img class="content-logo" src="../image/1.png" alt="logo">
+    <img class="content-logo" src="../../image/1.png" alt="logo">
     <h1 class="content-title">创建账户</h1>
     <div class="content-form">
-        <form method="post" action="/appController/doRegister.html">
+        <form method="post" action="/appController/doRegister">
             <div>
                 <input class="user" type="text" name="account" id="account" placeholder="请输入用户名" onblur="check()">
                 <span id="s1" style="color:#FF0000"></span>
@@ -116,7 +116,7 @@
         </form>
     </div>
     <div class="content-login-description">已经拥有账户？</div>
-    <div><a class="content-login-link" href="log_in.html">登录</a></div>
+    <div><a class="content-login-link" href="/appController/index">登录</a></div>
 </div>
 </body>
 </html>

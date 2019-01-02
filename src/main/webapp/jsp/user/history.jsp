@@ -10,12 +10,12 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <div>
     <c:forEach items="${packageDtoList}" var="packageDtoList" >
-    <span class="intro">编号</span>：${packageDtoList.id}
-    <br>
-    <span class="intro">包裹</span>：${packageDtoList.name}
-    <br>
-    <span class="intro">公司名称</span>：${packageDtoList.companyName}
-    <br>
-    <span class="intro">备注</span>：${packageDtoList.description}
-</c:forEach>
+        <span class="intro">编号</span>：${packageDtoList.id}
+        <br>
+        <span class="intro">包裹</span>：${packageDtoList.name}
+        <br>
+        <span class="intro">公司名称</span>：${packageDtoList.companyName}
+        <br>
+        <span class="intro">备注</span>：${packageDtoList.description}
+    </c:forEach>
 </div>

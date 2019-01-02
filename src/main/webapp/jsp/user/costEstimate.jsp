@@ -10,19 +10,19 @@
 <head>
     <meta charset="UTF-8"/>
     <title>运费估计</title>
-    <script src="../jslib/jquery-1.8.3.js"></script>
-    <script src="../jslib/jquery-easyui-1.3.3/jquery.easyui.min.js"></script>
-    <link rel="stylesheet" href="../jslib/jquery-easyui-1.3.3/themes/default/easyui.css">
-    <link rel="stylesheet" href="../../static/css/costEstimate/plugins/kuCity.css">
-    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../../jslib/jquery-1.8.3.js"></script>
+    <script src="../../jslib/jquery-easyui-1.3.3/jquery.easyui.min.js"></script>
+    <link rel="stylesheet" href="../../jslib/jquery-easyui-1.3.3/themes/default/easyui.css">
+    <link rel="stylesheet" href="../../css/costEstimate/plugins/kuCity.css">
+    <link href="../../css/bootstrap.css" rel="stylesheet">
 
-    <script type="text/javascript" src="../jslib/bootstrap-2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
 
-    <link rel="stylesheet" href="../../static/css/costEstimate/costEsitmate.css">
+    <link rel="stylesheet" href="../../css/costEstimate/costEsitmate.css">
 
-    <link rel="stylesheet" href="../../static/css/costEstimate/plugins/bc.grid-1.0.0.min.css">
+    <link rel="stylesheet" href="../../css/costEstimate/plugins/bc.grid-1.0.0.min.css">
 
-<script type="text/javascript" src="../../Bootstrap/bootstrap-table.js"></script>
+    <script type="text/javascript" src="../../Bootstrap/bootstrap-table.js"></script>
 
     <script type="text/javascript" src="../../Bootstrap/locale/bootstrap-table-zh-CN.js"></script>
 
@@ -50,17 +50,25 @@
     </style>
 </head>
 <body>
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-        <ul class="nav navbar-nav">
-            <a class="navbar-brand" style="display: inline">运费估计</a>
-            <span class="navbar-brand" style="margin-left: 1300px;cursor: pointer;display: inline" id="history">历史记录</span>
-            <li class="dropdown">
-                <ul class="dropdown-menu"></ul>
-            </li>
-        </ul>
-        <ul class="nav navbar-nav pull-right">
-        </ul>
+
+<nav class="navbar-inverse navbar-fixed-top" role="navigation" style="height: 60px;padding-top: 5px">
+    <div class="container" >
+        <div>
+            <a href="#" class="navbar-brand" style="font-size: 30px;margin-left: -10px">logo</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav" style="width: 92%">
+                <li style="margin-left: 10px"><a href="#">主界面</a></li>
+                <li ><a href="/appController/costEstimate">运费估计</a></li>
+                <li ><a href="/appController/nearby">附件驿站</a></li>
+                <li ><a href="/appController/wayBillQuery">运单查询</a></li>
+                <li style="float: right"><span class="navbar-brand" style="font-size: 14px" id="history">历史记录</span>
+                </li>
+                <li style="float: right"><a href="/appController/loginOut">注销</a></li>
+                <li style="float: right"><a href="#">用户信息</a></li>
+
+            </ul>
+        </div>
     </div>
 </nav>
 <div class="zm-banner text-center">
@@ -154,7 +162,7 @@
         <iframe src="/packageController/history?user_id=123"></iframe>
     </div>
 </div>
-<script src="../../static/js/costEstimate/plugins/kuCity.js"></script>
+<script src="../../js/costEstimate/plugins/kuCity.js"></script>
 <script>
     $('.search').kuCity();
     $('.search3').kuCity();
