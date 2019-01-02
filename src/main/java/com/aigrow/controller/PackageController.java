@@ -49,16 +49,19 @@ public class PackageController {
      * @param session
      * @return
      */
-
     @ResponseBody
     @RequestMapping(value = "/costQuery",method = RequestMethod.POST)
-    public List<CostEstimateDto> costQuery(HttpSession session, @RequestParam("weight") Integer weight, @RequestParam("destination") String destination, @RequestParam("start") String start) {
+    public List<CostEstimateDto> costQuery(HttpSession session,
+                                           @RequestParam("weight") int weight,
+                                           @RequestParam("destination") String destination,
+                                           @RequestParam("start") String start) {
         Page page = new Page();
-        Map<String,Object> map = new HashMap<>();
-        List<CostEstimateDto> costEstimateDtoList = new ArrayList<>();
-        costEstimateDtoList = meterService.cost(weight,destination,page,start);
+
+        Map<String,Object> map = new HashMap<>(0);
+        List<CostEstimateDto> costEstimateDtoList = meterService.cost(weight,destination,page,start);
         map.put("data",costEstimateDtoList);
         map.put("total",costEstimateDtoList.size());
+
         return costEstimateDtoList;
     }
 

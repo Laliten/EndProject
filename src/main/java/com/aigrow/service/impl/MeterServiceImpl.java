@@ -32,30 +32,34 @@ public class MeterServiceImpl implements MeterService{
     private CompanyDao companyDao;
 
     @Override
-    public List cost(int weight, String destination, Page page, String start) {
+    public List<CostEstimateDto> cost(int weight, String destination, Page page, String start) {
         List<CostEstimateDto> costEstimateDtos = new ArrayList<>();
-        List<Meter> meters = new ArrayList<>();
-        List<Company> companyList = new ArrayList<>();
-        Map<String,Object> map = new HashMap<>();
+        List<Meter> meterList;
+        List<Company> companyList;
+
+        Map<String,Object> map = new HashMap<>(0);
         map.put("destination",destination);
-        meters = meterDao.find("from Meter m where m.destination=:destination", map);
-        Map<String,Object> map1 = new HashMap<>();
+
+        meterList = meterDao.find("from Meter m where m.destination=:destination", map);
+
         companyList = companyDao.find("select c from Company c,Meter m where m.destination=:destination and m.company.id = c.id", map);
-        if (meters!=null) {
-            for (int i = 0; i < meters.size(); i++) {
-                int cost;
+
+        if (meterList!=null) {
+            for (int i = 0, cost = 0; i < meterList.size(); i++) {
+
                 CostEstimateDto costEstimateDto = new CostEstimateDto();
-                Meter meter = new Meter();
-                Company company = new Company();
-                meter = meters.get(i);
-                company = companyList.get(i);
+                Meter meter = meterList.get(i);
+                Company company = companyList.get(i);
+
                 cost = meter.getFirstWeightPrice()+(weight-1)*(meter.getNextWeightPrice());
+
                 costEstimateDto.setId(meter.getId());
                 costEstimateDto.setCost(cost);
                 costEstimateDto.setDestination(destination);
                 costEstimateDto.setName(company.getName());
                 costEstimateDto.setTrustDegree(company.getTrustDegree());
                 costEstimateDto.setStart(start);
+
                 costEstimateDtos.add(costEstimateDto);
             }
         }

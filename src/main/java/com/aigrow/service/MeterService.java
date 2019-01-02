@@ -1,5 +1,6 @@
 package com.aigrow.service;
 
+import com.aigrow.model.dto.CostEstimateDto;
 import com.aigrow.model.dto.MeterDto;
 import com.aigrow.model.dto.Page;
 import java.util.List;
@@ -16,7 +17,7 @@ public interface MeterService {
      * @param start
      * @return
      */
-    List cost(int weight, String destination,Page page, String start);
+    List<CostEstimateDto> cost(int weight, String destination, Page page, String start);
 
     /**
      * 获取对应公司名字的计价表

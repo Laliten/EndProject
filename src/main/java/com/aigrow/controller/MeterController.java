@@ -30,9 +30,11 @@ public class MeterController {
         Json json = new Json();
         int num = meterService.add(meterDto);
         if(num==1){
+            json.setSuccess(true);
             json.setMsg("添加成功！");
         }
         else {
+            json.setSuccess(false);
             json.setMsg("添加失败！");
         }
         return json;
@@ -49,6 +51,7 @@ public class MeterController {
         Json json = new Json();
         int num = meterService.update(meterDto);
         if(num == 1){
+            json.setSuccess(true);
             json.setMsg("添加成功！");
         }
         else {
@@ -66,6 +69,7 @@ public class MeterController {
     public Json singleDelete(MeterDto meterDto){
         Json json = new Json();
         meterService.singleDelete(meterDto.getId());
+        json.setSuccess(true);
         json.setMsg("删除成功！");
         return json;
     }

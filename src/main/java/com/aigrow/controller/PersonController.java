@@ -2,14 +2,17 @@ package com.aigrow.controller;
 
 import com.aigrow.model.dto.Json;
 import com.aigrow.model.dto.Page;
+import com.aigrow.model.dto.SessionInfo;
 import com.aigrow.model.dto.UserDto;
 import com.aigrow.service.UserService;
+import com.aigrow.util.ConfigUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -82,9 +85,19 @@ public class PersonController {
      * 处理用户的添加，重新获取所有用户
      * @return
      */
+    @ResponseBody
     @RequestMapping("/add")
-    public Json add(){
-        return null;
+    public Json add(HttpSession session, UserDto userDto){
+        Json json = new Json();
+        int num = userService.add(userDto);
+        if (num == 1){
+            json.setSuccess(true);
+            json.setMsg("添加成功");
+        } else {
+            json.setSuccess(false);
+            json.setMsg("添加失败");
+        }
+        return json;
     }
 
     /**
@@ -92,17 +105,38 @@ public class PersonController {
      * @return
      */
     @RequestMapping("/singleDelete")
-    public Json singleDelete(){
-        return null;
+    public Json singleDelete(int userId){
+        Json json = new Json();
+
+        userService.singleDelete(userId);
+        json.setSuccess(true);
+        json.setMsg("删除成功！");
+        return json;
     }
 
     /**
-     * 处理用户的密码修改，成功后重新登录
+     * 处理用户的密码修改，成功后下次登录生效
      * @return
      */
     @RequestMapping("/modifyPassword")
-    public String modifyPassword(){
-        return "user/login";
+    public Json editCurrentUserPwd(HttpSession session, String oldPwd, String pwd) {
+        Json json = new Json();
+        if (session != null) {
+            SessionInfo sessionInfo = (SessionInfo) session.getAttribute(ConfigUtil.getSessionInfoName());
+            if (sessionInfo != null) {
+                if (userService.editCurrentUserPwd(sessionInfo.getId(), oldPwd, pwd)) {
+                    json.setSuccess(true);
+                    json.setMsg("编辑密码成功，下次登录生效！");
+                } else {
+                    json.setMsg("原密码错误！");
+                }
+            } else {
+                json.setMsg("登录超时，请重新登录！");
+            }
+        } else {
+            json.setMsg("登录超时，请重新登录！");
+        }
+        return json;
     }
 
     /**

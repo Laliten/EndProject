@@ -69,19 +69,30 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public int register(UserDto userDto) {
+    synchronized public int register(UserDto userDto){
         if(userDto.getAccount()==null){
             return 0;
-        }
-        else {
-            User user = new User();
-            user = d2e(userDto);
-            user.setType("0");
-            Serializable num = userDao.save(user);
-            if (num == null) {
+        } else {
+            try {
+                Map<String,Object> map = new HashMap<>(0);
+                map.put("account", userDto.getAccount().trim());
+                String hql = "select count(*) from User u where u.account =:account";
+                if (userDao.count(hql,map) > 0){
+                    throw new Exception("登录名已存在！");
+                } else {
+                    User user = new User();
+                    user = d2e(userDto);
+                    user.setType("0");
+                    Serializable num = userDao.save(user);
+                    if (num == null) {
+                        return 0;
+                    } else {
+                        return 1;
+                    }
+                }
+            } catch (Exception e){
+                e.printStackTrace();
                 return 0;
-            } else {
-                return 1;
             }
         }
     }
@@ -154,6 +165,24 @@ public class UserServiceImpl implements UserService {
         }
         User user = userDao.get(User.class, userId);
         userDao.delete(user);
+    }
+
+    /**
+     * 修改当前用户的密码
+     *
+     * @param userId
+     * @param oldPwd
+     * @param pwd
+     * @return
+     */
+    @Override
+    public boolean editCurrentUserPwd(String userId, String oldPwd, String pwd) {
+        User u = userDao.get(User.class, Integer.parseInt(userId));
+        if (oldPwd.equals(String.valueOf(u.getId()))){
+            u.setPassword(pwd);
+            return true;
+        }
+        return false;
     }
 
     /**
