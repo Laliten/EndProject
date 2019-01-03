@@ -66,7 +66,7 @@
         </div>
     </div>
 </nav>
-<div style="width:680px;height:150px;" class="box">
+<div style="width:680px;height:130px;" class="box">
     <div class="h1">
         <input type="search"  id="cityName" placeholder="请输入详细地址（例如：浙江科技学院）" value="杭州" onfocus='if(this.value=="杭州"){this.value="";};' style="width:300px">
     </div>
@@ -74,7 +74,7 @@
         <input type="button" onclick="setCity()" value="查找" style="height: 28px;width:80px;background-color:#0099FF;color:#FFFFFF" />
     </div>
 </div>
-<div id="container" style="height:550px;">
+<div id="container" style="height:590px;">
     <script type="text/javascript">
         var map = new BMap.Map("container");        //在container容器中创建一个地图,参数container为div的id属性;
         var point = new BMap.Point(120.2,30.25);    //创建点坐标
