@@ -35,6 +35,15 @@ public class AppController {
     }
 
     /**
+     * 登出系统
+     * @return
+     */
+    @RequestMapping("/loginOut")
+    public String loginOut(){
+        return "user/login";
+    }
+
+    /**
      * 在登录界面点击注册，跳转至注册界面
      * @return
      */
@@ -50,6 +59,51 @@ public class AppController {
     @RequestMapping("/error")
     public String error(){
         return "error/error";
+    }
+
+    /**
+     * 在用户主界面中，请求介绍界面
+     * @return
+     */
+    @RequestMapping("/userHome_intro")
+    public String userHomeIntro(){
+        return "user/userHome_intro";
+    }
+
+    /**
+     * 跳转至运费估计界面
+     * @return
+     */
+    @RequestMapping("/costEstimate")
+    public String costEstimate(){
+        return "user/costEstimate";
+    }
+
+    /**
+     * 跳转至附近驿站界面
+     * @return
+     */
+    @RequestMapping("/nearby")
+    public String nearby(){
+        return "user/nearby";
+    }
+
+    /**
+     * 跳转至运单查询界面
+     * @return
+     */
+    @RequestMapping("/wayBillQuery")
+    public String wayBillQuery(){
+        return "user/wayBillQuery";
+    }
+
+    /**
+     * 在用户主界面中，请求图片轮播界面
+     * @return
+     */
+    @RequestMapping("/userHome_loopPlay")
+    public String userHomeLoopPlay(){
+        return "user/userHome_loopPlay";
     }
 
     /**

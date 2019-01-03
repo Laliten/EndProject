@@ -10,19 +10,19 @@
 <head>
     <meta charset="UTF-8"/>
     <title>运费估计</title>
-    <script src="../jslib/jquery-1.8.3.js"></script>
-    <script src="../jslib/jquery-easyui-1.3.3/jquery.easyui.min.js"></script>
-    <link rel="stylesheet" href="../jslib/jquery-easyui-1.3.3/themes/default/easyui.css">
-    <link rel="stylesheet" href="../../static/css/costEstimate/plugins/kuCity.css">
-    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../../jslib/jquery-1.8.3.js"></script>
+    <script src="../../jslib/jquery-easyui-1.3.3/jquery.easyui.min.js"></script>
+    <link rel="stylesheet" href="../../jslib/jquery-easyui-1.3.3/themes/default/easyui.css">
+    <link rel="stylesheet" href="../../css/costEstimate/plugins/kuCity.css">
+    <link href="../../css/bootstrap.css" rel="stylesheet">
 
-    <script type="text/javascript" src="../jslib/bootstrap-2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
 
-    <link rel="stylesheet" href="../../static/css/costEstimate/costEsitmate.css">
+    <link rel="stylesheet" href="../../css/costEstimate/costEsitmate.css">
 
-    <link rel="stylesheet" href="../../static/css/costEstimate/plugins/bc.grid-1.0.0.min.css">
+    <link rel="stylesheet" href="../../css/costEstimate/plugins/bc.grid-1.0.0.min.css">
 
-<script type="text/javascript" src="../../Bootstrap/bootstrap-table.js"></script>
+    <script type="text/javascript" src="../../Bootstrap/bootstrap-table.js"></script>
 
     <script type="text/javascript" src="../../Bootstrap/locale/bootstrap-table-zh-CN.js"></script>
 
@@ -50,17 +50,25 @@
     </style>
 </head>
 <body>
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-        <ul class="nav navbar-nav">
-            <a class="navbar-brand" style="display: inline">运费估计</a>
-            <span class="navbar-brand" style="margin-left: 1300px;cursor: pointer;display: inline" id="history">历史记录</span>
-            <li class="dropdown">
-                <ul class="dropdown-menu"></ul>
-            </li>
-        </ul>
-        <ul class="nav navbar-nav pull-right">
-        </ul>
+
+<nav class="navbar-inverse navbar-fixed-top" role="navigation" style="height: 60px;padding-top: 5px">
+    <div class="container" >
+        <div>
+            <a href="#" class="navbar-brand" style="font-size: 30px;margin-left: -10px">logo</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav" style="width: 92%">
+                <li style="margin-left: 10px"><a href="#">主界面</a></li>
+                <li ><a href="/appController/costEstimate">运费估计</a></li>
+                <li ><a href="/appController/nearby">附件驿站</a></li>
+                <li ><a href="/appController/wayBillQuery">运单查询</a></li>
+                <li style="float: right"><span class="navbar-brand" style="font-size: 14px" id="history">历史记录</span>
+                </li>
+                <li style="float: right"><a href="/appController/loginOut">注销</a></li>
+                <li style="float: right"><a href="#">用户信息</a></li>
+
+            </ul>
+        </div>
     </div>
 </nav>
 <div class="zm-banner text-center">
@@ -89,7 +97,8 @@
                                 <span class="intro">终点</span>
                                 <input type="text" name="destination" class="search form-control form-control-inline" id="destination">
                                 <span class="intro">重量</span>
-                                <input type="text" name="weight" class="form-control form-control-inline" id="weight">
+                                <input type="text" name="weight" value="12" class="form-control form-control-inline"
+                                       id="weight">
                                 <button class="btn btn-default" type="button">kg</button>
                                 <input type="button" class="btn btn-primary form-control-inline"
                                        value="查询" id="Search">
@@ -129,7 +138,7 @@
                         <span class="intro">查询结果</span>
                     </div>
                     <div class="panel-body">
-                        <table id="table" class="table table-hover table-bordered"></table>
+                        <table id="table" class="table table-hover table-bordered" style="table-layout: fixed;width: 100%"></table>
                     </div>
                 </div>
             </div>
@@ -150,10 +159,10 @@
         <%--<span class="intro">公司名称</span>：顺丰--%>
         <%--<br>--%>
         <%--<span class="intro">备注</span>：很快--%>
-        <iframe src="/packageController/history?id=123"></iframe>
+        <iframe src="/packageController/history?user_id=123"></iframe>
     </div>
 </div>
-<script src="../../static/js/costEstimate/plugins/kuCity.js"></script>
+<script src="../../js/costEstimate/plugins/kuCity.js"></script>
 <script>
     $('.search').kuCity();
     $('.search3').kuCity();
@@ -184,7 +193,7 @@
         }
 
         $("#Search").click(function () {
-            var str;
+            var str = new Array();
             var datas;
             $("#table").bootstrapTable('destroy');
             var destination = $("#destination").val();
@@ -194,49 +203,46 @@
                 url:'/packageController/costQuery?destination='+destination+'&weight='+weight+'&start='+start,
                 type:"post",
                 success:function (res) {
-                    str="[{";
-                    datas = eval(res)
+                    datas = eval(res);
                     for (var i=0;i<datas.length;i++){
-                        str+="'name':'123',";
+                        str.push({"name":datas[i].name,"1":datas[i].start,"2":datas[i].destination,"3":datas[i].cost,"4":datas[i].trustDegree})
                     }
-                    str+="'total':'"+datas.length+"'";
-                    str+="}]"
-                    alert(str)
+                    $("#table").bootstrapTable({
+                        data: str,
+                        striped: true,
+                        pageSize: 8,
+                        pagination: true,
+                        pageNumber: 1,
+                        clickToSelect: true,
+                        dataType: "json",
+                        method: "POST",
+                        contentType: "application/x-www-form-urlencoded;charset=utf-8",
+                        dataField: "data",
+
+                        columns: [
+                            {
+                                field: 'name', title: '公司名称'
+                                ,width:100
+                            },
+                            {
+                                filed: 'start',
+                                title: '起点',
+                                width:100
+                            }, {
+                                filed: 'destination',
+                                title: "终点",width:100
+                            }, {
+                                filed: "cost",
+                                title: "花费",
+                                sortable: true, width:100,
+                            }, {
+                                filed: "trustDegree",
+                                title: "信用等级", width:100,
+                            }
+                        ]
+                    })
                 }
             })
-          $("#table").bootstrapTable({
-              data:str,
-              striped: true,
-              pageSize: 2,
-              pagination: true,
-              pageNumber:1,
-              clickToSelect : true,
-              dataType:"json",
-              method:"POST",
-              contentType : "application/x-www-form-urlencoded;charset=utf-8",
-              dataField:"data",
-              columns:[
-                  {
-                      field: 'name', title: '公司名称',align:"center"
-                  },
-                  {
-                      filed: '1',
-                      title: '起点',
-                      align:"center",
-                      visible:true
-              },{
-                      filed:'destination',
-                      title:"终点",align:"center"
-              },{
-                      filed:"cost",
-                      title:"花费",
-                      sortable:true,align:"center"
-              },{
-                  filed:"trustDegree",
-                  title:"信用等级",align:"center"
-              }
-              ]
-          })
         })
 </script>
 </body>

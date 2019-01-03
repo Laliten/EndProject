@@ -8,7 +8,9 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * @author XQH
+ */
 @Repository
 public class MeterDaoImpl extends BaseDaoImpl<Meter> implements MeterDao{
 
@@ -33,5 +35,17 @@ public class MeterDaoImpl extends BaseDaoImpl<Meter> implements MeterDao{
         Query query = getCurrentSession().createQuery("delete from Meter m where m.id in:ids");
         query.setParameter("ids",idList);
         query.executeUpdate();
+    }
+
+    /**
+     * 保存/修改meter对象信息
+     *
+     * @param meter
+     * @return
+     */
+    @Override
+    public int merge(Meter meter) {
+        getCurrentSession().merge(meter);
+        return 0;
     }
 }

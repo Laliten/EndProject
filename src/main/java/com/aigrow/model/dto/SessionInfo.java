@@ -1,11 +1,15 @@
 package com.aigrow.model.dto;
 
-import com.aigrow.model.entity.User;
+import com.aigrow.model.dto.UserDto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 将往前端传送的数据保存在这里
+ * @author YangDeJian
+ */
 public class SessionInfo implements Serializable {
     private String id;
     private String username;
