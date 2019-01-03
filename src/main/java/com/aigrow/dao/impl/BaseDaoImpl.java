@@ -13,13 +13,19 @@ import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * @author YangDeJian
+ * @param <T>
+ */
 @Repository
 public class BaseDaoImpl<T> implements BaseDao<T> {
 
+    private Session session;
 
     @Autowired
-    private SessionFactory sessionFactory;
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.session = sessionFactory.openSession();
+    }
 
     /**
      * 获得当前事物的session
@@ -27,7 +33,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
      * @return org.hibernate.Session
      */
     public Session getCurrentSession() {
-        return this.sessionFactory.getCurrentSession();
+        return this.session;
     }
 
     @Override
@@ -140,6 +146,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
         return (Long) q.uniqueResult();
     }
 
+
     @Override
     public int executeHql(String hql) {
         Query q = this.getCurrentSession().createQuery(hql);
@@ -224,4 +231,5 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
         }
         return (BigInteger) q.uniqueResult();
     }
+
 }

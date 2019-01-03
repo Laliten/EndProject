@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 基础功能操作类
+ * 基础数据库操作类
+ *
  * 其他DAO继承此类获取常用的数据库操作方法
  * @author YangDeJian
  */
@@ -87,8 +88,10 @@ public interface BaseDao<T> {
     /**
      * 获得对象列表
      *
-     * @param hql    HQL语句
-     * @param params 参数
+     * @param hql
+     *            HQL语句
+     * @param params
+     *            参数
      * @return List
      */
     public List<T> find(String hql, Map<String, Object> params);
@@ -141,6 +144,7 @@ public interface BaseDao<T> {
      */
     public Long count(String hql, Map<String, Object> params);
 
+
     /**
      * 执行一条HQL语句
      *
@@ -164,7 +168,8 @@ public interface BaseDao<T> {
     /**
      * 获得结果集
      *
-     * @param sql SQL语句
+     * @param sql
+     *            SQL语句
      * @return 结果集
      */
     public List<Object[]> findBySql(String sql);
@@ -172,9 +177,12 @@ public interface BaseDao<T> {
     /**
      * 获得结果集
      *
-     * @param sql  SQL语句
-     * @param page 要显示第几页
-     * @param rows 每页显示多少条
+     * @param sql
+     *            SQL语句
+     * @param page
+     *            要显示第几页
+     * @param rows
+     *            每页显示多少条
      * @return 结果集
      */
     public List<Object[]> findBySql(String sql, int page, int rows);
@@ -182,8 +190,10 @@ public interface BaseDao<T> {
     /**
      * 获得结果集
      *
-     * @param sql    SQL语句
-     * @param params 参数
+     * @param sql
+     *            SQL语句
+     * @param params
+     *            参数
      * @return 结果集
      */
     public List<Object[]> findBySql(String sql, Map<String, Object> params);
@@ -191,10 +201,14 @@ public interface BaseDao<T> {
     /**
      * 获得结果集
      *
-     * @param sql    SQL语句
-     * @param params 参数
-     * @param page   要显示第几页
-     * @param rows   每页显示多少条
+     * @param sql
+     *            SQL语句
+     * @param params
+     *            参数
+     * @param page
+     *            要显示第几页
+     * @param rows
+     *            每页显示多少条
      * @return 结果集
      */
     public List<Object[]> findBySql(String sql, Map<String, Object> params, int page, int rows);
@@ -202,10 +216,12 @@ public interface BaseDao<T> {
     /**
      * 执行SQL语句
      *
-     * @param sql SQL语句
+     * @param sql
+     *            SQL语句
      * @return 响应行数
      */
     public int executeSql(String sql);
+
 
     /**
      * 执行SQL语句

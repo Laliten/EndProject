@@ -30,6 +30,28 @@ public class MeterController {
         Json json = new Json();
         int num = meterService.add(meterDto);
         if(num==1){
+            json.setSuccess(true);
+            json.setMsg("添加成功！");
+        }
+        else {
+            json.setSuccess(false);
+            json.setMsg("添加失败！");
+        }
+        return json;
+    }
+
+    /**
+     * 处理计价表下的修改功能
+     * @param meterDto
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/update")
+    public Json update(MeterDto meterDto){
+        Json json = new Json();
+        int num = meterService.update(meterDto);
+        if(num == 1){
+            json.setSuccess(true);
             json.setMsg("添加成功！");
         }
         else {
@@ -47,6 +69,7 @@ public class MeterController {
     public Json singleDelete(MeterDto meterDto){
         Json json = new Json();
         meterService.singleDelete(meterDto.getId());
+        json.setSuccess(true);
         json.setMsg("删除成功！");
         return json;
     }
@@ -59,7 +82,9 @@ public class MeterController {
     @ResponseBody
     public Json batchDelete(String meterIds){
         Json json = new Json();
+
         meterService.batchDelete(meterIds);
+        json.setSuccess(true);
         json.setMsg("删除成功！");
         return json;
     }
@@ -68,10 +93,10 @@ public class MeterController {
      * 处理点击计价表按钮或其下的韵达按钮的请求
      * @return
      */
-    @RequestMapping({"/index","/yunda"})
-    public String index(){
+    @RequestMapping({"/index"})
+    public String index(String companyName){
 
-        return "admin/yunDa";
+        return "admin/"+companyName.trim();
     }
 
     /**

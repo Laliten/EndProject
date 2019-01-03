@@ -11,4 +11,10 @@ public interface MeterDao extends BaseDao<Meter>{
      */
     void batchDelete(String meterIds);
 
+    /**
+     * 保存/修改meter对象信息
+     * @param meter
+     * @return
+     */
+    int merge(Meter meter);
 }
