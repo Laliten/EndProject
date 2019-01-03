@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * @author GaoJiaHui
+ */
 @Repository
 public class HistoryDaoImpl extends BaseDaoImpl<History> implements HistoryDao {
 
@@ -17,8 +20,17 @@ public class HistoryDaoImpl extends BaseDaoImpl<History> implements HistoryDao {
      */
     @Override
     public List<History> findHistory(int userId,String type) {
-        Query query= getCurrentSession().createQuery("select h from History h,User u where h.id=u.id and h.user.id='"+userId+"'");
+        Query query= getCurrentSession().createQuery("select h from History h,User u where h.id=u.id and h.users.id='"+userId+"' and h.type='"+type+"'");
         List<History> list = query.list();
         return list;
+    }
+
+    /**
+     * 添加查找附近驿站历史纪录
+     * @param history
+     */
+    @Override
+    public void merge(History history) {
+        getCurrentSession().merge(history);
     }
 }

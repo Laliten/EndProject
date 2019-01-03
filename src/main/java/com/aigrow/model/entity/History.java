@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 /**
- * @author
+ * @author GaoJiaHui
  */
 @Entity
 @Table(name = "history")
@@ -26,8 +26,8 @@ public class History {
     private String type;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "users_id")
+    private User users;
 
     public String getStart() {
         return start;
@@ -86,10 +86,10 @@ public class History {
     }
 
     public User getUser() {
-        return user;
+        return users;
     }
 
     public void setUser(User user) {
-        this.user = user;
+        this.users = user;
     }
 }

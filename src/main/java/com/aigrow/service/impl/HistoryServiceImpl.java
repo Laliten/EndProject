@@ -44,9 +44,14 @@ public class HistoryServiceImpl implements HistoryService {
     @Override
     public void addHistory(HistoryDto historyDto) {
         History history = this.d2e(historyDto);
-        historyDao.save(history);
+        historyDao.merge(history);
     }
 
+    /**
+     * 将historyDto转换程history
+     * @param historyDto
+     * @return
+     */
     private History d2e(HistoryDto historyDto) {
         History history = new History();
         if (historyDto != null){
@@ -58,6 +63,11 @@ public class HistoryServiceImpl implements HistoryService {
         return history;
     }
 
+    /**
+     * 将history转换程historyDto
+     * @param history
+     * @return
+     */
     private HistoryDto e2d(History history){
         HistoryDto historyDto = new HistoryDto();
         if (history != null){
@@ -66,10 +76,15 @@ public class HistoryServiceImpl implements HistoryService {
         return historyDto;
     }
 
-    private List<HistoryDto> e2d(List<History> userList){
+    /**
+     * 将List<History>转换程ListList<HistoryDto>
+     * @param historyList
+     * @return
+     */
+    private List<HistoryDto> e2d(List<History> historyList){
         List<HistoryDto> list = new ArrayList<>();
-        if (userList != null){
-            for (History h:userList) {
+        if (historyList != null){
+            for (History h:historyList) {
                 list.add(this.e2d(h));
             }
         }

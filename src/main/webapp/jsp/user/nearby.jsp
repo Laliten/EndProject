@@ -126,9 +126,11 @@
                 type:"post",
                 dataType:"JSON",
                 async:true,
-                data:{place:place,userId:${sessionScope.sessionInfo.doneUser.id}},
+                data:{
+                    place:place,
+                    userId:${sessionScope.sessionInfo.doneUser.id}
+                },
                 success:function(result){
-                    alert(result.msg);
                 }
             });
         }

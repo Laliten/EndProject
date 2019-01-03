@@ -2,6 +2,9 @@ package com.aigrow.model.dto;
 
 import java.util.Date;
 
+/**
+ * @author GaoJiaHui
+ */
 public class HistoryDto {
     private int id;
     private String place;

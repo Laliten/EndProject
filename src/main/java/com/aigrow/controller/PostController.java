@@ -64,9 +64,9 @@ public class PostController {
             e.printStackTrace();
         }
         Json json = new Json();
+        historyDto.setType("1");
         historyDto.setTime(date);
         historyService.addHistory(historyDto);
-        json.setMsg("aaa");
         return json;
     }
 
