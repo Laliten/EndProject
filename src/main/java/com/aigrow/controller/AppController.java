@@ -71,6 +71,15 @@ public class AppController {
     }
 
     /**
+     * 跳转至用户主界面
+     * @return
+     */
+    @RequestMapping("/userHome")
+    public String userHome(){
+        return "user/userHome";
+    }
+
+    /**
      * 跳转至运费估计界面
      * @return
      */
@@ -107,24 +116,41 @@ public class AppController {
     }
 
     /**
+     * 加载管理用户（管理员）的界面
+     * @return
+     */
+    @RequestMapping("/manager_manager")
+    public String manager(){
+        return "admin/manager_manager";
+    }
+
+
+    /**
      * 处理登录,返回userHome或者adminHome
      * @return
      */
     @RequestMapping("/doLogin")
-    public ModelAndView doLogin(HttpSession session, UserDto userDto){
+    public ModelAndView doLogin(HttpSession session, UserDto userDto, String type){
         ModelAndView mv = new ModelAndView();
         UserDto doneUser  = userService.login(userDto);
 
         SessionInfo sessionInfo = new SessionInfo();
         sessionInfo.setDoneUser(doneUser);
 
-        mv.addObject(ConfigUtil.getSessionInfoName(),sessionInfo);
+
 
         if(doneUser != null){
-            mv.setViewName("user/userHome");
+            if ( "0".equals(type)){
+                //0代表用户
+                mv.setViewName("user/userHome");
+            } else if ("1".equals(type)){
+                //1代表管理员
+                mv.setViewName("admin/manager");
+            }
         } else {
             mv.setViewName("user/login");
         }
+        mv.addObject(ConfigUtil.getSessionInfoName(),sessionInfo);
         session.setAttribute(ConfigUtil.getSessionInfoName(),sessionInfo);
         return mv;
     }

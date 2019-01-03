@@ -2,6 +2,7 @@ package com.aigrow.service.impl;
 
 import com.aigrow.dao.UserDao;
 import com.aigrow.model.dto.Page;
+import com.aigrow.model.dto.SessionInfo;
 import com.aigrow.model.dto.UserDto;
 import com.aigrow.model.entity.Package;
 import com.aigrow.model.entity.User;
@@ -35,7 +36,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> getAllUsers(Page page, String type) {
         String hql = "from User u where u.type="+type;
-        List<User> userList = userDao.find(hql, page.getNextPage(), page.getPageSize());
+        List<User> userList = userDao.find(hql);
         return this.e2d(userList);
     }
 
@@ -95,6 +96,11 @@ public class UserServiceImpl implements UserService {
                 return 0;
             }
         }
+    }
+
+    @Override
+    public List<UserDto> getAllAdmins(Page page) {
+        return null;
     }
 
 
@@ -231,6 +237,31 @@ public class UserServiceImpl implements UserService {
             }
             return userDtos;
     }
+
+    /**
+     * xuqihao
+     * @param id
+     */
+    @Override
+    public void delete(String id){
+        userDao.delete(userDao.get(User.class,id));
+    }
+
+    @Override
+    public boolean editUserPwd(SessionInfo sessionInfo, String oldPwd, String newPwd){
+        User u=userDao.get(User.class,sessionInfo.getId());
+        if (u.getPassword().equalsIgnoreCase(oldPwd)){
+            u.setPassword(newPwd);
+            return true;
+        }
+        return false ;
+    }
+
+    @Override
+    public void add(User user) throws Exception{
+
+    }
+
 
 
 }

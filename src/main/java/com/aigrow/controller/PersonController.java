@@ -4,16 +4,20 @@ import com.aigrow.model.dto.Json;
 import com.aigrow.model.dto.Page;
 import com.aigrow.model.dto.SessionInfo;
 import com.aigrow.model.dto.UserDto;
+import com.aigrow.model.entity.User;
 import com.aigrow.service.UserService;
 import com.aigrow.util.ConfigUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author YangDeJian
@@ -61,7 +65,7 @@ public class PersonController {
             j.setObj(userDtos);
         } else {
             j.setSuccess(false);
-            j.setMsg("当前还未有用户");
+            j.setMsg("当前还未有管理");
         }
         return j;
     }
@@ -71,16 +75,34 @@ public class PersonController {
      * @return
      */
     @RequestMapping("/batchDelete")
-    public Json batchDelete(String userIds){
-        Json json = new Json();
-
-        userService.batchDelete(userIds);
-        json.setSuccess(true);
-        json.setMsg("删除成功！");
-
-        return json;
+    public Json batchDelete(String ids,HttpSession session){
+        Json j=new Json();
+        if(ids!=null&&ids.length()>0){
+            for (String id:ids.split(",")){
+                if (id!=null){
+                    this.singleDelete(id,session);
+                }
+                j.setSuccess(true);
+                j.setMsg("用户删除成功！");
+            }
+        }
+        return j;
     }
-
+    /**
+     * 处理用户的单个删除
+     * @return
+     */
+    @RequestMapping("/singleDelete")
+    public Json singleDelete(String id,HttpSession session){
+        SessionInfo sessionInfo= (SessionInfo) session.getAttribute(ConfigUtil.getSessionInfoName());
+        Json j=new Json();
+        if(id!=null&&!id.equalsIgnoreCase(sessionInfo.getId())){
+            userService.delete(id);
+        }
+        j.setSuccess(true);
+        j.setMsg("删除成功！");
+        return j;
+    }
     /**
      * 处理用户的添加，重新获取所有用户
      * @return
@@ -101,21 +123,21 @@ public class PersonController {
     }
 
     /**
-     * 处理用户的单个删除
+     * 跳转到编辑用户密码页面
+     *
+     * @param id
+     * @param request
      * @return
      */
-    @RequestMapping("/singleDelete")
-    public Json singleDelete(int userId){
-        Json json = new Json();
-
-        userService.singleDelete(userId);
-        json.setSuccess(true);
-        json.setMsg("删除成功！");
-        return json;
+    @RequestMapping("/editPwdPage")
+    public String editPwdPage(Integer id, HttpServletRequest request){
+//        User u=userService.get(id);
+//        request.setAttribute("user",u);
+        return "/personController/modifyPassword";
     }
 
     /**
-     * 处理用户的密码修改，成功后下次登录生效
+     * 处理用户的密码修改，成功后重新登录
      * @return
      */
     @RequestMapping("/modifyPassword")
@@ -146,6 +168,7 @@ public class PersonController {
      */
     @RequestMapping("/modifyUserInfo")
     public String modifyUserInfo(String viewName){
+
         return viewName;
     }
 
