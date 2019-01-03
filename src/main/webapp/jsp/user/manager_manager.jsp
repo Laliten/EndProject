@@ -57,6 +57,7 @@
                 datas=eval(res);
                 for (var i=0;i<datas.length;i++){
                     str.push({"id":datas[i].id,"1":datas[i].name,"2":datas[i].account,"3":datas[i].password,"4":datas[i].type})
+                    // alert(datas[i].id);
                 }
                 $("#table").bootstrapTable({
                     data:str,
@@ -68,7 +69,6 @@
                     dataType:"json",
                     method:"POST",
                     contentType: "application/x-www-form-urlencoded;charset=utf-8",
-                    dataField: "data",
                     columns:[
                         {
                             field:'name',title:'编号',

@@ -180,7 +180,7 @@ public class PersonController {
         Page page=new Page();
         List<UserDto> userDtos=new ArrayList<>();
         userDtos=userService.getAllUsers(page,"1");
-        //System.out.println(userDtos.size());
+        System.out.println(userDtos.size());
         return userDtos;
     }
 
