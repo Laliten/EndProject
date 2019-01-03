@@ -8,14 +8,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <div>
-    <c:forEach items="${packageDtoList}" var="packageDtoList" >
-        <span class="intro">编号</span>：${packageDtoList.id}
+    <c:forEach items="${history}" var="history" >
+        <span class="intro">地点</span>：${history.place}
         <br>
-        <span class="intro">包裹</span>：${packageDtoList.name}
+        <span class="intro">时间</span>：${history.time}
         <br>
-        <span class="intro">公司名称</span>：${packageDtoList.companyName}
-        <br>
-        <span class="intro">备注</span>：${packageDtoList.description}
     </c:forEach>
 </div>

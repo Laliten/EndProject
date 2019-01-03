@@ -50,7 +50,7 @@
             </div>
             <div>
                 <font size="+1" color="#999999">
-                    <input type="radio" name="type" id="user" value="0"/><label for="user">用户</label>
+                    <input type="radio" name="type" id="user" value="0" checked/><label for="user">用户</label>
                     <input type="radio" name="type" id="admin" value="1"/><label for="admin">管理员</label>
                 </font>
             </div>
