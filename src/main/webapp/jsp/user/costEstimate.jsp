@@ -221,7 +221,8 @@
 
                         columns: [
                             {
-                                field: 'name', title: '公司名称'
+                                field: 'name',
+                                title: '公司名称'
                                 ,width:100
                             },
                             {
