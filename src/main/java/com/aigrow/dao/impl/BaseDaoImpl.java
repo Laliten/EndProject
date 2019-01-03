@@ -105,6 +105,17 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
         return (Long) q.uniqueResult();
     }
 
+    @Override
+    public Long count(String hql, Map<String, Object> params) {
+        Query q = this.getCurrentSession().createQuery(hql);
+        if (params != null && !params.isEmpty()) {
+            for (String key : params.keySet()) {
+                q.setParameter(key, params.get(key));
+            }
+        }
+        return (Long) q.uniqueResult();
+    }
+
 
     @Override
     public int executeHql(String hql) {

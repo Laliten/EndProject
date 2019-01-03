@@ -7,12 +7,5 @@ import com.aigrow.model.entity.User;
  * @author YangDeJian
  */
 public interface UserDao extends BaseDao<User>{
-    /**
-     * 判断用户名是否唯一
-     * @param hql
-     * @param account
-     * @return
-     */
-    public Long count(String hql, String account);
 
 }

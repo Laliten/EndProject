@@ -15,18 +15,29 @@ public class Company {
     private Integer id;
     @Column
     private String name;
-    @Column
-    private String code;
     @Column(name = "customer_service_tel")
     private String custmoerServiceTel;
     @Column(name = "trust_degree")
     private String trustDegree;
     @Column
     private String place;
+    @Column
+    private String code;
+
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "company")
     private Set<WayBill> wayBillSet = new HashSet<>();
 
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "company")
+    private Set<Meter> meterSet = new HashSet<>();
+
+    public Set<Meter> getMeterSet() {
+        return meterSet;
+    }
+
+    public void setMeterSet(Set<Meter> meterSet) {
+        this.meterSet = meterSet;
+    }
 
     public Company() {
     }

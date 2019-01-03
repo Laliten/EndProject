@@ -21,7 +21,7 @@ public class WayBill {
     private String dayTime;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "company_code")
+    @JoinColumn(name = "company_id")
     private Company company;
 
     public WayBill() {

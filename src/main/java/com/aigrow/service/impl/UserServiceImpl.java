@@ -10,6 +10,7 @@ import com.aigrow.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import java.util.Map;
  * @author YangDeJian
  */
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
@@ -87,8 +89,10 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public long checkUsername(String account) {
-        String hql = "select count(*) from User u where u.account=?";
-        return userDao.count(hql, account);
+        Map<String,Object> params = new HashMap<String, Object>();
+        params.put("account",account);
+        String hql = "select count(*) from User u where u.account=:account";
+        return userDao.count(hql, params);
     }
 
 
@@ -130,13 +134,13 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     private List<UserDto> e2d(List<User> userList){
-        List<UserDto> userDtos = new ArrayList<>();
-        if (userList != null){
-            for (User u:userList) {
-                userDtos.add(this.e2d(u));
+            List<UserDto> userDtos = new ArrayList<>();
+            if (userList != null){
+                for (User u:userList) {
+                    userDtos.add(this.e2d(u));
+                }
             }
-        }
-        return userDtos;
+            return userDtos;
     }
 
     /**

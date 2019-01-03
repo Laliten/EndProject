@@ -1,7 +1,9 @@
 package com.aigrow.controller;
 
+import com.aigrow.model.dto.SessionInfo;
 import com.aigrow.model.dto.UserDto;
 import com.aigrow.service.UserService;
+import com.aigrow.util.ConfigUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,17 +57,21 @@ public class AppController {
      * @return
      */
     @RequestMapping("/doLogin")
-    public ModelAndView doLogin(UserDto userDto){
+    public ModelAndView doLogin(HttpSession session, UserDto userDto){
         ModelAndView mv = new ModelAndView();
         UserDto doneUser  = userService.login(userDto);
 
-        mv.addObject("user",doneUser);
+        SessionInfo sessionInfo = new SessionInfo();
+        sessionInfo.setDoneUser(doneUser);
+
+        mv.addObject(ConfigUtil.getSessionInfoName(),sessionInfo);
 
         if(doneUser != null){
             mv.setViewName("user/userHome");
         } else {
             mv.setViewName("user/login");
         }
+        session.setAttribute(ConfigUtil.getSessionInfoName(),sessionInfo);
         return mv;
     }
 
@@ -99,8 +106,7 @@ public class AppController {
 
         long num = userService.checkUsername(userDto.getAccount());
 
-
-        if (num == 0){
+        if (num == 1){
             resultMap.put("type","true");
         } else {
             resultMap.put("type","false");

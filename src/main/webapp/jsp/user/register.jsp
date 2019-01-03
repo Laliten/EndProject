@@ -76,6 +76,10 @@
                     $("#password").focus();
                 }
             });
+
+            $("#name").blur(function(){
+                $("#s5").text("✔");
+            });
         });
     </script>
     <link rel="stylesheet" href="../../css/login.css">
@@ -104,6 +108,7 @@
             </div>
             <div>
                 <input class="user" type="text" id="name" placeholder="请输入姓名" name="name"/>
+                <span id="s5" style="color:#FF0000"></span>
             </div>
             <div>
                 <input class="content-form-signup" type="submit" value="创建账户">

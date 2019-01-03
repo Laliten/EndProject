@@ -1,0 +1,87 @@
+.zm-banner-bac {
+    position: absolute;
+    z-index: -99;
+    display: block;
+    width: 100%;
+    height: 200px;
+    background-image: url("../../image/city_banner.png");
+    background-size: cover;
+    background-position: 0 -100px;
+}
+
+.zm-banner {
+    background-color: #F5F5F5;
+    margin-top: 30px;
+}
+
+.zm-main-container {
+    padding-top: 200px;
+}
+
+
+.zm-slogan-container{
+    padding: 60px 0 40px;
+}
+
+.zm-slogan{
+    text-align: center;
+    color: #222;
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.form-control-inline {
+    width: 10%;
+    display:inline;
+}
+
+.title{
+    font-size: 30px;
+}
+
+.intro{
+    font-size: 20px;
+}
+
+body{
+
+}
+
+.border{
+    border:1px solid #000;
+    width: 600px;
+}
+
+.condition{
+    display: none;
+    text-align: center;
+}
+
+.content{
+    position: relative;
+    height: 700px;
+    text-align: center;
+}
+
+.right{
+    position: fixed;
+    right: 0px;
+    top: 0px;
+    height: 1000px;
+    background-color: #FFFFFF;
+    width: 300px;
+    display: none;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 1);
+}
+
+.shadow{
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 1);
+}
+
+.list{
+    text-align: left;
+    border-bottom: 1px solid gray;
+    size: 15px;
+}
+
+
