@@ -35,7 +35,7 @@
 <body>
 <!--Header-part-->
 <div id="header">
-    <h1><a href="dashboard.html">快递帮系统平台</a></h1>
+    <h1><a href="#">快递帮系统平台</a></h1>
 </div>
 <!--close-Header-part-->
 
@@ -125,7 +125,7 @@
     <!--End-breadcrumbs-->
     <div style="margin: 0px 0px 0px 50px">
 
-        <iframe src="manager_manager.jsp" width="1000px" height="550px" name="manager_manager" id="manager_manager">
+        <iframe src="manager_manager" width="1000px" height="550px" name="manager_manager" id="manager_manager">
         </iframe>
 
     </div>
