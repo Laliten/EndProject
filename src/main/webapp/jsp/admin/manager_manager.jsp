@@ -28,14 +28,11 @@
     <style>
         table{ border-collapse: collapse; border:1px solid #F2F2F2}
         table td{ text-align:center; height:20px; font-size:12px; line-height:30px; border:1px solid #DDDDDD;}
+
+        .p
+        }
     </style>
 
-    <script type="text/javascript" src="../../src/main/webapp/jilb/jquery.min.js"></script>
-    <script type="text/javascript" src="../../src/main/webapp/jilb/jquery.easyui.min.js"></script>
-    <link type="text/css" href="../../src/main/webapp/jilb/easyui.css"/>
-    <script type="text/javascript">
-
-    </script>
 </head>
 <body>
 <div style="margin: 10px 0px 0px 20px">
