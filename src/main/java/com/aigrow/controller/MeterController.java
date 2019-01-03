@@ -100,14 +100,23 @@ public class MeterController {
     }
 
     /**
+     * 当对表的请求的url为
+     * @return
+     */
+    @RequestMapping("/none")
+    public String error(){
+        return "error/error";
+    }
+
+    /**
      * 处理单击计价表按钮下的申通按钮的请求
      * @return
      */
     @ResponseBody
     @RequestMapping("/companyMeter")
-    public Json getMeter(Page page, String companyName){
+    public Json getMeter(Page page, String companyCode){
         Json json = new Json();
-        List<MeterDto> companyMeter = meterService.getCompanyMeter(companyName, page);
+        List<MeterDto> companyMeter = meterService.getCompanyMeter(companyCode, page);
         try{
             if (companyMeter != null){
                 json.setSuccess(true);

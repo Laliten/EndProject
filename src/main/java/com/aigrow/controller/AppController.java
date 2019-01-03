@@ -1,9 +1,11 @@
 package com.aigrow.controller;
 
+import com.aigrow.model.dto.Json;
 import com.aigrow.model.dto.SessionInfo;
 import com.aigrow.model.dto.UserDto;
 import com.aigrow.service.UserService;
 import com.aigrow.util.ConfigUtil;
+import com.sun.media.sound.ModelDestination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -115,13 +117,45 @@ public class AppController {
         return "user/userHome_loopPlay";
     }
 
+
     /**
-     * 加载管理用户（管理员）的界面
+     * 加载管理用户的界面
+     * @param requestType
      * @return
      */
     @RequestMapping("/manager_manager")
-    public String manager(){
-        return "admin/manager_manager";
+    public ModelAndView managerManager(String requestType){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("admin/manager_manager");
+
+        if ("user".equals(requestType)){
+            mv.addObject("functionName", "/userManager");
+        } else {
+            mv.addObject("functionName", "/adminManager");
+        }
+        return mv;
+    }
+
+    /**
+     * 加载计价表的界面
+     * @param companyCode
+     * @return
+     */
+    @RequestMapping("/manager_meter")
+    public ModelAndView managerMeter(String companyCode){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("admin/manager_meter");
+        mv.addObject("functionName", "/companyMeter");
+        switch (companyCode.trim()){
+            case "SF": mv.addObject("companyCode","SF");break;
+            case "STO": mv.addObject("companyCode","STO");break;
+            case "ZTO": mv.addObject("companyCode","ZTO");break;
+            case "YTO": mv.addObject("companyCode","YTO");break;
+            case "YD": mv.addObject("companyCode","YD");break;
+            case "none": mv.addObject("companyCode","none");break;
+            default: mv.addObject("companyCode","none"); break;
+        }
+        return mv;
     }
 
 
@@ -136,8 +170,6 @@ public class AppController {
 
         SessionInfo sessionInfo = new SessionInfo();
         sessionInfo.setDoneUser(doneUser);
-
-
 
         if(doneUser != null){
             if ( "0".equals(type)){

@@ -67,17 +67,17 @@ public class MeterServiceImpl implements MeterService{
     }
 
     /**
-     * 获取对应公司名字的计价表
+     * 获取对应公司编码的计价表
      *
-     * @param companyName
+     * @param code
      * @param page
      * @return
      */
     @Override
-    public List<MeterDto> getCompanyMeter(String companyName, Page page) {
-        String hql = "from Meter m where m.company.name=:companyName";
+    public List<MeterDto> getCompanyMeter(String code, Page page) {
+        String hql = "from Meter m where m.company.code=:code";
         Map<String, Object> map = new HashMap<>(0);
-        map.put("companyName", companyName);
+        map.put("companyName", code);
         List<Meter> meters = meterDao.find(hql, map, page.getNextPage(), page.getPageSize());
 
         if (meters != null){

@@ -44,7 +44,7 @@
         <li  class="dropdown" id="profile-messages" >
             <a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle">
                 <i class="icon icon-user"></i>&nbsp;
-                <span class="text">欢迎你，admin</span>&nbsp;
+                <span class="text">欢迎你，${sessionScope.sessionInfo.doneUser.id}</span>&nbsp;
                 <b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
@@ -94,8 +94,8 @@
                 <span>用户管理</span>
             </a>
             <ul>
-                <li id="manager"><a class="menu_a" link=""><i class="icon icon-user-md"></i>管理员</a></li>
-                <li id="user"><a class="menu_a" link=""><i class="icon icon-user"></i>用户</a></li>
+                <li id="manager"><a class="menu_a" ><i class="icon icon-user-md"></i>管理员</a></li>
+                <li id="user"><a class="menu_a" ><i class="icon icon-user"></i>用户</a></li>
             </ul>
         </li>
         <li class="submenu">
@@ -104,10 +104,10 @@
                 <span>计价表管理</span>
             </a>
             <ul>
-                <li><a class="menu_a" link=""><i class="icon icon-columns"></i>韵达</a></li>
-                <li><a class="menu_a" link=""><i class="icon icon-columns"></i>申通</a></li>
-                <li><a class="menu_a" link=""><i class="icon icon-columns"></i>顺丰</a></li>
-                <li><a class="menu_a" link=""><i class="icon icon-columns"></i>圆通</a></li>
+                <li><a class="menu_a" ><i class="icon icon-columns"></i>韵达</a></li>
+                <li><a class="menu_a" ><i class="icon icon-columns"></i>申通</a></li>
+                <li><a class="menu_a" ><i class="icon icon-columns"></i>顺丰</a></li>
+                <li><a class="menu_a" ><i class="icon icon-columns"></i>圆通</a></li>
 
             </ul>
         </li>
@@ -124,7 +124,7 @@
     <!--End-breadcrumbs-->
     <div style="margin: 0px 0px 0px 50px">
 
-        <iframe src="manager_manager" width="1000px" height="550px" name="manager_manager" id="manager_manager">
+        <iframe src="manager_manager" width="1000px" height="550px" name="iframeContainer" id="iframeContainer">
         </iframe>
 
     </div>
@@ -148,6 +148,29 @@
         init();
         $(window).resize(function(){
             init();
+        });
+
+        $(".menu_a").click(function () {
+            var src;
+            if ($(this).text() == "用户" || $(this).text() == "管理员"){
+                src = "/appController/manager_manager";
+                if ($(this).text() == "用户"){
+                    src += "?requestType=user";
+                } else {
+                    src += "?requestType=admin";
+                }
+            } else {
+                src = "/appController/manager_meter";
+                switch ($(this).text()) {
+                    case "圆通": src += "?code=YTO";break;
+                    case "申通": src += "?code=STO";break;
+                    case "韵达": src += "?code=YD";break;
+                    case "中通": src += "?code=ZTO";break;
+                    case "顺丰": src += "?code=SF";break;
+                    default:src += "?code=none";break;
+                }
+            }
+            $("#iframeContainer").attr("src", src);
         });
     });
     function goPage (newURL) {

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +37,7 @@ public class PersonController {
      */
     @ResponseBody
     @RequestMapping("/adminManager")
-    public Json doAdminManager(@RequestParam Page page){
+    public Json doAdminManager(@RequestParam(required = false) Page page){
         List<UserDto> userDtos = userService.getAllUsers(page,"1");
         Json j = new Json();
         if (userDtos.size() != 0){
@@ -56,7 +57,7 @@ public class PersonController {
      */
     @ResponseBody
     @RequestMapping("/userManager")
-    public Json doUserManager(@RequestParam Page page){
+    public Json doUserManager(@RequestParam(required = false) Page page){
         List<UserDto> userDtos = userService.getAllUsers(page,"0");
         Json j = new Json();
         if (userDtos.size() != 0){
@@ -97,7 +98,7 @@ public class PersonController {
         SessionInfo sessionInfo= (SessionInfo) session.getAttribute(ConfigUtil.getSessionInfoName());
         Json j=new Json();
         if(id!=null&&!id.equalsIgnoreCase(sessionInfo.getId())){
-            userService.delete(id);
+            userService.singleDelete(Integer.parseInt(id));
         }
         j.setSuccess(true);
         j.setMsg("删除成功！");
@@ -120,20 +121,6 @@ public class PersonController {
             json.setMsg("添加失败");
         }
         return json;
-    }
-
-    /**
-     * 跳转到编辑用户密码页面
-     *
-     * @param id
-     * @param request
-     * @return
-     */
-    @RequestMapping("/editPwdPage")
-    public String editPwdPage(Integer id, HttpServletRequest request){
-//        User u=userService.get(id);
-//        request.setAttribute("user",u);
-        return "/personController/modifyPassword";
     }
 
     /**

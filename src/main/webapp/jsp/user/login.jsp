@@ -41,7 +41,7 @@
     <img class="content-logo" src="../../image/login/1.png" alt="logo">
     <h1 class="content-title">登录</h1>
     <div class="content-form">
-        <form method="post" action="/appController/doLogin.html">
+        <form method="post" action="/appController/doLogin">
             <div>
                 <input class="user" type="text" name="account" id="account" placeholder="请输入用户名" title="请输入用户名">
             </div>
@@ -60,7 +60,7 @@
         </form>
     </div>
     <div class="content-login-description">没有账户？</div>
-    <div><a class="content-login-link" href="/appController/register.html">注册</a></div>
+    <div><a class="content-login-link" href="/appController/register">注册</a></div>
 </div>
 </body>
 </html>
