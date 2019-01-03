@@ -15,18 +15,8 @@
     <title>附近驿站</title>
     <script src="../../jslib/jquery-1.8.3.js"></script>
     <link href="../../css/bootstrap.css" rel="stylesheet">
-
-    <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
-
     <link rel="stylesheet" href="../../css/costEstimate/costEsitmate.css">
 
-    <link rel="stylesheet" href="../../css/costEstimate/plugins/bc.grid-1.0.0.min.css">
-
-    <script type="text/javascript" src="../../Bootstrap/bootstrap-table.js"></script>
-
-    <script type="text/javascript" src="../../Bootstrap/locale/bootstrap-table-zh-CN.js"></script>
-
-    <link rel="stylesheet" href="../../Bootstrap/Content/bootstrap-table.css">
     <style type="text/css">
         *{ margin:0; padding:0}
             html{height:100%}
@@ -140,12 +130,12 @@
     </script>
 </div>
 
-<div name="right" class="right">
+<div name="right" class="right" >
     <br>
     <br>
     <br>
-    <div class="list">
-        <iframe src="/postController/findhistory?userId=${sessionScope.sessionInfo.doneUser.id}"></iframe>
+    <div class="list" style="height: 100%">
+        <iframe src="/postController/findhistory?userId=${sessionScope.sessionInfo.doneUser.id}" style="height: 100%"></iframe>
     </div>
 </div>
 
