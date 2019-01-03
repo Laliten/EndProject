@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> getAllUsers(Page page, String type) {
         String hql = "from User u where u.type="+type;
-        List<User> userList = userDao.find(hql, page.getNextPage(), page.getPageSize());
+        List<User> userList = userDao.find(hql);
         return this.e2d(userList);
     }
 
@@ -79,6 +79,11 @@ public class UserServiceImpl implements UserService {
         }else {
             return 1;
         }
+    }
+
+    @Override
+    public List<UserDto> getAllAdmins(Page page) {
+        return null;
     }
 
 

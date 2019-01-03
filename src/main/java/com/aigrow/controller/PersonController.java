@@ -10,12 +10,14 @@ import com.aigrow.util.ConfigUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -173,9 +175,13 @@ public class PersonController {
      *
      */
     @ResponseBody
-    @RequestMapping("/manage_manager")
+    @RequestMapping(value = "/manage_manager",method = RequestMethod.POST)
     public List manage_manager(){
-        return null;
+        Page page=new Page();
+        List<UserDto> userDtos=new ArrayList<>();
+        userDtos=userService.getAllUsers(page,"1");
+        //System.out.println(userDtos.size());
+        return userDtos;
     }
 
     /**
@@ -184,6 +190,9 @@ public class PersonController {
     @ResponseBody
     @RequestMapping("/user")
     public List user(){
-        return null;
+        Page page=new Page();
+        List<UserDto> userDtos=new ArrayList<>();
+        userDtos=userService.getAllUsers(page,"0");
+        return userDtos;
     }
 }

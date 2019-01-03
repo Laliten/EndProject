@@ -17,12 +17,11 @@
     <link rel="stylesheet" href="../../css/mcss/matrix-media.css" />
     <link href="../../css/font-awesome/css/font-awesome.css" rel="stylesheet" />
 
+    <script type="text/javascript" src="../../Bootstrap/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../js/table.min.js"></script>
+    <script type="text/javascript" src="../../Bootstrap/bootstrap-table.js"></script>
+    <script type="text/javascript" src="../../Bootstrap/locale/bootstrap-table-zh-CN.js"></script>
     <script type="text/javascript">
-        var dataGrid;
-        $(function () {
-            dataGrid=$('#dataGrid') .datagrid();
-        })
-
         $("#manager").click(function () {
             $("#manager_manager").attr("src","/personController/manage_manager");
         })

@@ -183,61 +183,59 @@
             }
         }
 
-        $("#Search").click(function () {
-            var str;
-            var datas;
-            $("#table").bootstrapTable('destroy');
-            var destination = $("#destination").val();
-            var weight = $("#weight").val();
-            var start = $("#start").val();
-            $.ajax({
-                url:'/packageController/costQuery?destination='+destination+'&weight='+weight+'&start='+start,
-                type:"post",
-                success:function (res) {
-                    str="[{";
-                    datas = eval(res)
-                    for (var i=0;i<datas.length;i++){
-                        str+="'name':'123',";
-                    }
-                    str+="'total':'"+datas.length+"'";
-                    str+="}]"
-                    alert(str)
+    $("#Search").click(function () {
+        var str = new Array();
+        var datas;
+        $("#table").bootstrapTable('destroy');
+        var destination = $("#destination").val();
+        var weight = $("#weight").val();
+        var start = $("#start").val();
+        $.ajax({
+            url:'/packageController/costQuery?destination='+destination+'&weight='+weight+'&start='+start,
+            type:"post",
+            success:function (res) {
+                datas = eval(res);
+                for (var i=0;i<datas.length;i++){
+                    str.push({"name":datas[i].name,"1":datas[i].start,"2":datas[i].destination,"3":datas[i].cost,"4":datas[i].trustDegree})
                 }
-            })
-          $("#table").bootstrapTable({
-              data:str,
-              striped: true,
-              pageSize: 2,
-              pagination: true,
-              pageNumber:1,
-              clickToSelect : true,
-              dataType:"json",
-              method:"POST",
-              contentType : "application/x-www-form-urlencoded;charset=utf-8",
-              dataField:"data",
-              columns:[
-                  {
-                      field: 'name', title: '公司名称',align:"center"
-                  },
-                  {
-                      filed: '1',
-                      title: '起点',
-                      align:"center",
-                      visible:true
-              },{
-                      filed:'destination',
-                      title:"终点",align:"center"
-              },{
-                      filed:"cost",
-                      title:"花费",
-                      sortable:true,align:"center"
-              },{
-                  filed:"trustDegree",
-                  title:"信用等级",align:"center"
-              }
-              ]
-          })
+                $("#table").bootstrapTable({
+                    data: str,
+                    striped: true,
+                    pageSize: 2,
+                    pagination: true,
+                    pageNumber: 1,
+                    clickToSelect: true,
+                    dataType: "json",
+                    method: "POST",
+                    contentType: "application/x-www-form-urlencoded;charset=utf-8",
+                    dataField: "data",
+                    columns: [
+                        {
+                            field: 'name', title: '公司名称'
+                            ,width:100
+                        },
+                        {
+                            filed: 'start',
+                            title: '起点',
+                            width:100
+                        }, {
+                            filed: 'destination',
+                            title: "终点",width:100
+                        }, {
+                            filed: "cost",
+                            title: "花费",
+                            sortable: true, width:100,
+                        }, {
+                            filed: "trustDegree",
+                            title: "信用等级", width:100,
+                        }
+                    ]
+                })
+            }
         })
+    })
+
+
 </script>
 </body>
 </html>

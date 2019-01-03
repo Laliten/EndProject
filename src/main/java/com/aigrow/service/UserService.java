@@ -1,7 +1,9 @@
 package com.aigrow.service;
 
 import com.aigrow.model.dto.Page;
+import com.aigrow.model.dto.SessionInfo;
 import com.aigrow.model.dto.UserDto;
+import com.aigrow.model.entity.User;
 
 import java.util.List;
 
@@ -36,4 +38,13 @@ public interface UserService {
      * @return
      */
     long checkUsername(String account);
+
+    List<UserDto> getAllUsers(Page page, String s);
+
+
+    void delete(String id);
+
+    boolean editUserPwd(SessionInfo sessionInfo, String oldPwd, String newPwd);
+
+    void add(User user) throws Exception;
 }
