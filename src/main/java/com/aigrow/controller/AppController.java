@@ -71,6 +71,15 @@ public class AppController {
     }
 
     /**
+     * 跳转至用户主界面
+     * @return
+     */
+    @RequestMapping("/userHome")
+    public String userHome(){
+        return "user/userHome";
+    }
+
+    /**
      * 跳转至运费估计界面
      * @return
      */
@@ -96,6 +105,7 @@ public class AppController {
     public String wayBillQuery(){
         return "user/wayBillQuery";
     }
+
 
     /**
      * 在用户主界面中，请求图片轮播界面

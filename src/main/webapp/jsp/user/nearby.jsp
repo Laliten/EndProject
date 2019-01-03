@@ -54,7 +54,7 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li style="margin-left: 10px"><a href="#">主界面</a></li>
+                <li style="margin-left: 10px"><a href="/appController/userHome">主界面</a></li>
                 <li ><a href="#">运费估计</a></li>
                 <li ><a href="#">附件驿站</a></li>
                 <li ><a href="#">运单查询</a></li>
