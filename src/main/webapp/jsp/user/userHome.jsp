@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html lang="en">
+<html>
 <head>
     <meta http-equiv="Content-Type" content="text/html" charset="utf-8">
     <title>主界面</title>
@@ -34,12 +34,12 @@
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li style="margin-left: 10px"><a href="#">主界面</a></li>
-                <li ><a href="#">运费估计</a></li>
-                <li ><a href="#">附件驿站</a></li>
-                <li ><a href="#">运单查询</a></li>
+                <li ><a href="/appController/costEstimate">运费估计</a></li>
+                <li ><a href="/appController/nearby">附件驿站</a></li>
+                <li ><a href="/appController/wayBillQuery">运单查询</a></li>
                 <li style="margin-left:450px"><a href="#">用户信息</a></li>
                 <li ><a href="#">登录</a></li>
-                <li ><a href="#">注销</a></li>
+                <li ><a href="/appController/loginOut">注销</a></li>
             </ul>
         </div>
     </div>
@@ -48,12 +48,11 @@
 
 </div>
 <div style="margin-left: 0px">
-    <iframe src="lunbo.html"  width="1350px" height="550px" name="flower"
+    <iframe src="userHome_loopPlay"  width="1350px" height="550px" name="flower"
             scrolling="No"  noresize="noresize" frameborder="0" id="lunbo">
     </iframe>
-
 </div>
-<iframe src="Intro.html" width="1350px" height="550px" name="topFrame"
+<iframe src="userHome_intro" width="1350px" height="550px" name="topFrame"
         scrolling="No"  noresize="noresize" frameborder="0" id="topFrame">
 </iframe>
 </body>

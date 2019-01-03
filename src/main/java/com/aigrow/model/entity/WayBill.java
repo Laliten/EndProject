@@ -20,7 +20,13 @@ public class WayBill {
     @Column(name = "daytime")
     private String dayTime;
 
-    @OneToOne(cascade = CascadeType.ALL)
+
+    @Column(name = "sender")
+    private String senderName;
+
+    @Column(name = "receiver")
+    private String receiver;
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "company_id")
     private Company company;
 
@@ -74,5 +80,21 @@ public class WayBill {
 
     public void setDayTime(String dayTime) {
         this.dayTime = dayTime;
+    }
+
+    public String getSenderName() {
+        return senderName;
+    }
+
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
+    }
+
+    public String getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
     }
 }

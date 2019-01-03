@@ -28,9 +28,10 @@ public interface UserService {
     /**
      * 仅限管理员使用，获取所有的管理员
      * @param page
+     * @param type
      * @return
      */
-    List<UserDto> getAllAdmins(Page page);
+    List<UserDto> getAllUsers(Page page,  String type);
 
     /**
      * 进行注册验证，验证用户名是否唯一，正确返回0，失败返回1
@@ -39,12 +40,38 @@ public interface UserService {
      */
     long checkUsername(String account);
 
-    List<UserDto> getAllUsers(Page page, String s);
+    /**
+     * 进行批量删除
+     * @param userIds
+     */
+    void batchDelete(String userIds);
 
+    /**
+     * 添加用户
+     * @param userDto
+     * @return
+     */
+    int add(UserDto userDto);
 
-    void delete(String id);
+    /**
+     * 删除用户
+     * @param userId
+     */
+    void singleDelete(int userId);
 
-    boolean editUserPwd(SessionInfo sessionInfo, String oldPwd, String newPwd);
+    /**
+     * 更新用户信息
+     * @param userDto
+     * @return
+     */
+    int update(UserDto userDto);
 
-    void add(User user) throws Exception;
+    /**
+     * 修改当前用户的密码
+     * @param userId
+     * @param oldPwd
+     * @param pwd
+     * @return
+     */
+    boolean editCurrentUserPwd(String userId, String oldPwd, String pwd);
 }

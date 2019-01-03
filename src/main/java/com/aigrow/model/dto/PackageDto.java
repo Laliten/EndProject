@@ -15,7 +15,6 @@ public class PackageDto {
     private String wayBillCode;
     private String companyName;
 
-
     public int getId() {
         return id;
     }

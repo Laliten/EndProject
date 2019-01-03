@@ -70,14 +70,31 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public int register(UserDto userDto) {
-        User user = new User();
-        user.setType("0");
-        Serializable num = userDao.save(this.d2e(userDto));
-        if(num == null){
+    synchronized public int register(UserDto userDto){
+        if(userDto.getAccount()==null){
             return 0;
-        }else {
-            return 1;
+        } else {
+            try {
+                Map<String,Object> map = new HashMap<>(0);
+                map.put("account", userDto.getAccount().trim());
+                String hql = "select count(*) from User u where u.account =:account";
+                if (userDao.count(hql,map) > 0){
+                    throw new Exception("登录名已存在！");
+                } else {
+                    User user = new User();
+                    user = d2e(userDto);
+                    user.setType("0");
+                    Serializable num = userDao.save(user);
+                    if (num == null) {
+                        return 0;
+                    } else {
+                        return 1;
+                    }
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+                return 0;
+            }
         }
     }
 
@@ -100,9 +117,82 @@ public class UserServiceImpl implements UserService {
         return userDao.count(hql, params);
     }
 
+    /**
+     * 进行批量删除
+     *
+     * @param userIds
+     */
+    @Override
+    public void batchDelete(String userIds) {
+        if (userIds == null){
+            return;
+        }
+        userDao.batchDelete(userIds);
+    }
 
     /**
-     * 将user实体类对象转换为userDto对象
+     * 添加用户
+     *
+     * @param userDto
+     * @return
+     */
+    @Override
+    public int add(UserDto userDto) {
+        User user = this.d2e(userDto);
+        Serializable num = userDao.save(user);
+        if (num != null){
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
+    /**
+     * 更新用户信息
+     *
+     * @param userDto
+     */
+    @Override
+    public int update(UserDto userDto) {
+        User user = this.d2e(userDto);
+        userDao.update(user);
+        return 1;
+    }
+
+    /**
+     * 删除用户
+     *
+     * @param userId
+     */
+    @Override
+    public void singleDelete(int userId) {
+        if (userId == 0){
+            return;
+        }
+        User user = userDao.get(User.class, userId);
+        userDao.delete(user);
+    }
+
+    /**
+     * 修改当前用户的密码
+     *
+     * @param userId
+     * @param oldPwd
+     * @param pwd
+     * @return
+     */
+    @Override
+    public boolean editCurrentUserPwd(String userId, String oldPwd, String pwd) {
+        User u = userDao.get(User.class, Integer.parseInt(userId));
+        if (oldPwd.equals(String.valueOf(u.getId()))){
+            u.setPassword(pwd);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 将userDto对象转换为user实体类对象
      * @param userDto
      * @return
      */

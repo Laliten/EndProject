@@ -15,10 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -110,19 +107,21 @@ public class PersonController {
      * 处理用户的添加，重新获取所有用户
      * @return
      */
-    @RequestMapping("/add")
     @ResponseBody
-    public Json add(User user){
-        Json j=new Json();
-        try {
-            userService.add(user);
-            j.setSuccess(true);
-            j.setMsg("添加用户成功！");
-        } catch (Exception e) {
-            e.printStackTrace();
+    @RequestMapping("/add")
+    public Json add(HttpSession session, UserDto userDto){
+        Json json = new Json();
+        int num = userService.add(userDto);
+        if (num == 1){
+            json.setSuccess(true);
+            json.setMsg("添加成功");
+        } else {
+            json.setSuccess(false);
+            json.setMsg("添加失败");
         }
-        return j;
+        return json;
     }
+
     /**
      * 跳转到编辑用户密码页面
      *
@@ -137,26 +136,29 @@ public class PersonController {
         return "/personController/modifyPassword";
     }
 
-
     /**
      * 处理用户的密码修改，成功后重新登录
      * @return
      */
     @RequestMapping("/modifyPassword")
-    @ResponseBody
-    public Json modifyPassword(HttpSession session, String oldPwd, String newPwd){
-        Json j=new Json();
-        if (session!=null){
-            SessionInfo sessionInfo= (SessionInfo) session.getAttribute(ConfigUtil.getSessionInfoName());
-            if (sessionInfo!=null){
-                userService.editUserPwd(sessionInfo,oldPwd,newPwd);
-                j.setSuccess(true);
-                j.setMsg("修改密码成功,下次登录生效！");
-            }else {
-                j.setMsg("原密码错误！");
+    public Json editCurrentUserPwd(HttpSession session, String oldPwd, String pwd) {
+        Json json = new Json();
+        if (session != null) {
+            SessionInfo sessionInfo = (SessionInfo) session.getAttribute(ConfigUtil.getSessionInfoName());
+            if (sessionInfo != null) {
+                if (userService.editCurrentUserPwd(sessionInfo.getId(), oldPwd, pwd)) {
+                    json.setSuccess(true);
+                    json.setMsg("编辑密码成功，下次登录生效！");
+                } else {
+                    json.setMsg("原密码错误！");
+                }
+            } else {
+                json.setMsg("登录超时，请重新登录！");
             }
+        } else {
+            json.setMsg("登录超时，请重新登录！");
         }
-        return j;
+        return json;
     }
 
     /**
@@ -170,29 +172,5 @@ public class PersonController {
         return viewName;
     }
 
-    /**
-     * 点击管理员按钮，跳转到管理员界面
-     *
-     */
-    @ResponseBody
-    @RequestMapping(value = "/manage_manager",method = RequestMethod.POST)
-    public List manage_manager(){
-        Page page=new Page();
-        List<UserDto> userDtos=new ArrayList<>();
-        userDtos=userService.getAllUsers(page,"1");
-        System.out.println(userDtos.size());
-        return userDtos;
-    }
 
-    /**
-     * 点击用户按钮，跳转到用户界面
-     */
-    @ResponseBody
-    @RequestMapping("/user")
-    public List user(){
-        Page page=new Page();
-        List<UserDto> userDtos=new ArrayList<>();
-        userDtos=userService.getAllUsers(page,"0");
-        return userDtos;
-    }
 }

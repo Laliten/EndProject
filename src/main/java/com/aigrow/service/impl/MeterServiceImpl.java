@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,30 +32,34 @@ public class MeterServiceImpl implements MeterService{
     private CompanyDao companyDao;
 
     @Override
-    public List cost(int weight, String destination, Page page, String start) {
+    public List<CostEstimateDto> cost(int weight, String destination, Page page, String start) {
         List<CostEstimateDto> costEstimateDtos = new ArrayList<>();
-        List<Meter> meters = new ArrayList<>();
-        List<Company> companyList = new ArrayList<>();
-        Map<String,Object> map = new HashMap<>();
+        List<Meter> meterList;
+        List<Company> companyList;
+
+        Map<String,Object> map = new HashMap<>(0);
         map.put("destination",destination);
-        meters = meterDao.find("from Meter m where m.destination=:destination", map);
-        Map<String,Object> map1 = new HashMap<>();
+
+        meterList = meterDao.find("from Meter m where m.destination=:destination", map);
+
         companyList = companyDao.find("select c from Company c,Meter m where m.destination=:destination and m.company.id = c.id", map);
-        if (meters!=null) {
-            for (int i = 0; i < meters.size(); i++) {
-                int cost;
+
+        if (meterList!=null) {
+            for (int i = 0, cost = 0; i < meterList.size(); i++) {
+
                 CostEstimateDto costEstimateDto = new CostEstimateDto();
-                Meter meter = new Meter();
-                Company company = new Company();
-                meter = meters.get(i);
-                company = companyList.get(i);
+                Meter meter = meterList.get(i);
+                Company company = companyList.get(i);
+
                 cost = meter.getFirstWeightPrice()+(weight-1)*(meter.getNextWeightPrice());
+
                 costEstimateDto.setId(meter.getId());
                 costEstimateDto.setCost(cost);
                 costEstimateDto.setDestination(destination);
                 costEstimateDto.setName(company.getName());
                 costEstimateDto.setTrustDegree(company.getTrustDegree());
                 costEstimateDto.setStart(start);
+
                 costEstimateDtos.add(costEstimateDto);
             }
         }
@@ -79,6 +84,84 @@ public class MeterServiceImpl implements MeterService{
             return this.e2d(meters);
         }
         return null;
+    }
+
+    /**
+     * 添加对应公司的计价单
+     * @param meterDto
+     * @return
+     */
+    @Override
+    public int add(MeterDto meterDto) {
+        Meter meter = this.d2e(meterDto);
+        Serializable num = meterDao.save(meter);
+        if (num == null) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
+    /**
+     * 修改对应公司的计价单
+     *
+     * @param meterDto
+     * @return
+     */
+    @Override
+    public int update(MeterDto meterDto) {
+        Meter meter = this.d2e(meterDto);
+        meterDao.update(meter);
+        return 1;
+    }
+
+    /**
+     * 删除一条价格
+     * @param meterId
+     * @return
+     */
+    @Override
+    public void singleDelete(int meterId) {
+        if(meterId==0){
+            return;
+        }
+        Meter meter = meterDao.get(Meter.class,meterId);
+        meterDao.delete(meter);
+    }
+
+    /**
+     * 批量删除
+     * @param meterIds
+     * @return
+     */
+    @Override
+    public void batchDelete(String meterIds) {
+        if (meterIds == null){
+            return;
+        }
+        meterDao.batchDelete(meterIds);
+    }
+
+    /**
+     * 将meterDto对象转换为meter实体类对象
+     * @param meterDto
+     * @return
+     */
+    private Meter d2e(MeterDto meterDto){
+        Meter meter = new Meter();
+        Map<String, Object> map = new HashMap<>(0);
+        map.put("companyCode",meterDto.getCompanyCode());
+        map.put("companyName",meterDto.getCompanyName());
+        if (meterDto != null){
+            BeanUtils.copyProperties(meterDto, meter);
+            if(meterDto.getCompanyCode()!=null){
+                meter.setCompany(companyDao.get("from Company c where c.code=:companyCode",map));
+            }
+            if(meterDto.getCompanyName()!=null){
+                meter.setCompany(companyDao.get("from Company c where c.name=:companyName",map));
+            }
+        }
+        return meter;
     }
 
     private MeterDto e2d(Meter meter){
