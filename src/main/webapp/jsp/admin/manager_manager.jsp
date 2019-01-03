@@ -17,10 +17,10 @@
     <link rel="stylesheet" href="../../css/bootstrap.css"/>
     <link rel="stylesheet" href="../../Bootstrap/Content/bootstrap-table.css">
 
-    <script type="text/javascript" src="../../Bootstrap/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../js/mjs/jquery.min.js"></script>
     <script type="text/javascript" src="../../js/table.min.js"></script>
-    <script type="text/javascript" src="../../Bootstrap/bootstrap-table.js"></script>
-    <script type="text/javascript" src="../../Bootstrap/locale/bootstrap-table-zh-CN.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap-table.js"></script>
+    <script type="text/javascript" src="../../js/mjs/bootstrap-table-zh-CN.js"></script>
     <script type="text/javascript">
 
 
@@ -44,53 +44,93 @@
     <input type="button" name="ensure" id="ensure" value="确定" style="display: none" >
 </div>
 <div>
-<table id="table " class="table table-hover table-bordered"></table>
-</div>
+<table id="tables" class="table table-hover table-bordered">
+    <tr>
+        <th>编号</th>
+        <th>姓名</th>
+        <th>用户名</th>
+        <th>密码</th>
+        <th>类型</th>
+        <th>操作</th>
+    </tr>
+</table>
+
 <script>
-    $(function () {
-        var str=new Array();
-        var datas;
+    window.onload=function () {
+        // var str = new Array();
+
         $.ajax({
-            url:'/personController/manage_manager',
-            type:"post",
-            success:function (res) {
-                datas=eval(res);
-                for (var i=0;i<datas.length;i++){
-                    str.push({"id":datas[i].id,"1":datas[i].name,"2":datas[i].account,"3":datas[i].password,"4":datas[i].type})
-                    // alert(datas[i].id);
+            url: '/personController/adminManager',
+            type: "post",
+            success: function (res) {
+                data = eval(res);
+                var datas = data.obj;
+
+                // for (var i = 0; i < datas.length; i++) {
+                //     str.push({
+                //         "id": datas[i].id,
+                //         "name": datas[i].name,
+                //         "account": datas[i].account,
+                //         "password": datas[i].password,
+                //         "type": datas[i].type
+                //     })
+                // }
+                // alert(datas[0].account);
+                // $("#tables").bootstrapTable({
+                //     data:str,
+                //     striped: true,
+                //     pageSize: 8,
+                //     pagination: true,
+                //     pageNumber: 1,
+                //     clickToSelect: true,
+                //     dataType:"json",
+                //     method:"POST",
+                //     contentType: "application/x-www-form-urlencoded;charset=utf-8",
+                //     dataField: "data",
+                //     columns:[
+                //         {
+                //             field:'id',title:'编号',
+                //             width:100
+                //         },{
+                //             field:'name',title:'姓名',
+                //             width:100
+                //         },{
+                //             field:'account',title:'账号',
+                //             width:100
+                //         },{
+                //             field:'password',title:'密码',
+                //             width:100
+                //         },{
+                //             field:'type',title:'类型',
+                //             width:100
+                //         }
+                //     ]
+                // })
+                    var table=document.getElementById("tables");
+                    for(var i=0;i<datas.length;i++){
+                        var row=table.insertRow(table.rows.length);
+                        var c1=row.insertCell(0);
+                        c1.innerHTML=datas[i].id;
+
+                        var c2=row.insertCell(1);
+                        c2.innerHTML=datas[i].name;
+
+                        var c3=row.insertCell(2);
+                        c3.innerHTML=datas[i].account;
+
+                        var c4=row.insertCell(3);
+                        c4.innerHTML=datas[i].password;
+
+                        var c5=row.insertCell(4);
+                        c5.innerHTML=datas[i].type;
+
+                        var c6=row.insertCell(5);
+                        c6.innerHTML='<p>修改</p>'
                 }
-                $("#table").bootstrapTable({
-                    data:str,
-                    striped: true,
-                    pageSize: 2,
-                    pagination: true,
-                    pageNumber: 1,
-                    clickToSelect: true,
-                    dataType:"json",
-                    method:"POST",
-                    contentType: "application/x-www-form-urlencoded;charset=utf-8",
-                    columns:[
-                        {
-                            field:'name',title:'编号',
-                            width:100
-                        },{
-                            field:'1',title:'姓名',
-                            width:100
-                        },{
-                            field:'2',title:'账号',
-                            width:100
-                        },{
-                            field:'3',title:'密码',
-                            width:100
-                        },{
-                            field:'4',title:'类型',
-                            width:100
-                        }
-                    ]
-                })
             }
         })
-    })
+    }
 </script>
+</div>
 </body>
 </html>

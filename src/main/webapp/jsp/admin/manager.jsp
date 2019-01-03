@@ -17,10 +17,10 @@
     <link rel="stylesheet" href="../../css/mcss/matrix-media.css" />
     <link href="../../css/font-awesome/css/font-awesome.css" rel="stylesheet" />
 
-    <script type="text/javascript" src="../../Bootstrap/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../js/mjs/jquery.min.js"></script>
     <script type="text/javascript" src="../../js/table.min.js"></script>
-    <script type="text/javascript" src="../../Bootstrap/bootstrap-table.js"></script>
-    <script type="text/javascript" src="../../Bootstrap/locale/bootstrap-table-zh-CN.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap-table.js"></script>
+    <script type="text/javascript" src="../../js/mjs/bootstrap-table-zh-CN.js"></script>
     <script type="text/javascript">
         $("#manager").click(function () {
             $("#manager_manager").attr("src","/personController/manage_manager");
@@ -133,7 +133,6 @@
 <!--end-main-container-part-->
 
 <script src="../../js/mjs/excanvas.min.js"></script>
-<script src="http://www.jq22.com/jquery/jquery-1.7.1.js"></script>
 <script src="../../js/mjs/jquery.ui.custom.js"></script>
 <script src="../../js/mjs/bootstrap.min.js"></script>
 <script src="../../js/mjs/nicescroll/jquery.nicescroll.min.js"></script>
