@@ -1,22 +1,23 @@
 package com.aigrow.service.impl;
 
 import com.aigrow.dao.UserDao;
+import com.aigrow.dao.impl.UserDaoImpl;
 import com.aigrow.model.dto.Page;
 import com.aigrow.model.dto.SessionInfo;
 import com.aigrow.model.dto.UserDto;
 import com.aigrow.model.entity.Package;
 import com.aigrow.model.entity.User;
 import com.aigrow.service.UserService;
+import com.fasterxml.jackson.databind.util.BeanUtil;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author YangDeJian
@@ -57,6 +58,7 @@ public class UserServiceImpl implements UserService {
         params.put("type",type);
 
         User user = userDao.get("from User c where c.account = :account and c.password = :password and c.type = :type",params);
+
         if(user != null){
             return this.e2d(user);
         }
@@ -97,12 +99,6 @@ public class UserServiceImpl implements UserService {
             }
         }
     }
-
-    @Override
-    public List<UserDto> getAllAdmins(Page page) {
-        return null;
-    }
-
 
     /**
      * 进行注册用户名验证，若存在返回userDto，不存在返回null
@@ -153,10 +149,14 @@ public class UserServiceImpl implements UserService {
      * @param userDto
      */
     @Override
-    public int update(UserDto userDto) {
-        User user = this.d2e(userDto);
+    public UserDto update(UserDto userDto) {
+
+        User user = userDao.get(User.class,userDto.getId());
+        user.setName(userDto.getName());
+
         userDao.update(user);
-        return 1;
+        user = userDao.get(User.class,userDto.getId());
+        return e2d(user);
     }
 
     /**
@@ -199,7 +199,7 @@ public class UserServiceImpl implements UserService {
     private User d2e(UserDto userDto){
         User user = new User();
         if (userDto != null){
-            BeanUtils.copyProperties(userDto, user);
+            BeanUtils.copyProperties(userDto, user,getNullPropertyNames(userDto));
         }
         return user;
     }
@@ -239,29 +239,24 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * xuqihao
-     * @param id
+     * BeanUtils.copyProperties在拷贝属性时忽略空值
+     * @param source
+     * @return
      */
-    @Override
-    public void delete(String id){
-        userDao.delete(userDao.get(User.class,id));
-    }
+    public static String[] getNullPropertyNames (Object source) {
+        final BeanWrapper src = new BeanWrapperImpl(source);
+        java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();
 
-    @Override
-    public boolean editUserPwd(SessionInfo sessionInfo, String oldPwd, String newPwd){
-        User u=userDao.get(User.class,sessionInfo.getId());
-        if (u.getPassword().equalsIgnoreCase(oldPwd)){
-            u.setPassword(newPwd);
-            return true;
+        Set<String> emptyNames = new HashSet<String>();
+        for(java.beans.PropertyDescriptor pd : pds) {
+            Object srcValue = src.getPropertyValue(pd.getName());
+            if (srcValue == null) emptyNames.add(pd.getName());
         }
-        return false ;
+        String[] result = new String[emptyNames.size()];
+        return emptyNames.toArray(result);
     }
 
-    @Override
-    public void add(User user) throws Exception{
-
+    public static void copyPropertiesIgnoreNull(Object src, Object target){
+        BeanUtils.copyProperties(src, target, getNullPropertyNames(src));
     }
-
-
-
 }

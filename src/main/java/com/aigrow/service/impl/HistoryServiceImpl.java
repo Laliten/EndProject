@@ -82,6 +82,10 @@ public class HistoryServiceImpl implements HistoryService {
         HistoryDto historyDto = new HistoryDto();
         if (history != null){
             BeanUtils.copyProperties(history,historyDto);
+            if(history.getUser()!=null){
+                historyDto.setUserId(history.getUser().getId());
+                historyDto.setUserName(history.getUser().getName());
+            }
         }
         return historyDto;
     }
@@ -93,7 +97,7 @@ public class HistoryServiceImpl implements HistoryService {
      */
     private List<HistoryDto> e2d(List<History> historyList){
         List<HistoryDto> list = new ArrayList<>();
-        if (historyList != null&&historyList.size()!=0){
+        if (historyList != null && historyList.size() != 0){
             for (History h:historyList) {
                 list.add(this.e2d(h));
             }

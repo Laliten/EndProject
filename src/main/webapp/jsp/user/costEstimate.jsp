@@ -65,7 +65,7 @@
                 <li style="float: right"><span class="navbar-brand" style="font-size: 14px" id="history">历史记录</span>
                 </li>
                 <li style="float: right"><a href="/appController/loginOut">注销</a></li>
-                <li style="float: right"><a href="#">用户信息</a></li>
+                <li style="float: right"><a href="/appController/userInfo?page=运费估计">用户信息</a></li>
 
             </ul>
         </div>

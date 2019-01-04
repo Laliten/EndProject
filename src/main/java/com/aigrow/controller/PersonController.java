@@ -7,6 +7,8 @@ import com.aigrow.model.dto.UserDto;
 import com.aigrow.model.entity.User;
 import com.aigrow.service.UserService;
 import com.aigrow.util.ConfigUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
@@ -97,7 +100,7 @@ public class PersonController {
         SessionInfo sessionInfo= (SessionInfo) session.getAttribute(ConfigUtil.getSessionInfoName());
         Json j=new Json();
         if(id!=null&&!id.equalsIgnoreCase(sessionInfo.getId())){
-            userService.delete(id);
+//            userService.delete(id);
         }
         j.setSuccess(true);
         j.setMsg("删除成功！");
@@ -172,5 +175,38 @@ public class PersonController {
         return viewName;
     }
 
+    /**
+     * 修改用户信息
+     * @return
+     */
+    @RequestMapping("/updateUserInfo")
+    public ModelAndView updateUserInfo(UserDto userDto,HttpSession session,String page){
+        ModelAndView mv = new ModelAndView();
+        SessionInfo sessionInfo = new SessionInfo();
+
+        if(page.equals("附近驿站")){
+            mv.setViewName("user/nearby");
+        }
+        else if(page.equals("主界面")){
+            mv.setViewName("user/userHome");
+        }
+        else if(page.equals("运费估计")){
+            mv.setViewName("user/costEstimate");
+        }
+        else if(page.equals("运单查询")){
+            mv.setViewName("user/wayBillQuery");
+        }
+        else {
+            mv.setViewName("user/userInfo");
+        }
+
+        UserDto doneUser = userService.update(userDto);
+
+        sessionInfo.setDoneUser(doneUser);
+        mv.addObject(ConfigUtil.getSessionInfoName(),sessionInfo);
+        session.setAttribute(ConfigUtil.getSessionInfoName(),sessionInfo);
+
+        return mv;
+    }
 
 }
