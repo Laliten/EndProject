@@ -1,5 +1,6 @@
 package com.aigrow.service.impl;
 
+import com.aigrow.controller.PostController;
 import com.aigrow.dao.HistoryDao;
 import com.aigrow.dao.UserDao;
 import com.aigrow.model.dto.HistoryDto;
@@ -11,8 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author GaoJiaHui
@@ -20,6 +20,7 @@ import java.util.List;
 @Service
 @Transactional
 public class HistoryServiceImpl implements HistoryService {
+
     @Autowired
     private HistoryDao historyDao;
     @Autowired
@@ -32,7 +33,11 @@ public class HistoryServiceImpl implements HistoryService {
      */
     @Override
     public List<HistoryDto> findHistory(int userId,String type) {
-        List<History> history = historyDao.findHistory(userId,type);
+        String hql = "select h from History h,User u where h.users.id=u.id and u.id=:userId and h.type=:type";
+        Map<String,Object> params = new HashMap<>();
+        params.put("userId", userId);
+        params.put("type", type);
+        List<History> history = historyDao.find(hql,params);
         List<HistoryDto> historyDto = e2d(history);
         return historyDto;
     }
@@ -43,9 +48,21 @@ public class HistoryServiceImpl implements HistoryService {
      */
     @Override
     public void addHistory(HistoryDto historyDto) {
+        if(historyDto.getPlace().equals("")||historyDto.getPlace().equals("undefined")){
+            return;
+        }
         History history = this.d2e(historyDto);
         historyDao.merge(history);
     }
+
+    @Override
+    public void addMeterHistory(HistoryDto historyDto) {
+        historyDto.setType("1");
+        historyDto.setTime(new Date());
+        History history = this.d2e(historyDto);
+        historyDao.merge(history);
+    }
+
 
     /**
      * 将historyDto转换程history
@@ -57,7 +74,7 @@ public class HistoryServiceImpl implements HistoryService {
         if (historyDto != null){
             BeanUtils.copyProperties(historyDto, history);
             if(historyDto.getUserId()!=0){
-                history.setUser(userDao.get(User.class,historyDto.getUserId()));
+                history.setUsers(userDao.get(User.class,historyDto.getUserId()));
             }
         }
         return history;
@@ -72,6 +89,10 @@ public class HistoryServiceImpl implements HistoryService {
         HistoryDto historyDto = new HistoryDto();
         if (history != null){
             BeanUtils.copyProperties(history,historyDto);
+            if(history.getUsers()!=null){
+                historyDto.setUserId(history.getUsers().getId());
+                historyDto.setUserName(history.getUsers().getName());
+            }
         }
         return historyDto;
     }
@@ -83,11 +104,13 @@ public class HistoryServiceImpl implements HistoryService {
      */
     private List<HistoryDto> e2d(List<History> historyList){
         List<HistoryDto> list = new ArrayList<>();
-        if (historyList != null){
+        if (historyList != null && historyList.size() != 0){
             for (History h:historyList) {
                 list.add(this.e2d(h));
             }
         }
         return list;
     }
+
+
 }

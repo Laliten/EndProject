@@ -17,15 +17,15 @@ public interface MeterService {
      * @param start
      * @return
      */
-    List<CostEstimateDto> cost(int weight, String destination, Page page, String start);
+    List<CostEstimateDto> cost(double weight, String destination, Page page, String start);
 
     /**
      * 获取对应公司名字的计价表
-     * @param companyName
+     * @param companyCode
      * @param page
      * @return
      */
-    List<MeterDto> getCompanyMeter(String companyName, Page page);
+    List<MeterDto> getCompanyMeter(String companyCode, Page page);
 
     /**
      * 添加对应公司的计价单

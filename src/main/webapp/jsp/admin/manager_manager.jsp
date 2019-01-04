@@ -7,7 +7,7 @@
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE html>
+<html>
 
 <head>
 
@@ -22,6 +22,7 @@
     <script type="text/javascript" src="../../js/bootstrap-table.js"></script>
     <script type="text/javascript" src="../../js/bootstrap.js"></script>
     <script type="text/javascript" src="../../js/mjs/bootstrap-table-zh-CN.js"></script>
+    <script type="text/javascript">
 
 
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
@@ -108,48 +109,47 @@
     }
 
     window.onload=function () {
-        // var str = new Array();
-
         $.ajax({
-            url: '/personController/adminManager',
+            url: '/personController/${functionName}',
             type: "post",
             success: function (res) {
-                data = eval(res);
-                var datas = data.obj;
-                obj = datas
-                    pageAll = datas.length;
-                    var table=document.getElementById("tables");
-                    for(var i=0;i<datas.length;i++){
-                        var row=table.insertRow(table.rows.length);
-                        var c1=row.insertCell(0);
-                        c1.innerHTML='<input type="checkbox" style="float: left" name="checkbox" value="'+datas[i].id+'">'+(i+1);
+                var datas = res.obj;
+                var table=document.getElementById("tables");
+                if (!res.success){
+                    var temp = table.insertRow(table.rows.length).insertCell(0);
+                    temp.innerHTML = res.msg;
+                    temp.colSpan = table.rows[0].cells.length;
+                } else {
+                    for(var i=0;i<datas.length;i++) {
+                        var row = table.insertRow(table.rows.length);
+                        var c1 = row.insertCell(0);
+                        c1.innerHTML = '<input type="checkbox" style="float: left" name="checkbox" value="' + datas[i].id + '">' + (i + 1);
 
-                        var c2=row.insertCell(1);
-                        c2.innerHTML=datas[i].name;
+                        var c2 = row.insertCell(1);
+                        c2.innerHTML = datas[i].name;
 
-                        var c3=row.insertCell(2);
-                        c3.innerHTML=datas[i].account;
+                        var c3 = row.insertCell(2);
+                        c3.innerHTML = datas[i].account;
 
-                        var c4=row.insertCell(3);
-                        c4.innerHTML="********";
+                        var c4 = row.insertCell(3);
+                        c4.innerHTML = datas[i].password;
 
-                        var c5=row.insertCell(4);
-                        c5.innerHTML="管理员";
-
-                        var c6=row.insertCell(5);
-                        c6.innerHTML='<span style="color: green" id="revise" onclick="window.parent.$(\'#revise_modal\').modal(\'show\');rel('+datas[i].id+')" >修改</span><span>&nbsp;&nbsp;</span>' +
-                                    ' <span style="color:black" id="delete" onclick="show2()">删除</span>'+
-                                    ' <span style="color:red;display: none" id="sure_delete" onclick="del('+datas[i].id+');" >确认删除？</span>';
+                        var c5 = row.insertCell(4);
+                        if (datas[i].type == 0) {
+                            c5.innerHTML = "用户";
+                        } else {
+                            c5.innerHTML = "管理员";
+                        }
+                        var c6 = row.insertCell(5);
+                        c6.innerHTML = '<span style="color: green" id="revise" onclick="window.parent.$(\'#revise_modal\').modal(\'show\');rel(' + datas[i].id + ')" >修改</span><span>&nbsp;&nbsp;</span>' +
+                            ' <span style="color:black" id="delete" onclick="show2()">删除</span>' +
+                    }                ' <span style="color:red;display: none" id="sure_delete" onclick="del('+datas[i].id+');" >确认删除？</span>';
                 }
 
             }
         })
     }
-
 </script>
-
-
-
 </div>
 </body>
 </html>

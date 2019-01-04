@@ -79,4 +79,18 @@ public class UserDto {
     public void setPackagesName(Set<String> packagesName) {
         this.packagesName = packagesName;
     }
+
+    @Override
+    public String toString() {
+        return "UserDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", account='" + account + '\'' +
+                ", password='" + password + '\'' +
+                ", iconUrl='" + iconUrl + '\'' +
+                ", type='" + type + '\'' +
+                ", packagesId=" + packagesId +
+                ", packagesName=" + packagesName +
+                '}';
+    }
 }

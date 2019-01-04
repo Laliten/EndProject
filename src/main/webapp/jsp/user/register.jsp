@@ -89,7 +89,7 @@
     <div class="header-line"></div>
 </header>
 <div class="content">
-    <img class="content-logo" src="../../image/1.png" alt="logo">
+    <img class="content-logo" src="../../image/login/1.png" alt="logo">
     <h1 class="content-title">创建账户</h1>
     <div class="content-form">
         <form method="post" action="/appController/doRegister">

@@ -1,32 +1,33 @@
 package com.aigrow.service.impl;
 
+import com.aigrow.dao.PackageDao;
 import com.aigrow.dao.UserDao;
 import com.aigrow.model.dto.Page;
-import com.aigrow.model.dto.SessionInfo;
 import com.aigrow.model.dto.UserDto;
 import com.aigrow.model.entity.Package;
 import com.aigrow.model.entity.User;
 import com.aigrow.service.UserService;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author YangDeJian
  */
 @Service
 @Transactional
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService{
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private PackageDao packageDao;
     /**
      * 仅限管理员使用，获取所有的管理员
      *
@@ -57,6 +58,7 @@ public class UserServiceImpl implements UserService {
         params.put("type",type);
 
         User user = userDao.get("from User c where c.account = :account and c.password = :password and c.type = :type",params);
+
         if(user != null){
             return this.e2d(user);
         }
@@ -148,10 +150,14 @@ public class UserServiceImpl implements UserService {
      * @param userDto
      */
     @Override
-    public int update(UserDto userDto) {
-        User user = this.d2e(userDto);
+    public UserDto update(UserDto userDto) {
+
+        User user = userDao.get(User.class,userDto.getId());
+        user.setName(userDto.getName());
+        user.setAccount(userDto.getAccount());
+
         userDao.update(user);
-        return 1;
+        return e2d(user);
     }
 
     /**
@@ -177,10 +183,11 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public boolean editCurrentUserPwd(String userId, String oldPwd, String pwd) {
-        User u = userDao.get(User.class, Integer.parseInt(userId));
-        if (oldPwd.equals(String.valueOf(u.getId()))){
+    public boolean editCurrentUserPwd(int userId, String oldPwd, String pwd) {
+        User u = userDao.get(User.class, userId);
+        if (oldPwd.equals(u.getPassword())){
             u.setPassword(pwd);
+            userDao.update(u);
             return true;
         }
         return false;
@@ -195,6 +202,11 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         if (userDto != null){
             BeanUtils.copyProperties(userDto, user);
+            if (userDto.getPackagesId() != null){
+                for(Integer i : userDto.getPackagesId()){
+                    user.getPackageSet().add(packageDao.get(Package.class, i));
+                }
+            }
         }
         return user;
     }

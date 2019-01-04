@@ -32,7 +32,7 @@ public class MeterServiceImpl implements MeterService{
     private CompanyDao companyDao;
 
     @Override
-    public List<CostEstimateDto> cost(int weight, String destination, Page page, String start) {
+    public List<CostEstimateDto> cost(double weight, String destination, Page page, String start) {
         List<CostEstimateDto> costEstimateDtos = new ArrayList<>();
         List<Meter> meterList;
         List<Company> companyList;
@@ -51,7 +51,7 @@ public class MeterServiceImpl implements MeterService{
                 Meter meter = meterList.get(i);
                 Company company = companyList.get(i);
 
-                cost = meter.getFirstWeightPrice()+(weight-1)*(meter.getNextWeightPrice());
+                cost = (int) (meter.getFirstWeightPrice()+(weight-1)*(meter.getNextWeightPrice()));
 
                 costEstimateDto.setId(meter.getId());
                 costEstimateDto.setCost(cost);
@@ -67,17 +67,17 @@ public class MeterServiceImpl implements MeterService{
     }
 
     /**
-     * 获取对应公司名字的计价表
+     * 获取对应公司编码的计价表
      *
-     * @param companyName
+     * @param companyCode
      * @param page
      * @return
      */
     @Override
-    public List<MeterDto> getCompanyMeter(String companyName, Page page) {
-        String hql = "from Meter m where m.company.name=:companyName";
+    public List<MeterDto> getCompanyMeter(String companyCode, Page page) {
+        String hql = "from Meter m where m.company.code=:companyCode";
         Map<String, Object> map = new HashMap<>(0);
-        map.put("companyName", companyName);
+        map.put("companyCode", companyCode);
         List<Meter> meters = meterDao.find(hql, map, page.getNextPage(), page.getPageSize());
 
         if (meters != null){

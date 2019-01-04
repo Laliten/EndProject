@@ -26,21 +26,6 @@ public class PackageServiceImpl implements PackageService{
     private CompanyDao companyDao;
     @Override
     public List getHistory(int id) {
-        Map<String,Object> map = new HashMap<>();
-        Map<String,Object> map1 = new HashMap<>();
-        map.put("id",id);
-        List<PackageDto> packageDtoList = new ArrayList<>();
-        List<Package> packageList = packageDao.find("select p from Package p,User u where u.id=:id and u.id=p.user.id", map);
-        map1.put("id",id);
-        List<Company> companyList = companyDao.find("select c from Company c, Package p where p.wayBill.company.id=c.id and p.user.id = :id", map1);
-        for (int i=0;i<packageList.size();i++){
-            PackageDto packageDto = new PackageDto();
-            Package p = new Package();
-            p = packageList.get(i);
-            BeanUtils.copyProperties(p,packageDto);
-            packageDto.setCompanyName(companyList.get(i).getName());
-            packageDtoList.add(packageDto);
-        }
-        return packageDtoList;
+        return null;
     }
 }

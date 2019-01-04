@@ -100,19 +100,30 @@ public class MeterController {
     }
 
     /**
+     * 当对表的请求的url为
+     * @return
+     */
+    @RequestMapping("/none")
+    public String error(){
+        return "error/error";
+    }
+
+    /**
      * 处理单击计价表按钮下的申通按钮的请求
      * @return
      */
     @ResponseBody
     @RequestMapping("/companyMeter")
-    public Json getMeter(Page page, String companyName){
+    public Json getMeter(Page page, String companyCode){
         Json json = new Json();
-        List<MeterDto> companyMeter = meterService.getCompanyMeter(companyName, page);
+        List<MeterDto> companyMeter = meterService.getCompanyMeter(companyCode, page);
         try{
-            if (companyMeter != null){
+            if (companyMeter != null && companyMeter.size() != 0){
                 json.setSuccess(true);
                 json.setMsg("查询成功");
                 json.setObj(companyMeter);
+            } else {
+                json.setMsg("当前还未有数据");
             }
         } catch (Exception e){
             e.printStackTrace();
