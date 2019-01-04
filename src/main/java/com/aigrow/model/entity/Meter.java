@@ -23,26 +23,7 @@ public class Meter {
     private Company company;
 
     @Column(name = "first_weight")
-    private int first_weight;
-
-    public int getFirst_weight() {
-        return first_weight;
-    }
-
-    public void setFirst_weight(int first_weight) {
-        this.first_weight = first_weight;
-    }
-
-    public Meter() {
-    }
-
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
-    }
+    private Integer firstWeight;
 
     public Integer getId() {
         return id;
@@ -74,5 +55,21 @@ public class Meter {
 
     public void setNextWeightPrice(Integer nextWeightPrice) {
         this.nextWeightPrice = nextWeightPrice;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public Integer getFirstWeight() {
+        return firstWeight;
+    }
+
+    public void setFirstWeight(Integer firstWeight) {
+        this.firstWeight = firstWeight;
     }
 }

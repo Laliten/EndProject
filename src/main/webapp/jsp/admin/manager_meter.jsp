@@ -38,52 +38,53 @@
     <input type="button" name="ensure" id="ensure" value="确定" style="display: none" >
 </div>
 <div>
-<table id="tables" class="table table-hover table-bordered">
-    <tr>
-        <th>编号</th>
-        <th>姓名</th>
-        <th>用户名</th>
-        <th>密码</th>
-        <th>类型</th>
-        <th>操作</th>
-    </tr>
-</table>
+    <table id="tables" class="table table-hover table-bordered">
+        <tr>
+            <th>编号</th>
+            <th>目的地</th>
+            <th>首重(kg)</th>
+            <th>首重价格(kg/元)</th>
+            <th>续重价格(kg/元)</th>
+            <th>操作</th>
+        </tr>
+    </table>
 
-<script>
-    window.onload=function () {
-        // var str = new Array();
-
-        $.ajax({
-            url: '/personController/${functionName}',
-            type: "post",
-            success: function (res) {
-                data = eval(res);
-                var datas = data.obj;
+    <script>
+        window.onload=function () {
+            $.ajax({
+                url: '/meterController/${functionName}',
+                data:{
+                    "companyCode":${companyCode}
+                },
+                type: "post",
+                success: function (res) {
+                    data = eval(res);
+                    var datas = data.obj;
                     var table=document.getElementById("tables");
                     for(var i=0;i<datas.length;i++){
                         var row=table.insertRow(table.rows.length);
                         var c1=row.insertCell(0);
-                        c1.innerHTML= i + 1;
+                        c1.innerHTML=datas[i].id;
 
                         var c2=row.insertCell(1);
-                        c2.innerHTML=datas[i].name;
+                        c2.innerHTML=datas[i].destination;
 
                         var c3=row.insertCell(2);
-                        c3.innerHTML=datas[i].account;
+                        c3.innerHTML=datas[i].firstWeight;
 
                         var c4=row.insertCell(3);
-                        c4.innerHTML=datas[i].password;
+                        c4.innerHTML=datas[i].firstWeightPrice;
 
                         var c5=row.insertCell(4);
-                        c5.innerHTML=datas[i].type;
+                        c5.innerHTML=datas[i].nextWeightPrice;
 
                         var c6=row.insertCell(5);
                         c6.innerHTML='<p>修改</p>'
+                    }
                 }
-            }
-        })
-    }
-</script>
+            })
+        }
+    </script>
 </div>
 </body>
 </html>
