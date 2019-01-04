@@ -60,6 +60,11 @@
                 data = eval(res);
                 var datas = data.obj;
                     var table=document.getElementById("tables");
+                if (datas.length == 0){
+                    var temp = table.insertRow(table.rows.length).insertCell(0);
+                    temp.innerHTML = "暂无数据";
+                    temp.colSpan = 6;
+                } else {
                     for(var i=0;i<datas.length;i++){
                         var row=table.insertRow(table.rows.length);
                         var c1=row.insertCell(0);
@@ -79,6 +84,7 @@
 
                         var c6=row.insertCell(5);
                         c6.innerHTML='<p>修改</p>'
+                    }
                 }
             }
         })
