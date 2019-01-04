@@ -8,7 +8,7 @@
     <title>用户信息</title>
     <style type="text/css">
         body{
-            background:url("../../image/userMessage/usermessage.jpg")top center no-repeat;
+            background:url("../../image/city_banner.png")top center no-repeat;
             background-size:cover;
         }
         .Content-Main{
@@ -38,23 +38,16 @@
             display: block;
         }
         .fileInputContainer{
+
             height: 99px;
             width: 99px;
-            margin: 20px 20px 20px 20px ;
+            margin: 0 auto ;
             border: none;
-            background: url("../../image/24.jpg");
+            background: url("../../image/city_banner.png");
             overflow: hidden;
-            position: relative;
+
         }
-        .fileInput{
-            height: 106px;
-            border: none;
-            font-size: 300px;
-            opacity: 0;
-            filter:alpha(opacity=0);
-            cursor: pointer;
-            position: absolute;
-        }
+
         .Content-Main label>span{
             width: 20%;
             float: left;
@@ -117,22 +110,30 @@
 </head>
 <script src="../../jslib/jquery-1.8.3.js"></script>
 <link href="../../css/bootstrap.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script>
-    function commit() {
-        document.form1.submit();
-        <%--$.ajax({--%>
-            <%--url:"/personController/updateUserInfo",--%>
-            <%--type:"post",--%>
-            <%--async:true,--%>
-            <%--data:{--%>
-                <%--name:name,--%>
-                <%--id:id,--%>
-                <%--page:${page}--%>
-            <%--},--%>
-            <%--success:function(result){--%>
-                <%--alert(result.msg);--%>
-            <%--}--%>
-        <%--});--%>
+    function check(){
+        var account = $("#account").val();
+        $.ajax({
+            url:"/appController/checkUsername.html",
+            type:"post",
+            dataType:"JSON",
+            async:true,
+            data:{account:account},
+            success:function(result){
+                if(result.type=="true"){
+                    $("#submit").attr("disabled",true);
+                    $("#submit").css({'background-color':'#A5A7A9'});
+                    $("#account").focus();
+                }
+                else {
+                    $("#submit").attr("disabled",false);
+                    $("#submit").css({'background-color':'#f6ff0a'});
+                }
+            }
+        });
     }
     $(function () {
         var type = $("#type");
@@ -156,14 +157,24 @@
                 <li ><a href="/appController/wayBillQuery">运单查询</a></li>
                 </li>
                 <li style="float: right"><a href="/appController/loginOut">注销</a></li>
-                <li style="float: right"><a href="/appController/userInfo">用户信息</a></li>
-
+                <li style="float: right" class="dropdown" id="profile-messages"></a>
+                    <a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle">
+                        <i class="icon icon-user"></i>&nbsp;
+                        <span class="text">用户信息</span>&nbsp;
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/appController/userInfo?page=用户信息"><i class="icon-user"></i>个人资料</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#passwordModel" data-toggle="modal"><i class="icon-check"></i> 修改密码</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
 </nav>
 <br><br><br><br>
-<input type="hidden" name="id" id="id" value="${sessionScope.sessionInfo.doneUser.id}" form="form1">
+
 <input type="hidden" name="page" id="page" value="${page}" form="form1">
 <form action="/personController/updateUserInfo" method="post" name="form1" id="form1"></form>
 <div class="Content-Main">
@@ -171,30 +182,66 @@
     <span class="text1">请在文本框中完善您的个人信息：</span>
     <p>
     <div class="fileInputContainer">
-        <input class="fileInput" id="" type="file" name="">
+        <%--<input class="fileInput" id="" type="file" name="">--%>
     </div>
+    <br><br>
+
+    <label>
+        <span>编号:</span>
+        <input type="text" name="id" id="id" value="${sessionScope.sessionInfo.doneUser.id}" form="form1" readonly="readonly">
+    </label>
+
+    <label>
+        <span>身份:</span>
+        <input type="text" name="type" id="type" value="${sessionScope.sessionInfo.doneUser.type}" readonly="readonly">
+    </label>
+
     <label>
         <span>姓名:</span>
         <input type="text"  name="name" id="name" value="${sessionScope.sessionInfo.doneUser.name}" form="form1">
     </label>
-    <%--<label class="Main-sex">--%>
-        <%--<span>性别:</span>--%>
-        <%--<input type="checkbox" class="man">男--%>
-        <%--<input type="checkbox" class="women">女--%>
-    <%--</label>--%>
+
     <label>
-        <span>身份:</span>
-        <input type="text" name="type" id="type" value="${sessionScope.sessionInfo.doneUser.type}" readonly="readonly" form="form1">
+        <span>用户名:</span>
+        <input type="text" name="account" id="account" value="${sessionScope.sessionInfo.doneUser.account}" onblur="check()" form="form1">
     </label>
-    <%--<label>--%>
-        <%--<span>Your phone:</span>--%>
-        <%--<input type="text" name="phone" placeholder="Please input 11 number">--%>
-    <%--</label>--%>
-    <%--<label>--%>
-        <%--<span>Message:</span>--%>
-        <%--<textarea id="message" name="message" placeholder="Your message to us"></textarea>--%>
-    <%--</label>--%>
-    <input type="button" class="button" value="提交" onclick="commit()">
+    <input type="submit" id="submit" class="button" value="提交" form="form1">
 </div>
+<!--修改密码的模态-->
+<div class="modal fade" id="passwordModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">修改密码</h4>
+            </div>
+            <div class="modal-body" style="text-align: center;">
+
+                <form class="bs-example bs-example-form" role="form" id="passwordForm" style="font-size: 15px">
+                    <div class="input-group">
+                        <span class="input-group-addon">原密码&nbsp;</span>
+                        <input name="oldPwd" type="text" class="form-control" placeholder="你的原密码" autofocus required pattern="^{a-zA-Z0-9}{1,7}$">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">新密码&nbsp;</span>
+                        <input name="newPwd" type="text" class="form-control" placeholder="请输入密码" required pattern="^{a-zA-Z}\w{1,7}$">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">密码确认</span>
+                        <input name="confirmPwd" type="text" class="form-control" placeholder="确认密码" required>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button id="passwordSubmitButton" type="button" class="btn btn-primary" form="passwordForm">提交更改</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<!--修改密码的模态结束-->
 </body>
 </html>

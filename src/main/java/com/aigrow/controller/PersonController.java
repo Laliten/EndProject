@@ -183,21 +183,22 @@ public class PersonController {
     public ModelAndView updateUserInfo(UserDto userDto,HttpSession session,String page){
         ModelAndView mv = new ModelAndView();
         SessionInfo sessionInfo = new SessionInfo();
-
-        if(page.equals("附近驿站")){
-            mv.setViewName("user/nearby");
-        }
-        else if(page.equals("主界面")){
-            mv.setViewName("user/userHome");
-        }
-        else if(page.equals("运费估计")){
-            mv.setViewName("user/costEstimate");
-        }
-        else if(page.equals("运单查询")){
-            mv.setViewName("user/wayBillQuery");
-        }
-        else {
-            mv.setViewName("user/userInfo");
+        switch (page){
+            case "附近驿站":
+                mv.setViewName("user/nearby");
+                break;
+            case "运费估计":
+                mv.setViewName("user/costEstimate");
+                break;
+            case "主界面":
+                mv.setViewName("user/userHome");
+                break;
+            case "运单查询":
+                mv.setViewName("user/wayBillQuery");
+                break;
+            case "用户信息":
+                mv.setViewName("user/userInfo");
+                break;
         }
 
         UserDto doneUser = userService.update(userDto);

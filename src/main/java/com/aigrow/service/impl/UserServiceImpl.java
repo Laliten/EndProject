@@ -153,6 +153,7 @@ public class UserServiceImpl implements UserService {
 
         User user = userDao.get(User.class,userDto.getId());
         user.setName(userDto.getName());
+        user.setAccount(userDto.getAccount());
 
         userDao.update(user);
         user = userDao.get(User.class,userDto.getId());
