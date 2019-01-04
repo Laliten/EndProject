@@ -188,19 +188,19 @@ public class PersonController {
         SessionInfo sessionInfo = (SessionInfo) session.getAttribute(ConfigUtil.getSessionInfoName());
 
         switch (pageName){
-            case "附近驿站":
+            case "nearby":
                 mv.setViewName("user/nearby");
                 break;
-            case "运费估计":
+            case "costEstimate":
                 mv.setViewName("user/costEstimate");
                 break;
-            case "主界面":
+            case "userHome":
                 mv.setViewName("user/userHome");
                 break;
-            case "运单查询":
+            case "wayBillQuery":
                 mv.setViewName("user/wayBillQuery");
                 break;
-            case "用户信息":
+            case "userInfo":
                 mv.setViewName("user/userInfo");
                 break;
                 default:break;

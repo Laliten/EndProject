@@ -104,9 +104,9 @@ public class AppController {
      * @return
      */
     @RequestMapping("/userInfo")
-    public ModelAndView userInfo(String page){
+    public ModelAndView userInfo(String pageName){
         ModelAndView mv = new ModelAndView("user/userInfo");
-        mv.addObject("page",page);
+        mv.addObject("pageName",pageName);
         return mv;
     }
 

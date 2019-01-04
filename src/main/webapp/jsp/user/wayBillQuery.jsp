@@ -39,7 +39,7 @@
                                 <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="/appController/userInfo?page=运单查询"><i class="icon-user"></i>个人资料</a></li>
+                                <li><a href="/appController/userInfo?pageName=wayBillQuery"><i class="icon-user"></i>个人资料</a></li>
                                 <li class="divider"></li>
                                 <li><a href="#passwordModel" data-toggle="modal"><i class="icon-check"></i> 修改密码</a></li>
                             </ul>
