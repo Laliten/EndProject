@@ -111,7 +111,7 @@
                                 <span class="intro">终点</span>
                                 <input type="text" name="destination" class="search form-control form-control-inline" id="destination">
                                 <span class="intro">重量</span>
-                                <input type="text" name="weight" value="12" class="form-control form-control-inline"
+                                <input type="text" name="weight" class="form-control form-control-inline"
                                        id="weight">
                                 <button class="btn btn-default" type="button">kg</button>
                                 <input type="button" class="btn btn-primary form-control-inline"
@@ -190,7 +190,7 @@
         })
     })
     $("#history").click(function () {
-        $("#iframe").attr("src","/packageController/history?user_id=123")
+        $("#iframe").attr("src","/packageController/history?user_id=${sessionInfo.doneUser.id}")
         $(".right").animate({
             height: "toggle"
         });
@@ -215,7 +215,7 @@
             var weight = $("#weight").val();
             var start = $("#start").val();
             $.ajax({
-                url:'/packageController/costQuery?destination='+destination+'&weight='+weight+'&start='+start+'&userId=123',
+                url:'/packageController/costQuery?destination='+destination+'&weight='+weight+'&start='+start+'&userId=${sessionInfo.doneUser.id}',
                 type:"post",
                 success:function (res) {
                     datas = eval(res);

@@ -54,26 +54,15 @@ public class PackageController {
     @ResponseBody
     @RequestMapping(value = "/costQuery",method = RequestMethod.POST)
     public List<CostEstimateDto> costQuery(HttpSession session,
-                                           @RequestParam("weight") int weight,
-                                           @RequestParam("destination") String destination,
-                                           @RequestParam("start") String start
-                                            ,int userId) {
+                                           HistoryDto historyDto) {
         Page page = new Page();
 
         Map<String,Object> map = new HashMap<>(0);
-        List<CostEstimateDto> costEstimateDtoList = meterService.cost(weight,destination,page,start);
+        List<CostEstimateDto> costEstimateDtoList = meterService.cost(historyDto.getWeight(),historyDto.getDestination(),page,historyDto.getStart());
         map.put("data",costEstimateDtoList);
         map.put("total",costEstimateDtoList.size());
-        HistoryDto historyDto = new HistoryDto();
-        Date date = new Date();
-        historyDto.setTime(date);
-        historyDto.setStart(start);
-        historyDto.setDestination(destination);
-        historyDto.setType("2");
-        historyDto.setUserId(userId);
-        historyDto.setWeight((double) weight);
-        if (start!=null||destination!=null||weight!=0) {
-            historyService.addHistory(historyDto);
+        if (historyDto!=null) {
+            historyService.addMeterHistory(historyDto);
         }
         return costEstimateDtoList;
     }
@@ -110,15 +99,14 @@ public class PackageController {
 
     /**
      * 用户历史运单记录
-     * @param user_id
+     * @param userId
      * @return
      */
     @RequestMapping("/history")
-    public ModelAndView history(int user_id){
+    public ModelAndView history(int userId){
         ModelAndView modelAndView = new ModelAndView("user/historyMeter");
-        List<HistoryDto> historyList = historyService.findHistory(user_id,"2");
+        List<HistoryDto> historyList = historyService.findHistory(userId,"2");
         modelAndView.addObject("history",historyList);
-        System.out.println(historyList.get(0).getStart());
         return modelAndView;
     }
 }
