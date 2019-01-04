@@ -37,8 +37,7 @@
                 <li ><a href="/appController/costEstimate">运费估计</a></li>
                 <li ><a href="/appController/nearby">附件驿站</a></li>
                 <li ><a href="/appController/wayBillQuery">运单查询</a></li>
-                <li style="margin-left:450px"><a href="#">用户信息</a></li>
-                <li ><a href="#">登录</a></li>
+                <li style="margin-left:450px"><a href="/appController/userInfo?page=主界面">用户信息</a></li>
                 <li ><a href="/appController/loginOut">注销</a></li>
             </ul>
         </div>
@@ -48,15 +47,14 @@
 
 </div>
 <div style="margin-left: 0px;text-align: center">
-    <iframe src="userHome_loopPlay"  width="1350px" height="550px" name="flower"
+    <iframe src="/appController/userHome_loopPlay"  width="1350px" height="550px" name="flower"
             scrolling="No"  noresize="noresize" frameborder="0" id="lunbo">
     </iframe>
 </div>
 <div style="text-align: center">
-    <iframe src="userHome_intro" width="1350px" height="550px" name="topFrame"
+    <iframe src="/appController/userHome_intro" width="1350px" height="550px" name="topFrame"
             scrolling="No"  noresize="noresize" frameborder="0" id="topFrame">
     </iframe>
 </div>
-
 </body>
 </html>

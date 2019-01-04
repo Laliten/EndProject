@@ -71,6 +71,7 @@ public class AppController {
         return "user/userHome_intro";
     }
 
+
     /**
      * 跳转至用户主界面
      * @return
@@ -96,6 +97,17 @@ public class AppController {
     @RequestMapping("/nearby")
     public String nearby(){
         return "user/nearby";
+    }
+
+    /**
+     * 跳转至用户信息界面
+     * @return
+     */
+    @RequestMapping("/userInfo")
+    public ModelAndView userInfo(String page){
+        ModelAndView mv = new ModelAndView("user/userInfo");
+        mv.addObject("page",page);
+        return mv;
     }
 
     /**
@@ -224,5 +236,4 @@ public class AppController {
         }
         return resultMap;
     }
-
 }

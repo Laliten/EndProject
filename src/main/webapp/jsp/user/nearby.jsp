@@ -59,22 +59,23 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav" style="width: 92%">
-                <li style="margin-left: 10px"><a href="#">主界面</a></li>
+                <li style="margin-left: 10px"><a href="/appController/userHome">主界面</a></li>
                 <li ><a href="/appController/costEstimate">运费估计</a></li>
                 <li ><a href="/appController/nearby">附件驿站</a></li>
                 <li ><a href="/appController/wayBillQuery">运单查询</a></li>
                 <li style="float: right"><span class="navbar-brand" style="font-size: 14px" id="history">历史记录</span>
                 </li>
                 <li style="float: right"><a href="/appController/loginOut">注销</a></li>
-                <li style="float: right"><a href="#">用户信息</a></li>
+                <li style="float: right"><a href="/appController/userInfo?page=附近驿站">用户信息</a></li>
 
             </ul>
         </div>
     </div>
 </nav>
+
 <div style="width:680px;height:130px;" class="box">
     <div class="h1">
-        <input type="search" name="place" id="place" placeholder="请输入详细地址（例如：浙江科技学院" form="form1" style="width:300px">
+        <input type="search" name="place" id="place" placeholder="请输入详细地址（例如：浙江科技学院" style="width:300px">
     </div>
     <div class="h2">
         <input type="button" onclick="setCity()" value="查找" style="height: 28px;width:80px;background-color:#0099FF;color:#FFFFFF" />

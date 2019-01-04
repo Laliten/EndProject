@@ -7,6 +7,8 @@ import com.aigrow.model.dto.UserDto;
 import com.aigrow.model.entity.User;
 import com.aigrow.service.UserService;
 import com.aigrow.util.ConfigUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +39,7 @@ public class PersonController {
      */
     @ResponseBody
     @RequestMapping("/adminManager")
-    public Json doAdminManager(@RequestParam(required = false) Page page){
+    public Json doAdminManager(@RequestParam Page page){
         List<UserDto> userDtos = userService.getAllUsers(page,"1");
         Json j = new Json();
         if (userDtos.size() != 0){
@@ -57,7 +59,7 @@ public class PersonController {
      */
     @ResponseBody
     @RequestMapping("/userManager")
-    public Json doUserManager(@RequestParam(required = false) Page page){
+    public Json doUserManager(@RequestParam Page page){
         List<UserDto> userDtos = userService.getAllUsers(page,"0");
         Json j = new Json();
         if (userDtos.size() != 0){
@@ -98,7 +100,7 @@ public class PersonController {
         SessionInfo sessionInfo= (SessionInfo) session.getAttribute(ConfigUtil.getSessionInfoName());
         Json j=new Json();
         if(id!=null&&!id.equalsIgnoreCase(sessionInfo.getId())){
-            userService.singleDelete(Integer.parseInt(id));
+//            userService.delete(id);
         }
         j.setSuccess(true);
         j.setMsg("删除成功！");
@@ -121,6 +123,20 @@ public class PersonController {
             json.setMsg("添加失败");
         }
         return json;
+    }
+
+    /**
+     * 跳转到编辑用户密码页面
+     *
+     * @param id
+     * @param request
+     * @return
+     */
+    @RequestMapping("/editPwdPage")
+    public String editPwdPage(Integer id, HttpServletRequest request){
+//        User u=userService.get(id);
+//        request.setAttribute("user",u);
+        return "/personController/modifyPassword";
     }
 
     /**
@@ -159,5 +175,38 @@ public class PersonController {
         return viewName;
     }
 
+    /**
+     * 修改用户信息
+     * @return
+     */
+    @RequestMapping("/updateUserInfo")
+    public ModelAndView updateUserInfo(UserDto userDto,HttpSession session,String page){
+        ModelAndView mv = new ModelAndView();
+        SessionInfo sessionInfo = new SessionInfo();
+
+        if(page.equals("附近驿站")){
+            mv.setViewName("user/nearby");
+        }
+        else if(page.equals("主界面")){
+            mv.setViewName("user/userHome");
+        }
+        else if(page.equals("运费估计")){
+            mv.setViewName("user/costEstimate");
+        }
+        else if(page.equals("运单查询")){
+            mv.setViewName("user/wayBillQuery");
+        }
+        else {
+            mv.setViewName("user/userInfo");
+        }
+
+        UserDto doneUser = userService.update(userDto);
+
+        sessionInfo.setDoneUser(doneUser);
+        mv.addObject(ConfigUtil.getSessionInfoName(),sessionInfo);
+        session.setAttribute(ConfigUtil.getSessionInfoName(),sessionInfo);
+
+        return mv;
+    }
 
 }

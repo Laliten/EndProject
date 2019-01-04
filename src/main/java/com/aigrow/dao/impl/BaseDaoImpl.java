@@ -85,7 +85,8 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
     public void update(T o) {
         if (o != null) {
             this.getCurrentSession().update(o);
-        }
+            getCurrentSession().flush();
+    }
     }
 
     @Override

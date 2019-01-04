@@ -10,10 +10,19 @@ public class HistoryDto {
     private String place;
     private Date time;
     private int userId;
+    private String userName;
     private String start;
     private String destination;
     private Double weight;
     private String type;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public String getStart() {
         return start;

@@ -29,8 +29,7 @@
                         <li ><a href="/appController/costEstimate">运费估计</a></li>
                         <li ><a href="/appController/nearby">附件驿站</a></li>
                         <li ><a href="/appController/wayBillQuery">运单查询</a></li>
-                        <li style="margin-left:450px"><a href="#">用户信息</a></li>
-                        <li ><a href="#">登录</a></li>
+                        <li style="margin-left:450px"><a href="/appController/userInfo?page=运单查询">用户信息</a></li>
                         <li ><a href="/appController/loginOut">注销</a></li>
                     </ul>
                 </div>
