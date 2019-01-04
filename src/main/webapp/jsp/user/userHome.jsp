@@ -47,13 +47,16 @@
 <div style="float: right;width: 300px;height: 100px;background-color: white;margin:0px -20px 0px 20px">
 
 </div>
-<div style="margin-left: 0px">
-    <iframe src="userHome_loopPlay.jsp"  width="1350px" height="550px" name="flower"
+<div style="margin-left: 0px;text-align: center">
+    <iframe src="userHome_loopPlay"  width="1350px" height="550px" name="flower"
             scrolling="No"  noresize="noresize" frameborder="0" id="lunbo">
     </iframe>
 </div>
-<iframe src="userHome_intro.jsp" width="1350px" height="550px" name="topFrame"
-        scrolling="No"  noresize="noresize" frameborder="0" id="topFrame">
-</iframe>
+<div style="text-align: center">
+    <iframe src="userHome_intro" width="1350px" height="550px" name="topFrame"
+            scrolling="No"  noresize="noresize" frameborder="0" id="topFrame">
+    </iframe>
+</div>
+
 </body>
 </html>

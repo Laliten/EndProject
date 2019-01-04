@@ -63,7 +63,7 @@
                     for(var i=0;i<datas.length;i++){
                         var row=table.insertRow(table.rows.length);
                         var c1=row.insertCell(0);
-                        c1.innerHTML=datas[i].id;
+                        c1.innerHTML= i + 1;
 
                         var c2=row.insertCell(1);
                         c2.innerHTML=datas[i].name;

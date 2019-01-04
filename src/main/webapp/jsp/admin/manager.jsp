@@ -124,7 +124,7 @@
     <!--End-breadcrumbs-->
     <div style="margin: 0px 0px 0px 50px">
 
-        <iframe src="manager_manager" width="1000px" height="550px" name="iframeContainer" id="iframeContainer">
+        <iframe src="manager_manager" width="95%" height="550px" name="iframeContainer" id="iframeContainer">
         </iframe>
 
     </div>
@@ -162,12 +162,12 @@
             } else {
                 src = "/appController/manager_meter";
                 switch ($(this).text()) {
-                    case "圆通": src += "?code=YTO";break;
-                    case "申通": src += "?code=STO";break;
-                    case "韵达": src += "?code=YD";break;
-                    case "中通": src += "?code=ZTO";break;
-                    case "顺丰": src += "?code=SF";break;
-                    default:src += "?code=none";break;
+                    case "圆通": src += "?companyCode=YTO";break;
+                    case "申通": src += "?companyCode=STO";break;
+                    case "韵达": src += "?companyCode=YD";break;
+                    case "中通": src += "?companyCode=ZTO";break;
+                    case "顺丰": src += "?companyCode=SF";break;
+                    default:src += "?companyCode=none";break;
                 }
             }
             $("#iframeContainer").attr("src", src);
