@@ -29,6 +29,48 @@
         $("#user").click(function () {
             $("#manager_manager").attr("src","/personController/user");
         })
+
+
+        function addManager() {
+            var name=document.getElementById("addName").value;
+            var username=document.getElementById("addUsername").value;
+            var password=document.getElementById("password").value;
+            var power=$('#select option:selected').text();
+            if (name.length==0){
+                alert("姓名不能为空！");
+            }
+
+            if (username.length==0){
+                alert("用户名不能为空！");
+            }
+
+            if (password.length==0){
+                alert("密码不能为空！");
+            }
+
+            // alert(name);
+            // 1为管理员，0为用户
+            if (power=="管理员"){
+                power=1;
+            }
+            if (power=="用户"){
+                power=0;
+            }
+            //alert(username);
+
+            if (name.length!=0&&username.length!=0&&password.length!=0) {
+                $.ajax({
+                    url:'/personController/add',
+                    type:"post",
+                    data:{"name":name,"account":username,"password":password,"type":power},
+                    success:function () {
+                        location.reload(true);
+                    }
+                })
+            }
+
+        }
+
     </script>
 </head>
 <body>
@@ -124,7 +166,7 @@
     <!--End-breadcrumbs-->
     <div style="margin: 0px 0px 0px 50px">
 
-        <iframe src="manager_manager" width="1000px" height="550px" name="manager_manager" id="manager_manager">
+        <iframe src="/appController/manager_manager" width="1000px" height="550px" name="manager_manager" id="manager_manager">
         </iframe>
 
     </div>
@@ -167,30 +209,74 @@
     }
 
 </script>
-<!-- 模态框 -->
-<div class="modal fade" id="revise_modal" style="margin-top: 100px">
+
+<!-- 修改模态框 -->
+<div class="modal fade" id="sure_delete" >
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
             <!-- 模态框头部 -->
             <div class="modal-header">
-                <h4 class="modal-title">修改信息</h4>
+                <h4 class="modal-title">删除</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
 
             <!-- 模态框主体 -->
             <div class="modal-body">
-                <span style="font-size: 15px">请输入姓名：</span><input type="text" style="width: 20%">
+                <span style="font-size: 15px">是否确认删除？</span>
             </div>
 
             <!-- 模态框底部 -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" >确认</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
             </div>
 
         </div>
     </div>
 </div>
+
+<%--添加页面的模态框--%>
+<div class="modal fade" id="add_modal" >
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h4 class="modal-title">添加</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <span style="font-size: 15px">姓名：</span><input type="text" style="width: 30%" id="addName" placeholder="请输入姓名">
+                <span style="font-size: 15px;margin-left: 30px">用户名：</span><input type="text" style="width: 30%"  id="addUsername" placeholder="请输入用户名">
+                <br>
+                <span style="font-size: 15px" >密码：</span><input type="text" style="width: 30%" id="password" placeholder="请输入密码">
+                <span style="font-size: 15px;margin-left: 30px">添加权限：</span>
+                <%--<input type="text" style="width: 20%"  id="addPower">--%>
+
+                <div class="form-group" id="select" style="float: right;margin-right: 10%">
+                    <select class="form-control" style="width:127%">
+                        <option>管理员</option>
+                        <option>用户</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="add_sure" onclick="addManager()">确认</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="add_close">关闭</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
 
 </body>
 </html>

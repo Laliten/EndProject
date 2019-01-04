@@ -48,11 +48,11 @@
 
 </div>
 <div style="margin-left: 0px">
-    <iframe src="userHome_loopPlay.jsp"  width="1350px" height="550px" name="flower"
+    <iframe src="userHome_loopPlay"  width="1350px" height="550px" name="flower"
             scrolling="No"  noresize="noresize" frameborder="0" id="lunbo">
     </iframe>
 </div>
-<iframe src="userHome_intro.jsp" width="1350px" height="550px" name="topFrame"
+<iframe src="userHome_intro" width="1350px" height="550px" name="topFrame"
         scrolling="No"  noresize="noresize" frameborder="0" id="topFrame">
 </iframe>
 </body>

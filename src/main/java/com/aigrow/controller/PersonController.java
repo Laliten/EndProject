@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +37,8 @@ public class PersonController {
      */
     @ResponseBody
     @RequestMapping("/adminManager")
-    public Json doAdminManager(@RequestParam Page page){
+    public Json doAdminManager(){
+        Page page = new Page();
         List<UserDto> userDtos = userService.getAllUsers(page,"1");
         Json j = new Json();
         if (userDtos.size() != 0){
@@ -47,6 +49,7 @@ public class PersonController {
             j.setSuccess(false);
             j.setMsg("当前还未有管理员");
         }
+        System.out.println(j);
         return j;
     }
 
@@ -74,10 +77,11 @@ public class PersonController {
      * 处理用户的批量删除, 重新获取所有用户
      * @return
      */
+    @ResponseBody
     @RequestMapping("/batchDelete")
     public Json batchDelete(String ids,HttpSession session){
         Json j=new Json();
-        if(ids!=null&&ids.length()>0){
+        if(ids!=null&&ids.length()>0&&!ids.equals("zhang")){
             for (String id:ids.split(",")){
                 if (id!=null){
                     this.singleDelete(id,session);
@@ -92,15 +96,17 @@ public class PersonController {
      * 处理用户的单个删除
      * @return
      */
+    @ResponseBody
     @RequestMapping("/singleDelete")
     public Json singleDelete(String id,HttpSession session){
-        SessionInfo sessionInfo= (SessionInfo) session.getAttribute(ConfigUtil.getSessionInfoName());
         Json j=new Json();
-        if(id!=null&&!id.equalsIgnoreCase(sessionInfo.getId())){
-            userService.delete(id);
+        if(id!=null){
+            userService.singleDelete(Integer.parseInt(id));
+            System.out.println("1111111111111111111111111111111111111111111111111111111");
         }
         j.setSuccess(true);
         j.setMsg("删除成功！");
+
         return j;
     }
     /**
@@ -168,6 +174,7 @@ public class PersonController {
      */
     @RequestMapping("/modifyUserInfo")
     public String modifyUserInfo(String viewName){
+
 
         return viewName;
     }
