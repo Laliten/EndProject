@@ -5,7 +5,6 @@ import com.aigrow.model.dto.SessionInfo;
 import com.aigrow.model.dto.UserDto;
 import com.aigrow.service.UserService;
 import com.aigrow.util.ConfigUtil;
-import com.sun.media.sound.ModelDestination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

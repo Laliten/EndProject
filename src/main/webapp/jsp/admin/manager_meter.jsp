@@ -38,7 +38,7 @@
     <input type="button" name="ensure" id="ensure" value="确定" style="display: none" >
 </div>
 <div>
-    <table id="tables" class="table table-hover table-bordered">
+    <table id="tables" class="table table-hover table-bordered" style="text-align: center">
         <tr>
             <th>编号</th>
             <th>目的地</th>
@@ -54,33 +54,40 @@
             $.ajax({
                 url: '/meterController/${functionName}',
                 data:{
-                    "companyCode":${companyCode}
+                    "companyCode":"${companyCode}"
                 },
                 type: "post",
                 success: function (res) {
                     data = eval(res);
                     var datas = data.obj;
                     var table=document.getElementById("tables");
-                    for(var i=0;i<datas.length;i++){
-                        var row=table.insertRow(table.rows.length);
-                        var c1=row.insertCell(0);
-                        c1.innerHTML=datas[i].id;
+                    if (datas.length == 0){
+                        var temp = table.insertRow(table.rows.length).insertCell(0);
+                        temp.innerHTML = "暂无数据";
+                        temp.colSpan = table.rows[0].cells.length;
+                    } else {
+                        for(var i=0;i<datas.length;i++){
+                            var row=table.insertRow(table.rows.length);
+                            var c1=row.insertCell(0);
+                            c1.innerHTML=datas[i].id;
 
-                        var c2=row.insertCell(1);
-                        c2.innerHTML=datas[i].destination;
+                            var c2=row.insertCell(1);
+                            c2.innerHTML=datas[i].destination;
 
-                        var c3=row.insertCell(2);
-                        c3.innerHTML=datas[i].firstWeight;
+                            var c3=row.insertCell(2);
+                            c3.innerHTML=datas[i].firstWeight;
 
-                        var c4=row.insertCell(3);
-                        c4.innerHTML=datas[i].firstWeightPrice;
+                            var c4=row.insertCell(3);
+                            c4.innerHTML=datas[i].firstWeightPrice;
 
-                        var c5=row.insertCell(4);
-                        c5.innerHTML=datas[i].nextWeightPrice;
+                            var c5=row.insertCell(4);
+                            c5.innerHTML=datas[i].nextWeightPrice;
 
-                        var c6=row.insertCell(5);
-                        c6.innerHTML='<p>修改</p>'
+                            var c6=row.insertCell(5);
+                            c6.innerHTML='<p>修改</p>'
+                        }
                     }
+
                 }
             })
         }

@@ -17,19 +17,10 @@
     <link rel="stylesheet" href="../../css/mcss/matrix-media.css" />
     <link rel="stylesheet" href="../../css/font-awesome/css/font-awesome.css" />
 
-    <script type="text/javascript" src="../../js/mjs/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery-3.3.1.js"></script>
     <script type="text/javascript" src="../../js/table.min.js"></script>
     <script type="text/javascript" src="../../js/bootstrap-table.js"></script>
     <script type="text/javascript" src="../../js/mjs/bootstrap-table-zh-CN.js"></script>
-    <script type="text/javascript">
-        $("#manager").click(function () {
-            $("#manager_manager").attr("src","/personController/manage_manager");
-        })
-
-        $("#user").click(function () {
-            $("#manager_manager").attr("src","/personController/user");
-        })
-    </script>
 </head>
 <body>
 <!--Header-part-->
@@ -60,7 +51,7 @@
                 <b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
-                <li><a class="sAdd" title="" href="#"><i class="icon icon-pencil"></i>修改密码</a></li>
+                <li><a class="sAdd" title="" href="#passwordModel" data-toggle="modal"><i class="icon icon-pencil"></i>修改密码</a></li>
             </ul>
         </li>
         <li class="dropdown" id="cancel">
@@ -70,8 +61,8 @@
                 <b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
-                <li><a class="sAdd" title="" href="#"><i class="icon icon-refresh"></i>重新登录</a></li>
-                <li><a href="#"><i class="icon icon-share-alt"></i>退出系统</a></li>
+                <li><a class="sAdd" title="" href="/appController/loginOut"><i class="icon icon-refresh"></i>重新登录</a></li>
+                <li><a href="/appController/loginOut"><i class="icon icon-share-alt"></i>退出系统</a></li>
             </ul>
         </li>
     </ul>
@@ -108,7 +99,6 @@
                 <li><a class="menu_a" ><i class="icon icon-columns"></i>申通</a></li>
                 <li><a class="menu_a" ><i class="icon icon-columns"></i>顺丰</a></li>
                 <li><a class="menu_a" ><i class="icon icon-columns"></i>圆通</a></li>
-
             </ul>
         </li>
     </ul>
@@ -129,9 +119,71 @@
 
     </div>
 </div>
-
 <!--end-main-container-part-->
 
+<!-- 模态框 -->
+    <!--修改个人信息的模态-->
+    <div class="modal fade" id="revise_modal" style="margin-top: 100px">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <!-- 模态框头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">修改信息</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- 模态框主体 -->
+                <div class="modal-body">
+                    <span style="font-size: 15px">请输入姓名：</span><input type="text" style="width: 20%">
+                </div>
+
+                <!-- 模态框底部 -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--修改个人信息的模态-->
+    <!--修改密码的模态-->
+    <div class="modal fade" id="passwordModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">修改密码</h4>
+                </div>
+                <div class="modal-body" style="text-align: center;">
+
+                    <form action="/personController/modifyPassword" class="bs-example bs-example-form" role="form" id="passwordForm" style="font-size: 15px">
+                        <div class="input-group">
+                            <span class="input-group-addon">原密码&nbsp;</span>
+                            <input name="oldPwd" type="text" class="form-control" placeholder="你的原密码" required pattern="^{a-zA-Z0-9}{1,7}$">
+                        </div>
+                        <br>
+                        <div class="input-group">
+                            <span class="input-group-addon">新密码&nbsp;</span>
+                            <input name="newPwd" type="text" class="form-control" placeholder="请输入密码" required pattern="^{a-zA-Z}\w{1,7}$">
+                        </div>
+                        <br>
+                        <div class="input-group">
+                            <span class="input-group-addon">密码确认</span>
+                            <input name="newPwdConfirm" type="text" class="form-control" placeholder="确认密码" required>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="submit" class="btn btn-primary" form="passwordForm">提交更改</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <!--修改密码的模态结束-->
+<!-- 模态框结束 -->
 <script src="../../js/mjs/excanvas.min.js"></script>
 <script src="../../js/mjs/jquery.ui.custom.js"></script>
 <script src="../../js/mjs/bootstrap.min.js"></script>
@@ -190,30 +242,5 @@
     }
 
 </script>
-<!-- 模态框 -->
-<div class="modal fade" id="revise_modal" style="margin-top: 100px">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-
-            <!-- 模态框头部 -->
-            <div class="modal-header">
-                <h4 class="modal-title">修改信息</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-
-            <!-- 模态框主体 -->
-            <div class="modal-body">
-                <span style="font-size: 15px">请输入姓名：</span><input type="text" style="width: 20%">
-            </div>
-
-            <!-- 模态框底部 -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-            </div>
-
-        </div>
-    </div>
-</div>
-
 </body>
 </html>
