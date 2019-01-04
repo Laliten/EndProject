@@ -21,7 +21,7 @@ import java.util.Map;
  * @author GaoJiaHui
  */
 @Service
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class HistoryServiceImpl implements HistoryService {
 
     @Autowired
@@ -37,7 +37,7 @@ public class HistoryServiceImpl implements HistoryService {
     @Override
     public List<HistoryDto> findHistory(int userId,String type) {
         String hql = "select h from History h,User u where h.users.id=u.id and u.id=:userId and h.type=:type";
-        Map<String,Object> params = new HashMap<>();
+        Map<String,Object> params = new HashMap<>(0);
         params.put("userId", userId);
         params.put("type", type);
         List<History> history = historyDao.find(hql,params);
@@ -85,8 +85,8 @@ public class HistoryServiceImpl implements HistoryService {
         if (history != null){
             BeanUtils.copyProperties(history,historyDto);
             if(history.getUsers()!=null){
-                historyDto.setUserId(history.getUser().getId());
-                historyDto.setUserName(history.getUser().getName());
+                historyDto.setUserId(history.getUsers().getId());
+                historyDto.setUserName(history.getUsers().getName());
             }
         }
         return historyDto;
