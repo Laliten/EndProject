@@ -1,7 +1,9 @@
 package com.aigrow.service;
 
 import com.aigrow.model.dto.Page;
+import com.aigrow.model.dto.SessionInfo;
 import com.aigrow.model.dto.UserDto;
+import com.aigrow.model.entity.User;
 
 import java.util.List;
 
@@ -29,7 +31,7 @@ public interface UserService {
      * @param type
      * @return
      */
-    List<UserDto> getAllUsers(Page page,  String type);
+    List<UserDto> getAllUsers(Page page, String type);
 
     /**
      * 进行注册验证，验证用户名是否唯一，正确返回0，失败返回1

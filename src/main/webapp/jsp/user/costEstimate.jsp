@@ -58,7 +58,7 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav" style="width: 92%">
-                <li style="margin-left: 10px"><a href="#">主界面</a></li>
+                <li style="margin-left: 10px"><a href="/appController/userHome">主界面</a></li>
                 <li ><a href="/appController/costEstimate">运费估计</a></li>
                 <li ><a href="/appController/nearby">附件驿站</a></li>
                 <li ><a href="/appController/wayBillQuery">运单查询</a></li>
@@ -159,7 +159,7 @@
         <%--<span class="intro">公司名称</span>：顺丰--%>
         <%--<br>--%>
         <%--<span class="intro">备注</span>：很快--%>
-        <iframe src="/packageController/history?user_id=123"></iframe>
+        <iframe id="iframe" style="height: 1000px"></iframe>
     </div>
 </div>
 <script src="../../js/costEstimate/plugins/kuCity.js"></script>
@@ -176,6 +176,7 @@
         })
     })
     $("#history").click(function () {
+        $("#iframe").attr("src","/packageController/history?user_id=123")
         $(".right").animate({
             height: "toggle"
         });
@@ -200,7 +201,7 @@
             var weight = $("#weight").val();
             var start = $("#start").val();
             $.ajax({
-                url:'/packageController/costQuery?destination='+destination+'&weight='+weight+'&start='+start,
+                url:'/packageController/costQuery?destination='+destination+'&weight='+weight+'&start='+start+'&userId=123',
                 type:"post",
                 success:function (res) {
                     datas = eval(res);
@@ -209,7 +210,6 @@
                     }
                     $("#table").bootstrapTable({
                         data: str,
-                        striped: true,
                         pageSize: 8,
                         pagination: true,
                         pageNumber: 1,
@@ -221,7 +221,8 @@
 
                         columns: [
                             {
-                                field: 'name', title: '公司名称'
+                                field: 'name',
+                                title: '公司名称'
                                 ,width:100
                             },
                             {
@@ -234,10 +235,11 @@
                             }, {
                                 filed: "cost",
                                 title: "花费",
-                                sortable: true, width:100,
+                                sortable: true, width:100
                             }, {
                                 filed: "trustDegree",
                                 title: "信用等级", width:100,
+                                sortable:true
                             }
                         ]
                     })

@@ -33,7 +33,7 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li style="margin-left: 10px"><a href="#">主界面</a></li>
+                <li style="margin-left: 10px"><a href="/appController/userHome">主界面</a></li>
                 <li ><a href="/appController/costEstimate">运费估计</a></li>
                 <li ><a href="/appController/nearby">附件驿站</a></li>
                 <li ><a href="/appController/wayBillQuery">运单查询</a></li>
@@ -48,11 +48,11 @@
 
 </div>
 <div style="margin-left: 0px">
-    <iframe src="userHome_loopPlay"  width="1350px" height="550px" name="flower"
+    <iframe src="userHome_loopPlay.jsp"  width="1350px" height="550px" name="flower"
             scrolling="No"  noresize="noresize" frameborder="0" id="lunbo">
     </iframe>
 </div>
-<iframe src="userHome_intro" width="1350px" height="550px" name="topFrame"
+<iframe src="userHome_intro.jsp" width="1350px" height="550px" name="topFrame"
         scrolling="No"  noresize="noresize" frameborder="0" id="topFrame">
 </iframe>
 </body>

@@ -27,7 +27,18 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Set<Package> packageSet = new HashSet<>();
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "users")
+    private Set<History> historySet = new HashSet<>();
+
     public User() {
+    }
+
+    public Set<History> getHistorySet() {
+        return historySet;
+    }
+
+    public void setHistorySet(Set<History> historySet) {
+        this.historySet = historySet;
     }
 
     public Set<Package> getPackageSet() {

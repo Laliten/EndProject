@@ -22,7 +22,7 @@ import java.util.Map;
  */
 @Service
 @Transactional
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService{
     @Autowired
     private UserDao userDao;
 
@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> getAllUsers(Page page, String type) {
         String hql = "from User u where u.type="+type;
-        List<User> userList = userDao.find(hql, page.getNextPage(), page.getPageSize());
+        List<User> userList = userDao.find(hql);
         return this.e2d(userList);
     }
 
@@ -96,6 +96,11 @@ public class UserServiceImpl implements UserService {
             }
         }
     }
+
+//    @Override
+//    public List<UserDto> getAllAdmins(Page page) {
+//        return null;
+//    }
 
 
     /**
@@ -185,6 +190,7 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
+
     /**
      * 将userDto对象转换为user实体类对象
      * @param userDto
@@ -231,6 +237,31 @@ public class UserServiceImpl implements UserService {
             }
             return userDtos;
     }
+
+    /**
+     * xuqihao
+     * @param id
+     */
+//    @Override
+//    public void delete(String id){
+//        userDao.delete(userDao.get(User.class,id));
+//    }
+//
+//    @Override
+//    public boolean editUserPwd(SessionInfo sessionInfo, String oldPwd, String newPwd){
+//        User u=userDao.get(User.class,sessionInfo.getId());
+//        if (u.getPassword().equalsIgnoreCase(oldPwd)){
+//            u.setPassword(newPwd);
+//            return true;
+//        }
+//        return false ;
+//    }
+//
+//    @Override
+//    public void add(User user) throws Exception{
+//
+//    }
+
 
 
 }
