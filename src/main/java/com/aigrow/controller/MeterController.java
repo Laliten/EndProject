@@ -118,10 +118,12 @@ public class MeterController {
         Json json = new Json();
         List<MeterDto> companyMeter = meterService.getCompanyMeter(companyCode, page);
         try{
-            if (companyMeter != null){
+            if (companyMeter != null && companyMeter.size() != 0){
                 json.setSuccess(true);
                 json.setMsg("查询成功");
                 json.setObj(companyMeter);
+            } else {
+                json.setMsg("当前还未有数据");
             }
         } catch (Exception e){
             e.printStackTrace();

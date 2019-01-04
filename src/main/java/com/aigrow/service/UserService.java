@@ -73,5 +73,5 @@ public interface UserService {
      * @param pwd
      * @return
      */
-    boolean editCurrentUserPwd(String userId, String oldPwd, String pwd);
+    boolean editCurrentUserPwd(int userId, String oldPwd, String pwd);
 }

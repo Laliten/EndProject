@@ -39,7 +39,7 @@ public class PersonController {
      */
     @ResponseBody
     @RequestMapping("/adminManager")
-    public Json doAdminManager(@RequestParam Page page){
+    public Json doAdminManager(@RequestParam(required = false) Page page){
         List<UserDto> userDtos = userService.getAllUsers(page,"1");
         Json j = new Json();
         if (userDtos.size() != 0){
@@ -59,7 +59,7 @@ public class PersonController {
      */
     @ResponseBody
     @RequestMapping("/userManager")
-    public Json doUserManager(@RequestParam Page page){
+    public Json doUserManager(@RequestParam(required = false) Page page){
         List<UserDto> userDtos = userService.getAllUsers(page,"0");
         Json j = new Json();
         if (userDtos.size() != 0){
@@ -126,32 +126,19 @@ public class PersonController {
     }
 
     /**
-     * 跳转到编辑用户密码页面
-     *
-     * @param id
-     * @param request
-     * @return
-     */
-    @RequestMapping("/editPwdPage")
-    public String editPwdPage(Integer id, HttpServletRequest request){
-//        User u=userService.get(id);
-//        request.setAttribute("user",u);
-        return "/personController/modifyPassword";
-    }
-
-    /**
      * 处理用户的密码修改，成功后重新登录
      * @return
      */
+    @ResponseBody
     @RequestMapping("/modifyPassword")
-    public Json editCurrentUserPwd(HttpSession session, String oldPwd, String pwd) {
+    public Json editCurrentUserPwd(HttpSession session, String oldPwd, String newPwd) {
         Json json = new Json();
         if (session != null) {
             SessionInfo sessionInfo = (SessionInfo) session.getAttribute(ConfigUtil.getSessionInfoName());
             if (sessionInfo != null) {
-                if (userService.editCurrentUserPwd(sessionInfo.getId(), oldPwd, pwd)) {
+                if (userService.editCurrentUserPwd(sessionInfo.getDoneUser().getId(), oldPwd, newPwd)) {
                     json.setSuccess(true);
-                    json.setMsg("编辑密码成功，下次登录生效！");
+                    json.setMsg("修改密码成功，下次登录生效！");
                 } else {
                     json.setMsg("原密码错误！");
                 }
@@ -160,6 +147,21 @@ public class PersonController {
             }
         } else {
             json.setMsg("登录超时，请重新登录！");
+        }
+        return json;
+    }
+
+    @ResponseBody
+    @RequestMapping("/editUserInfoAtAdminPost")
+    public Json editUserInfoAtAdminPost(UserDto userDto){
+        Json json = new Json();
+        if (userDto.getId() != 0){
+            UserDto doneUser = userService.update(userDto);
+            json.setObj(doneUser);
+            json.setSuccess(true);
+            json.setMsg("修改信息成功");
+        } else {
+            json.setMsg("修改信息失败");
         }
         return json;
     }
@@ -180,20 +182,22 @@ public class PersonController {
      * @return
      */
     @RequestMapping("/updateUserInfo")
-    public ModelAndView updateUserInfo(UserDto userDto,HttpSession session,String page){
+    public ModelAndView updateUserInfoAtUserPost(UserDto userDto,HttpSession session,String pageName){
         ModelAndView mv = new ModelAndView();
-        SessionInfo sessionInfo = new SessionInfo();
+//        SessionInfo sessionInfo = new SessionInfo();
 
-        if(page.equals("附近驿站")){
+        SessionInfo sessionInfo = (SessionInfo) session.getAttribute(ConfigUtil.getSessionInfoName());
+
+        if(pageName.equals("附近驿站")){
             mv.setViewName("user/nearby");
         }
-        else if(page.equals("主界面")){
+        else if(pageName.equals("主界面")){
             mv.setViewName("user/userHome");
         }
-        else if(page.equals("运费估计")){
+        else if(pageName.equals("运费估计")){
             mv.setViewName("user/costEstimate");
         }
-        else if(page.equals("运单查询")){
+        else if(pageName.equals("运单查询")){
             mv.setViewName("user/wayBillQuery");
         }
         else {
@@ -208,5 +212,6 @@ public class PersonController {
 
         return mv;
     }
+
 
 }

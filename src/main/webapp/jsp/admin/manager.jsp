@@ -35,11 +35,11 @@
         <li  class="dropdown" id="profile-messages" >
             <a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle">
                 <i class="icon icon-user"></i>&nbsp;
-                <span class="text">欢迎你，${sessionScope.sessionInfo.doneUser.id}</span>&nbsp;
+                <span class="text">欢迎你，${sessionScope.sessionInfo.doneUser.name}</span>&nbsp;
                 <b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
-                <li><a href="#"><i class="icon-user"></i> 个人资料</a></li>
+                <li><a href="#userInfoModel" data-toggle="modal"><i class="icon-user"></i> 个人资料</a></li>
                 <li class="divider"></li>
                 <li><a href="#"><i class="icon-check"></i> 我的任务</a></li>
             </ul>
@@ -123,7 +123,7 @@
 
 <!-- 模态框 -->
     <!--修改个人信息的模态-->
-    <div class="modal fade" id="revise_modal" style="margin-top: 100px">
+    <div class="modal fade" id="userInfoModel" style="margin-top: 100px">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
 
@@ -134,13 +134,31 @@
                 </div>
 
                 <!-- 模态框主体 -->
-                <div class="modal-body">
-                    <span style="font-size: 15px">请输入姓名：</span><input type="text" style="width: 20%">
+                <div class="modal-body" style="text-align: center;">
+                    <form class="bs-example bs-example-form" role="form" id="userInfoForm" style="font-size: 15px">
+                        <div class="input-group">
+                            <span class="input-group-addon">用户Id&nbsp;</span>
+                            <input name="id" type="text" class="form-control" readonly value="${sessionScope.sessionInfo.doneUser.id}">
+                        </div>
+                        <br>
+                        <div class="input-group">
+                            <span class="input-group-addon">真实姓名&nbsp;</span>
+                            <input name="name" type="text" class="form-control" placeholder="请输入真实姓名"
+                                   required pattern="\w{3,5}$" value="${sessionScope.sessionInfo.doneUser.name}">
+                        </div>
+                        <br>
+                        <div class="input-group">
+                            <span class="input-group-addon">帐户名</span>
+                            <input name="account" type="text" class="form-control" placeholder="请输入帐户名"
+                                   required value="${sessionScope.sessionInfo.doneUser.account}">
+                        </div>
+                    </form>
                 </div>
 
                 <!-- 模态框底部 -->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                    <button id="userInfoSubmitButton" type="button" class="btn btn-primary" form="userInfoForm">提交更改</button>
                 </div>
 
             </div>
@@ -193,13 +211,13 @@
     $("#passwordSubmitButton").click(function () {
         var newPwd = $("input[name=newPwd]").val();
         var confirmPwd = $("input[name=confirmPwd]").val();
-        if (newPwd == confirmPwd){
+        if (newPwd == confirmPwd && newPwd != "" && newPwd != null){
             $.ajax({
                 url: "/personController/modifyPassword",
                 type: "post",
                 data:{
                     "oldPwd": $("input[name=oldPwd]").val(),
-                    "newPwd": $("input[name=newPwd]").val()
+                    "newPwd": newPwd
                 },
                 success:function(data){
                     var msg = data.msg;
@@ -219,7 +237,36 @@
                 }
             });
         } else {
-            alert("两次密码不一致");
+            alert("两次密码不一致或密码为空");
+        }
+    });
+
+    $("#userInfoSubmitButton").click(function () {
+
+        var id = $("input[name=id]");
+        var name = $("input[name=name]");
+        var account = $("input[name=account]");
+        if (id != null && name != null && account != null &&
+            id != "" && name != "" && account != ""){
+            $.ajax({
+                url:"/personController/editUserInfoAtAdminPost",
+                type:"post",
+                data:{
+                    "id":id.val().trim(),
+                    "name": name.val(),
+                    "account":account.val()
+                },
+                success:function (data) {
+                    var doneUser = data.obj;
+                    id.val(doneUser.id);
+                    name.val(doneUser.name);
+                    account.val(doneUser.account);
+                    $("#userInfoModel").modal("hide");
+                },
+                error:function (data) {
+                    alert("所填信息不能为空");
+                }
+            });
         }
     });
 

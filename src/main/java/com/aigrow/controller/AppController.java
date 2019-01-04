@@ -140,9 +140,9 @@ public class AppController {
         mv.setViewName("admin/manager_manager");
 
         if ("user".equals(requestType)){
-            mv.addObject("functionName", "/userManager");
+            mv.addObject("functionName", "userManager");
         } else {
-            mv.addObject("functionName", "/adminManager");
+            mv.addObject("functionName", "adminManager");
         }
         return mv;
     }

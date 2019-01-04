@@ -51,19 +51,16 @@
 
 <script>
     window.onload=function () {
-        // var str = new Array();
-
         $.ajax({
             url: '/personController/${functionName}',
             type: "post",
             success: function (res) {
-                data = eval(res);
-                var datas = data.obj;
-                    var table=document.getElementById("tables");
+                var datas = res.obj;
+                var table=document.getElementById("tables");
                 if (datas.length == 0){
                     var temp = table.insertRow(table.rows.length).insertCell(0);
-                    temp.innerHTML = "暂无数据";
-                    temp.colSpan = 6;
+                    temp.innerHTML = res.msg;
+                    temp.colSpan = table.rows[0].cells.length;
                 } else {
                     for(var i=0;i<datas.length;i++){
                         var row=table.insertRow(table.rows.length);

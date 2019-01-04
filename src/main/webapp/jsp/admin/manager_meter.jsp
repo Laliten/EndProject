@@ -63,7 +63,7 @@
                     var table=document.getElementById("tables");
                     if (datas.length == 0){
                         var temp = table.insertRow(table.rows.length).insertCell(0);
-                        temp.innerHTML = "暂无数据";
+                        temp.innerHTML = data.msg;
                         temp.colSpan = table.rows[0].cells.length;
                     } else {
                         for(var i=0;i<datas.length;i++){

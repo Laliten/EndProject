@@ -118,22 +118,7 @@
 <script src="../../jslib/jquery-1.8.3.js"></script>
 <link href="../../css/bootstrap.css" rel="stylesheet">
 <script>
-    function commit() {
-        document.form1.submit();
-        <%--$.ajax({--%>
-            <%--url:"/personController/updateUserInfo",--%>
-            <%--type:"post",--%>
-            <%--async:true,--%>
-            <%--data:{--%>
-                <%--name:name,--%>
-                <%--id:id,--%>
-                <%--page:${page}--%>
-            <%--},--%>
-            <%--success:function(result){--%>
-                <%--alert(result.msg);--%>
-            <%--}--%>
-        <%--});--%>
-    }
+
     $(function () {
         var type = $("#type");
         if(type.val()=="0"){
@@ -177,24 +162,11 @@
         <span>姓名:</span>
         <input type="text"  name="name" id="name" value="${sessionScope.sessionInfo.doneUser.name}" form="form1">
     </label>
-    <%--<label class="Main-sex">--%>
-        <%--<span>性别:</span>--%>
-        <%--<input type="checkbox" class="man">男--%>
-        <%--<input type="checkbox" class="women">女--%>
-    <%--</label>--%>
     <label>
         <span>身份:</span>
         <input type="text" name="type" id="type" value="${sessionScope.sessionInfo.doneUser.type}" readonly="readonly" form="form1">
     </label>
-    <%--<label>--%>
-        <%--<span>Your phone:</span>--%>
-        <%--<input type="text" name="phone" placeholder="Please input 11 number">--%>
-    <%--</label>--%>
-    <%--<label>--%>
-        <%--<span>Message:</span>--%>
-        <%--<textarea id="message" name="message" placeholder="Your message to us"></textarea>--%>
-    <%--</label>--%>
-    <input type="button" class="button" value="提交" onclick="commit()">
+    <input type="submit" class="button" value="提交" form="form1">
 </div>
 </body>
 </html>

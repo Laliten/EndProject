@@ -1,5 +1,6 @@
 package com.aigrow.service.impl;
 
+import com.aigrow.dao.PackageDao;
 import com.aigrow.dao.UserDao;
 import com.aigrow.dao.impl.UserDaoImpl;
 import com.aigrow.model.dto.Page;
@@ -28,6 +29,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private PackageDao packageDao;
     /**
      * 仅限管理员使用，获取所有的管理员
      *
@@ -153,9 +156,9 @@ public class UserServiceImpl implements UserService {
 
         User user = userDao.get(User.class,userDto.getId());
         user.setName(userDto.getName());
+        user.setAccount(userDto.getAccount());
 
         userDao.update(user);
-        user = userDao.get(User.class,userDto.getId());
         return e2d(user);
     }
 
@@ -182,10 +185,11 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public boolean editCurrentUserPwd(String userId, String oldPwd, String pwd) {
-        User u = userDao.get(User.class, Integer.parseInt(userId));
-        if (oldPwd.equals(String.valueOf(u.getId()))){
+    public boolean editCurrentUserPwd(int userId, String oldPwd, String pwd) {
+        User u = userDao.get(User.class, userId);
+        if (oldPwd.equals(u.getPassword())){
             u.setPassword(pwd);
+            userDao.update(u);
             return true;
         }
         return false;
@@ -199,7 +203,12 @@ public class UserServiceImpl implements UserService {
     private User d2e(UserDto userDto){
         User user = new User();
         if (userDto != null){
-            BeanUtils.copyProperties(userDto, user,getNullPropertyNames(userDto));
+            BeanUtils.copyProperties(userDto, user);
+            if (userDto.getPackagesId() != null){
+                for(Integer i : userDto.getPackagesId()){
+                    user.getPackageSet().add(packageDao.get(Package.class, i));
+                }
+            }
         }
         return user;
     }
@@ -238,25 +247,5 @@ public class UserServiceImpl implements UserService {
             return userDtos;
     }
 
-    /**
-     * BeanUtils.copyProperties在拷贝属性时忽略空值
-     * @param source
-     * @return
-     */
-    public static String[] getNullPropertyNames (Object source) {
-        final BeanWrapper src = new BeanWrapperImpl(source);
-        java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();
 
-        Set<String> emptyNames = new HashSet<String>();
-        for(java.beans.PropertyDescriptor pd : pds) {
-            Object srcValue = src.getPropertyValue(pd.getName());
-            if (srcValue == null) emptyNames.add(pd.getName());
-        }
-        String[] result = new String[emptyNames.size()];
-        return emptyNames.toArray(result);
-    }
-
-    public static void copyPropertiesIgnoreNull(Object src, Object target){
-        BeanUtils.copyProperties(src, target, getNullPropertyNames(src));
-    }
 }
