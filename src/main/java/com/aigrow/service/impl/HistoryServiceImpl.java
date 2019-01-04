@@ -53,6 +53,9 @@ public class HistoryServiceImpl implements HistoryService {
      */
     @Override
     public void addHistory(HistoryDto historyDto) {
+        if(historyDto.getPlace().equals("")||historyDto.getPlace().equals("undefined")){
+            return;
+        }
         History history = this.d2e(historyDto);
         historyDao.merge(history);
     }

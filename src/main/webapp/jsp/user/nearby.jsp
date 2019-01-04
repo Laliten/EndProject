@@ -16,7 +16,6 @@
     <script src="../../jslib/jquery-1.8.3.js"></script>
     <link href="../../css/bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" href="../../css/costEstimate/costEsitmate.css">
-
     <style type="text/css">
         *{ margin:0; padding:0}
             html{height:100%}
@@ -25,7 +24,11 @@
             height:100%;
             z-index: 1;
         }
-        body{text-align: center}
+        body{
+            text-align: center;
+            background:url("../../image/city_banner.png")top center no-repeat;
+            background-size:cover;
+        }
         input{
             height:30px;
             border-radius:18px;
@@ -66,7 +69,18 @@
                 <li style="float: right"><span class="navbar-brand" style="font-size: 14px" id="history">历史记录</span>
                 </li>
                 <li style="float: right"><a href="/appController/loginOut">注销</a></li>
-                <li style="float: right"><a href="/appController/userInfo?page=附近驿站">用户信息</a></li>
+                <li style="float: right" class="dropdown" id="profile-messages"></a>
+                    <a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle">
+                        <i class="icon icon-user"></i>&nbsp;
+                        <span class="text">用户信息</span>&nbsp;
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/appController/userInfo?page=附近驿站"><i class="icon-user"></i> 个人资料</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#"><i class="icon-check"></i> 修改密码</a></li>
+                    </ul>
+                </li>
 
             </ul>
         </div>
@@ -131,11 +145,11 @@
     </script>
 </div>
 
-<div name="right" class="right" >
+<div  name="right" class="right" >
     <br>
     <br>
     <br>
-    <div class="list" style="height: 100%">
+    <div  class="list" style="height: 100%">
         <iframe src="/postController/findhistory?userId=${sessionScope.sessionInfo.doneUser.id}" style="height: 100%"></iframe>
     </div>
 </div>
@@ -145,7 +159,17 @@
         $(".right").animate({
             height: "toggle"
         });
-    })
+    });
+    document.onclick =
+        function (e) {
+            var X = e.screenX;
+            var Y = e.screenY;
+            if (X < 1219 && Y < 821 && Y > 142) {
+                $(".right").animate({
+                    height: "hide"
+                });
+            }
+        }
 </script>
 </body>
 </html>
