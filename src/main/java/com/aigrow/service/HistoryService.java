@@ -1,6 +1,7 @@
 package com.aigrow.service;
 
 import com.aigrow.model.dto.HistoryDto;
+import com.aigrow.model.entity.History;
 
 import java.util.List;
 
@@ -21,4 +22,10 @@ public interface HistoryService {
      * @param historyDto
      */
     void addHistory(HistoryDto historyDto);
+
+    /**
+     * 添加查询运费历史记录
+     * @param historyDto
+     */
+    void addMeterHistory(HistoryDto historyDto);
 }

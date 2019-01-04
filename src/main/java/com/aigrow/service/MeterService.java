@@ -17,7 +17,7 @@ public interface MeterService {
      * @param start
      * @return
      */
-    List<CostEstimateDto> cost(int weight, String destination, Page page, String start);
+    List<CostEstimateDto> cost(double weight, String destination, Page page, String start);
 
     /**
      * 获取对应公司名字的计价表

@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author GaoJiaHui
@@ -58,6 +55,14 @@ public class HistoryServiceImpl implements HistoryService {
         historyDao.merge(history);
     }
 
+    @Override
+    public void addMeterHistory(HistoryDto historyDto) {
+        historyDto.setType("1");
+        historyDto.setTime(new Date());
+        History history = this.d2e(historyDto);
+        historyDao.merge(history);
+    }
+
 
     /**
      * 将historyDto转换程history
@@ -85,8 +90,8 @@ public class HistoryServiceImpl implements HistoryService {
         if (history != null){
             BeanUtils.copyProperties(history,historyDto);
             if(history.getUsers()!=null){
-                historyDto.setUserId(history.getUser().getId());
-                historyDto.setUserName(history.getUser().getName());
+                historyDto.setUserId(history.getUsers().getId());
+                historyDto.setUserName(history.getUsers().getName());
             }
         }
         return historyDto;
@@ -106,4 +111,6 @@ public class HistoryServiceImpl implements HistoryService {
         }
         return list;
     }
+
+
 }
