@@ -4,17 +4,23 @@ import com.aigrow.model.dto.Json;
 import com.aigrow.model.dto.Page;
 import com.aigrow.model.dto.SessionInfo;
 import com.aigrow.model.dto.UserDto;
+import com.aigrow.model.entity.User;
 import com.aigrow.service.UserService;
 import com.aigrow.util.ConfigUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author YangDeJian
@@ -33,7 +39,7 @@ public class PersonController {
      */
     @ResponseBody
     @RequestMapping("/adminManager")
-    public Json doAdminManager(@RequestParam Page page){
+    public Json doAdminManager(@RequestParam(required = false) Page page){
         List<UserDto> userDtos = userService.getAllUsers(page,"1");
         Json j = new Json();
         if (userDtos.size() != 0){
@@ -53,7 +59,7 @@ public class PersonController {
      */
     @ResponseBody
     @RequestMapping("/userManager")
-    public Json doUserManager(@RequestParam Page page){
+    public Json doUserManager(@RequestParam(required = false) Page page){
         List<UserDto> userDtos = userService.getAllUsers(page,"0");
         Json j = new Json();
         if (userDtos.size() != 0){
@@ -85,6 +91,7 @@ public class PersonController {
         }
         return j;
     }
+
     /**
      * 处理用户的单个删除
      * @return
@@ -120,32 +127,19 @@ public class PersonController {
     }
 
     /**
-     * 跳转到编辑用户密码页面
-     *
-     * @param id
-     * @param request
-     * @return
-     */
-    @RequestMapping("/editPwdPage")
-    public String editPwdPage(Integer id, HttpServletRequest request){
-//        User u=userService.get(id);
-//        request.setAttribute("user",u);
-        return "/personController/modifyPassword";
-    }
-
-    /**
      * 处理用户的密码修改，成功后重新登录
      * @return
      */
+    @ResponseBody
     @RequestMapping("/modifyPassword")
-    public Json editCurrentUserPwd(HttpSession session, String oldPwd, String pwd) {
+    public Json editCurrentUserPwd(HttpSession session, String oldPwd, String newPwd) {
         Json json = new Json();
         if (session != null) {
             SessionInfo sessionInfo = (SessionInfo) session.getAttribute(ConfigUtil.getSessionInfoName());
             if (sessionInfo != null) {
-                if (userService.editCurrentUserPwd(sessionInfo.getId(), oldPwd, pwd)) {
+                if (userService.editCurrentUserPwd(sessionInfo.getDoneUser().getId(), oldPwd, newPwd)) {
                     json.setSuccess(true);
-                    json.setMsg("编辑密码成功，下次登录生效！");
+                    json.setMsg("修改密码成功，下次登录生效！");
                 } else {
                     json.setMsg("原密码错误！");
                 }
@@ -154,6 +148,21 @@ public class PersonController {
             }
         } else {
             json.setMsg("登录超时，请重新登录！");
+        }
+        return json;
+    }
+
+    @ResponseBody
+    @RequestMapping("/editUserInfoAtAdminPost")
+    public Json editUserInfoAtAdminPost(UserDto userDto){
+        Json json = new Json();
+        if (userDto.getId() != 0){
+            UserDto doneUser = userService.update(userDto);
+            json.setObj(doneUser);
+            json.setSuccess(true);
+            json.setMsg("修改信息成功");
+        } else {
+            json.setMsg("修改信息失败");
         }
         return json;
     }
@@ -169,5 +178,42 @@ public class PersonController {
         return viewName;
     }
 
+    /**
+     * 修改用户信息
+     * @return
+     */
+    @RequestMapping("/updateUserInfo")
+    public ModelAndView updateUserInfoAtUserPost(UserDto userDto,HttpSession session,String pageName){
+        ModelAndView mv = new ModelAndView();
+
+        SessionInfo sessionInfo = (SessionInfo) session.getAttribute(ConfigUtil.getSessionInfoName());
+
+        switch (pageName){
+            case "nearby":
+                mv.setViewName("user/nearby");
+                break;
+            case "costEstimate":
+                mv.setViewName("user/costEstimate");
+                break;
+            case "userHome":
+                mv.setViewName("user/userHome");
+                break;
+            case "wayBillQuery":
+                mv.setViewName("user/wayBillQuery");
+                break;
+            case "userInfo":
+                mv.setViewName("user/userInfo");
+                break;
+                default:break;
+        }
+
+        UserDto doneUser = userService.update(userDto);
+
+        sessionInfo.setDoneUser(doneUser);
+        mv.addObject(ConfigUtil.getSessionInfoName(),sessionInfo);
+        session.setAttribute(ConfigUtil.getSessionInfoName(),sessionInfo);
+
+        return mv;
+    }
 
 }

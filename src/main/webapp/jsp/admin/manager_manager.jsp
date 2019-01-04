@@ -28,7 +28,6 @@
     <style>
         table{ border-collapse: collapse; border:1px solid #F2F2F2}
         table td{ text-align:center; height:20px; font-size:12px; line-height:30px; border:1px solid #DDDDDD;}
-
     </style>
 
 </head>
@@ -52,60 +51,21 @@
 
 <script>
     window.onload=function () {
-        // var str = new Array();
-
         $.ajax({
-            url: '/personController/adminManager',
+            url: '/personController/${functionName}',
             type: "post",
             success: function (res) {
-                data = eval(res);
-                var datas = data.obj;
-
-                // for (var i = 0; i < datas.length; i++) {
-                //     str.push({
-                //         "id": datas[i].id,
-                //         "name": datas[i].name,
-                //         "account": datas[i].account,
-                //         "password": datas[i].password,
-                //         "type": datas[i].type
-                //     })
-                // }
-                // alert(datas[0].account);
-                // $("#tables").bootstrapTable({
-                //     data:str,
-                //     striped: true,
-                //     pageSize: 8,
-                //     pagination: true,
-                //     pageNumber: 1,
-                //     clickToSelect: true,
-                //     dataType:"json",
-                //     method:"POST",
-                //     contentType: "application/x-www-form-urlencoded;charset=utf-8",
-                //     dataField: "data",
-                //     columns:[
-                //         {
-                //             field:'id',title:'编号',
-                //             width:100
-                //         },{
-                //             field:'name',title:'姓名',
-                //             width:100
-                //         },{
-                //             field:'account',title:'账号',
-                //             width:100
-                //         },{
-                //             field:'password',title:'密码',
-                //             width:100
-                //         },{
-                //             field:'type',title:'类型',
-                //             width:100
-                //         }
-                //     ]
-                // })
-                    var table=document.getElementById("tables");
+                var datas = res.obj;
+                var table=document.getElementById("tables");
+                if (datas.length == 0){
+                    var temp = table.insertRow(table.rows.length).insertCell(0);
+                    temp.innerHTML = res.msg;
+                    temp.colSpan = table.rows[0].cells.length;
+                } else {
                     for(var i=0;i<datas.length;i++){
                         var row=table.insertRow(table.rows.length);
                         var c1=row.insertCell(0);
-                        c1.innerHTML=datas[i].id;
+                        c1.innerHTML= i + 1;
 
                         var c2=row.insertCell(1);
                         c2.innerHTML=datas[i].name;
@@ -121,6 +81,7 @@
 
                         var c6=row.insertCell(5);
                         c6.innerHTML='<p>修改</p>'
+                    }
                 }
             }
         })

@@ -85,14 +85,6 @@ public class History {
         this.time = time;
     }
 
-    public User getUser() {
-        return users;
-    }
-
-    public void setUser(User user) {
-        this.users = user;
-    }
-
     public User getUsers() {
         return users;
     }

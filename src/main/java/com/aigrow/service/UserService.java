@@ -64,7 +64,7 @@ public interface UserService {
      * @param userDto
      * @return
      */
-    int update(UserDto userDto);
+    UserDto update(UserDto userDto);
 
     /**
      * 修改当前用户的密码
@@ -73,5 +73,5 @@ public interface UserService {
      * @param pwd
      * @return
      */
-    boolean editCurrentUserPwd(String userId, String oldPwd, String pwd);
+    boolean editCurrentUserPwd(int userId, String oldPwd, String pwd);
 }

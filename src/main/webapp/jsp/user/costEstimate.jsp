@@ -12,6 +12,9 @@
     <title>运费估计</title>
     <script src="../../jslib/jquery-1.8.3.js"></script>
     <script src="../../jslib/jquery-easyui-1.3.3/jquery.easyui.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="../../jslib/jquery-easyui-1.3.3/themes/default/easyui.css">
     <link rel="stylesheet" href="../../css/costEstimate/plugins/kuCity.css">
     <link href="../../css/bootstrap.css" rel="stylesheet">
@@ -27,12 +30,13 @@
     <script type="text/javascript" src="../../Bootstrap/locale/bootstrap-table-zh-CN.js"></script>
 
     <link rel="stylesheet" href="../../Bootstrap/Content/bootstrap-table.css">
+
     <style>
         div .shadow{
             text-align: center;
         }
         div{
-            min-width: 600px;
+            min-width: 20%  ;
         }
         div[name=right]{
             min-width: 50px;
@@ -65,8 +69,18 @@
                 <li style="float: right"><span class="navbar-brand" style="font-size: 14px" id="history">历史记录</span>
                 </li>
                 <li style="float: right"><a href="/appController/loginOut">注销</a></li>
-                <li style="float: right"><a href="#">用户信息</a></li>
-
+                <li style="float: right" class="dropdown" id="profile-messages"></a>
+                    <a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle">
+                        <i class="icon icon-user"></i>&nbsp;
+                        <span class="text">用户信息</span>&nbsp;
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/appController/userInfo?pageName=costEstimate"><i class="icon-user"></i>个人资料</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#passwordModel" data-toggle="modal"><i class="icon-check"></i> 修改密码</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
@@ -247,5 +261,41 @@
             })
         })
 </script>
+<!--修改密码的模态-->
+<div class="modal fade" id="passwordModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">修改密码</h4>
+            </div>
+            <div class="modal-body" style="text-align: center;">
+
+                <form class="bs-example bs-example-form" role="form" id="passwordForm" style="font-size: 15px">
+                    <div class="input-group">
+                        <span class="input-group-addon">原密码&nbsp;</span>
+                        <input name="oldPwd" type="text" class="form-control" placeholder="你的原密码" autofocus required pattern="^{a-zA-Z0-9}{1,7}$">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">新密码&nbsp;</span>
+                        <input name="newPwd" type="text" class="form-control" placeholder="请输入密码" required pattern="^{a-zA-Z}\w{1,7}$">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">密码确认</span>
+                        <input name="confirmPwd" type="text" class="form-control" placeholder="确认密码" required>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button id="passwordSubmitButton" type="button" class="btn btn-primary" form="passwordForm">提交更改</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<!--修改密码的模态结束-->
 </body>
 </html>

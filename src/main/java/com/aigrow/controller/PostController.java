@@ -11,6 +11,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -39,9 +47,10 @@ public class PostController {
      */
     @RequestMapping("/findhistory")
     public ModelAndView findHistory(HistoryDto historyDto){
-        ModelAndView mv = new ModelAndView("user/history");
-        historyDto.setType("1");
+        ModelAndView mv = new ModelAndView("user/nearbyHistory");
+        historyDto.setType("2");
         List<HistoryDto> result = historyService.findHistory(historyDto.getUserId(),historyDto.getType());
+        Collections.reverse(result);
         mv.addObject("history",result);
         return mv;
     }
@@ -54,7 +63,7 @@ public class PostController {
     @ResponseBody
     public Json addHistory(HistoryDto historyDto){
         Date date = new Date();//获得系统时间.
-        SimpleDateFormat sdf =   new SimpleDateFormat( "yyyy-MM-dd" );
+        SimpleDateFormat sdf =   new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
         String nowTime = sdf.format(date);
         try {
             date = sdf.parse( nowTime );
@@ -62,7 +71,7 @@ public class PostController {
             e.printStackTrace();
         }
         Json json = new Json();
-        historyDto.setType("1");
+        historyDto.setType("2");
         historyDto.setTime(date);
         historyService.addHistory(historyDto);
         return json;
