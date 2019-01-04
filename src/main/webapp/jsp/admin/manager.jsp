@@ -157,10 +157,10 @@
                 </div>
                 <div class="modal-body" style="text-align: center;">
 
-                    <form action="/personController/modifyPassword" class="bs-example bs-example-form" role="form" id="passwordForm" style="font-size: 15px">
+                    <form class="bs-example bs-example-form" role="form" id="passwordForm" style="font-size: 15px">
                         <div class="input-group">
                             <span class="input-group-addon">原密码&nbsp;</span>
-                            <input name="oldPwd" type="text" class="form-control" placeholder="你的原密码" required pattern="^{a-zA-Z0-9}{1,7}$">
+                            <input name="oldPwd" type="text" class="form-control" placeholder="你的原密码" autofocus required pattern="^{a-zA-Z0-9}{1,7}$">
                         </div>
                         <br>
                         <div class="input-group">
@@ -170,14 +170,14 @@
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">密码确认</span>
-                            <input name="newPwdConfirm" type="text" class="form-control" placeholder="确认密码" required>
+                            <input name="confirmPwd" type="text" class="form-control" placeholder="确认密码" required>
                         </div>
                     </form>
 
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="submit" class="btn btn-primary" form="passwordForm">提交更改</button>
+                    <button id="passwordSubmitButton" type="button" class="btn btn-primary" form="passwordForm">提交更改</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal -->
@@ -190,6 +190,39 @@
 <script src="../../js/mjs/nicescroll/jquery.nicescroll.min.js"></script>
 <script src="../../js/mjs/matrix.js"></script>
 <script type="text/javascript">
+    $("#passwordSubmitButton").click(function () {
+        var newPwd = $("input[name=newPwd]").val();
+        var confirmPwd = $("input[name=confirmPwd]").val();
+        if (newPwd == confirmPwd){
+            $.ajax({
+                url: "/personController/modifyPassword",
+                type: "post",
+                data:{
+                    "oldPwd": $("input[name=oldPwd]").val(),
+                    "newPwd": $("input[name=newPwd]").val()
+                },
+                success:function(data){
+                    var msg = data.msg;
+                    alert(msg);
+                    $("#passwordModel").modal("hide");
+                    $("input[name=newPwd]").val("") ;
+                    $("input[name=oldPwd]").val("");
+                    $("input[name=confirmPwd]").val("");
+                },
+                error:function (data) {
+                    var msg = data.msg;
+                    alert(msg);
+                    $("#passwordModel").modal("hide");
+                    $("input[name=newPwd]").val("");
+                    $("input[name=oldPwd]").val("");
+                    $("input[name=confirmPwd]").val("");
+                }
+            });
+        } else {
+            alert("两次密码不一致");
+        }
+    });
+
     //初始化相关元素高度
     function init(){
         $("body").height($(window).height()-80);
