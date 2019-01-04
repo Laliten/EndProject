@@ -184,24 +184,26 @@ public class PersonController {
     @RequestMapping("/updateUserInfo")
     public ModelAndView updateUserInfoAtUserPost(UserDto userDto,HttpSession session,String pageName){
         ModelAndView mv = new ModelAndView();
-//        SessionInfo sessionInfo = new SessionInfo();
 
         SessionInfo sessionInfo = (SessionInfo) session.getAttribute(ConfigUtil.getSessionInfoName());
 
-        if(pageName.equals("附近驿站")){
-            mv.setViewName("user/nearby");
-        }
-        else if(pageName.equals("主界面")){
-            mv.setViewName("user/userHome");
-        }
-        else if(pageName.equals("运费估计")){
-            mv.setViewName("user/costEstimate");
-        }
-        else if(pageName.equals("运单查询")){
-            mv.setViewName("user/wayBillQuery");
-        }
-        else {
-            mv.setViewName("user/userInfo");
+        switch (pageName){
+            case "附近驿站":
+                mv.setViewName("user/nearby");
+                break;
+            case "运费估计":
+                mv.setViewName("user/costEstimate");
+                break;
+            case "主界面":
+                mv.setViewName("user/userHome");
+                break;
+            case "运单查询":
+                mv.setViewName("user/wayBillQuery");
+                break;
+            case "用户信息":
+                mv.setViewName("user/userInfo");
+                break;
+                default:break;
         }
 
         UserDto doneUser = userService.update(userDto);
@@ -212,6 +214,5 @@ public class PersonController {
 
         return mv;
     }
-
 
 }

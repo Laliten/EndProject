@@ -2,9 +2,7 @@ package com.aigrow.service.impl;
 
 import com.aigrow.dao.PackageDao;
 import com.aigrow.dao.UserDao;
-import com.aigrow.dao.impl.UserDaoImpl;
 import com.aigrow.model.dto.Page;
-import com.aigrow.model.dto.SessionInfo;
 import com.aigrow.model.dto.UserDto;
 import com.aigrow.model.entity.Package;
 import com.aigrow.model.entity.User;

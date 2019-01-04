@@ -11,13 +11,9 @@
 <html>
 <head>
     <style>
-        html,body{
-            width:100%;
-            height:100%
-        }
         body{
             font-family: "华文细黑";
-            background:url("../../image/history/history.jpg")top center no-repeat;
+            background:url("../../image/history/history.jpg") no-repeat;
             background-size:cover;
         }
         .text{
@@ -33,15 +29,26 @@
             font-size: 20px;
         }
     </style>
+    <script src="../../jslib/jquery-1.8.3.js"></script>
 </head>
+<script>
+    function put(obj) {
+        var place = obj.value;
+        parent.document.getElementById('place').value=place;
+        parent.setCity();
+    }
+</script>
 <body>
     <div class="text">
         <h4>历史记录</h4>
     </div>
     <div style="">
+        <c:if test="${empty history}">
+            无历史记录。
+        </c:if>
         <c:if test="${!empty history}">
-            <c:forEach items="${history}" var="history" >
-                <span class="intro">地点</span>：${history.place}
+            <c:forEach items="${history}" var="history" varStatus="status">
+                <span class="intro">地点</span>：<button onclick="put(this)" value="${history.place}">${history.place}</button>
                 <br>
                 <span class="intro">时间</span>：${history.time}
                 <br>
