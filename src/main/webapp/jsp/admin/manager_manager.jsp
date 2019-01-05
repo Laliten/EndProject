@@ -114,13 +114,13 @@
             type: "post",
             success: function (res) {
                 var datas = res.obj;
-                var table=document.getElementById("tables");
-                if (!res.success){
+                var table = document.getElementById("tables");
+                if (!res.success) {
                     var temp = table.insertRow(table.rows.length).insertCell(0);
                     temp.innerHTML = res.msg;
                     temp.colSpan = table.rows[0].cells.length;
                 } else {
-                    for(var i=0;i<datas.length;i++) {
+                    for (var i = 0; i < datas.length; i++) {
                         var row = table.insertRow(table.rows.length);
                         var c1 = row.insertCell(0);
                         c1.innerHTML = '<input type="checkbox" style="float: left" name="checkbox" value="' + datas[i].id + '">' + (i + 1);
@@ -143,9 +143,10 @@
                         var c6 = row.insertCell(5);
                         c6.innerHTML = '<span style="color: green" id="revise" onclick="window.parent.$(\'#revise_modal\').modal(\'show\');rel(' + datas[i].id + ')" >修改</span><span>&nbsp;&nbsp;</span>' +
                             ' <span style="color:black" id="delete" onclick="show2()">删除</span>' +
-                    }                ' <span style="color:red;display: none" id="sure_delete" onclick="del('+datas[i].id+');" >确认删除？</span>';
-                }
+                            ' <span style="color:red;display: none" id="sure_delete" onclick="del(' + datas[i].id + ');" >确认删除？</span>';
 
+                    }
+                }
             }
         })
     }

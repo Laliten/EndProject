@@ -101,6 +101,7 @@ public class PersonController {
     @RequestMapping("/singleDelete")
     public Json singleDelete(String id,HttpSession session){
         Json j=new Json();
+        SessionInfo sessionInfo = (SessionInfo) session.getAttribute(ConfigUtil.getSessionInfoName());
         if(id!=null&&!id.equalsIgnoreCase(sessionInfo.getId())){
             userService.singleDelete(Integer.parseInt(id));
         }

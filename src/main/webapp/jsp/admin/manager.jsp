@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="../../css/mcss/matrix-media.css" />
     <link rel="stylesheet" href="../../css/font-awesome/css/font-awesome.css" />
 
-    <script type="text/javascript" src="../../js/jquery-3.3.1.js"></script>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
     <script type="text/javascript" src="../../js/table.min.js"></script>
     <script type="text/javascript" src="../../js/bootstrap-table.js"></script>
     <script type="text/javascript" src="../../js/mjs/bootstrap-table-zh-CN.js"></script>
@@ -157,7 +157,7 @@
     <!--End-breadcrumbs-->
     <div style="margin: 0px 0px 0px 50px">
 
-        <iframe src="manager_manager" width="95%" height="550px" name="iframeContainer" id="iframeContainer">
+        <iframe src="manager_manager.jsp" width="95%" height="550px" name="iframeContainer" id="iframeContainer">
         </iframe>
 
     </div>
