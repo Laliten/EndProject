@@ -43,10 +43,10 @@ public interface MeterService {
 
     /**
      * 删除一条价格
-     * @param meterId
+     * @param meterDto
      * @return
      */
-    void singleDelete(int meterId);
+    MeterDto singleDelete(MeterDto meterDto);
 
     /**
      * 批量删除

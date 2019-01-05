@@ -69,9 +69,24 @@
     function show1() {
         $("#ensure").toggle();
     }
-    function show2() {
-        $("#sure_delete").toggle();
+    function show2(i) {
+        var str="";
+        str+="#";
+        str+=i;
+        $(str).toggle();
     }
+    var i=0;
+    // function myCan() {
+    //     i++;
+    //     if (i%2){
+    //     var t1=document.getElementById("delete");
+    //     t1.innerHTML="取消删除";
+    //     } else {
+    //     var t=document.getElementById("delete");
+    //     t.innerHTML="删除";
+    // }
+    // }
+
 </script>
 </head>
 <body>
@@ -193,9 +208,9 @@
                             c5.innerHTML = "管理员";
                         }
                         var c6 = row.insertCell(5);
-                        c6.innerHTML = '<span style="color: green" id="revise" onclick="window.parent.$(\'#revise_modal\').modal(\'show\');rel(' + datas[i].id + ')" >修改</span><span>&nbsp;&nbsp;</span>' +
-                            ' <span style="color:black" id="delete" onclick="show2()">删除</span>' +
-                            ' <span style="color:red;display: none" id="sure_delete" onclick="del(' + datas[i].id + ');" >确认删除？</span>';
+                        c6.innerHTML = '<span style="color: green" id="revise" onclick="window.parent.$(\'#userInfoModel\').modal(\'show\');rel(' + datas[i].id + ')" >修改</span><span>&nbsp;&nbsp;</span>' +
+                            ' <span style="color:black" id="delete" onclick="show2('+i+');myCan()">删除</span>' +
+                            ' <span style="color:red;display: none" id='+i+' onclick="del(' + datas[i].id + ');" >确认删除？</span>';
 
                     }
                 }
