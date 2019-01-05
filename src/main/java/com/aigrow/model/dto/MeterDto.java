@@ -10,6 +10,8 @@ public class MeterDto {
     private int nextWeightPrice;
     private String companyName;
     private String companyCode;
+    private int firstWeight;
+
 
     public int getId() {
         return id;
@@ -57,5 +59,13 @@ public class MeterDto {
 
     public void setCompanyCode(String companyCode) {
         this.companyCode = companyCode;
+    }
+
+    public int getFirstWeight() {
+        return firstWeight;
+    }
+
+    public void setFirstWeight(int firstWeight) {
+        this.firstWeight = firstWeight;
     }
 }

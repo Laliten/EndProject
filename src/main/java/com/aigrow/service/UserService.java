@@ -74,4 +74,11 @@ public interface UserService {
      * @return
      */
     boolean editCurrentUserPwd(int userId, String oldPwd, String pwd);
+
+    /**
+     * 获取有多少用户
+     * @param requestType
+     * @return
+     */
+    long numOfUsers(String requestType);
 }

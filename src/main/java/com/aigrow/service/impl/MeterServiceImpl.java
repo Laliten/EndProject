@@ -87,6 +87,20 @@ public class MeterServiceImpl implements MeterService{
     }
 
     /**
+     * 获取计价表的总条数
+     * @param companyCode
+     * @return
+     */
+    @Override
+    public long numOfMeters(String companyCode) {
+        Map<String,Object> map = new HashMap<>(0);
+        map.put("code", companyCode);
+        String hql = "select count(*) from Meter m where m.company.code=:code";
+        long numOfMeters = meterDao.count(hql,map);
+        return numOfMeters;
+    }
+
+    /**
      * 添加对应公司的计价单
      * @param meterDto
      * @return

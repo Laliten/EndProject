@@ -17,13 +17,14 @@ public class Meter {
     private Integer firstWeightPrice;
     @Column(name = "next_weight_price")
     private Integer nextWeightPrice;
+    @Column(name = "first_weight")
+    private Integer firstWeight;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "company_id")
     private Company company;
 
-    @Column(name = "first_weight")
-    private Integer firstWeight;
+
 
     public Integer getId() {
         return id;

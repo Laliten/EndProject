@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,13 +40,30 @@ public class PersonController {
      */
     @ResponseBody
     @RequestMapping("/adminManager")
-    public Json doAdminManager(@RequestParam(required = false) Page page){
+    public Json doAdminManager(HttpSession session, Page page){
+        Map<String, Object> map = new HashMap<>(0);
+
+
+        SessionInfo sessionInfo = (SessionInfo) session.getAttribute(ConfigUtil.getSessionInfoName());
+        // 1代表管理员，0代表用户
+        long numOfUsers = userService.numOfUsers("1");
         List<UserDto> userDtos = userService.getAllUsers(page,"1");
+        map.put("allUsers",userDtos);
+
+
+        long totalPages = numOfUsers%page.getPageSize()==0?
+                (numOfUsers/page.getPageSize()):((numOfUsers/page.getPageSize())+1);
+        page.setTotalPages(totalPages);
+        page.setTotalRecordSize(numOfUsers);
+        sessionInfo.setPage(page);
+        session.setAttribute(ConfigUtil.getSessionInfoName(), sessionInfo);
+        map.put("page", page);
+
         Json j = new Json();
         if (userDtos.size() != 0){
             j.setSuccess(true);
             j.setMsg("查询成功");
-            j.setObj(userDtos);
+            j.setObj(map);
         } else {
             j.setSuccess(false);
             j.setMsg("当前还未有管理员");
@@ -59,16 +77,34 @@ public class PersonController {
      */
     @ResponseBody
     @RequestMapping("/userManager")
-    public Json doUserManager(@RequestParam(required = false) Page page){
+    public Json doUserManager(HttpSession session, Page page){
+        Map<String, Object> map = new HashMap<>(0);
+
+
+        SessionInfo sessionInfo = (SessionInfo) session.getAttribute(ConfigUtil.getSessionInfoName());
+        // 1代表管理员，0代表用户
+        long numOfUsers = userService.numOfUsers("0");
         List<UserDto> userDtos = userService.getAllUsers(page,"0");
+        map.put("allUsers",userDtos);
+
+
+        long totalPages = numOfUsers%page.getPageSize()==0?
+                (numOfUsers/page.getPageSize()):((numOfUsers/page.getPageSize())+1);
+        page.setTotalPages(totalPages);
+        page.setTotalRecordSize(numOfUsers);
+        sessionInfo.setPage(page);
+        session.setAttribute(ConfigUtil.getSessionInfoName(), sessionInfo);
+        map.put("page", page);
+
         Json j = new Json();
         if (userDtos.size() != 0){
             j.setSuccess(true);
             j.setMsg("查询成功");
-            j.setObj(userDtos);
+            j.setObj(map);
         } else {
             j.setSuccess(false);
-            j.setMsg("当前还未有管理");
+            j.setMsg("当前还未有用户");
+            j.setObj(map);
         }
         return j;
     }
