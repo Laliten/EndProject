@@ -131,16 +131,18 @@ public class MeterServiceImpl implements MeterService{
 
     /**
      * 删除一条价格
-     * @param meterId
+     * @param meterDto
      * @return
      */
     @Override
-    public void singleDelete(int meterId) {
-        if(meterId==0){
-            return;
+    public MeterDto singleDelete(MeterDto meterDto) {
+        if(meterDto==null){
+            return null;
         }
-        Meter meter = meterDao.get(Meter.class,meterId);
+        Meter meter = new Meter();
+        BeanUtils.copyProperties(meterDto,meter);
         meterDao.delete(meter);
+        return meterDto;
     }
 
     /**
@@ -165,14 +167,10 @@ public class MeterServiceImpl implements MeterService{
         Meter meter = new Meter();
         Map<String, Object> map = new HashMap<>(0);
         map.put("companyCode",meterDto.getCompanyCode());
-        map.put("companyName",meterDto.getCompanyName());
         if (meterDto != null){
             BeanUtils.copyProperties(meterDto, meter);
             if(meterDto.getCompanyCode()!=null){
                 meter.setCompany(companyDao.get("from Company c where c.code=:companyCode",map));
-            }
-            if(meterDto.getCompanyName()!=null){
-                meter.setCompany(companyDao.get("from Company c where c.name=:companyName",map));
             }
         }
         return meter;
