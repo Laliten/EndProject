@@ -177,7 +177,6 @@
                 "totalRecordSize": totalRecordSize
             },
             success: function (res) {
-                var num = totalRecordSize;
                 var map = res.obj;
                 var datas = map["allUsers"];
                 var page = map["page"];

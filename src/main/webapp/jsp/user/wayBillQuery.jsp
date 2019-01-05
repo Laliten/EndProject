@@ -45,6 +45,9 @@
                             </ul>
                         </li>
                         <li ><a href="/appController/loginOut">注销</a></li>
+                        <li>
+                            <a href="#helpWord" data-toggle="modal"><button style="width: 20px;height: 20px;border-radius: 50%;background-color:grey;border: grey;font-family: 华文细黑;color: black" >?</button></a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -101,5 +104,23 @@
     </div><!-- /.modal -->
 </div>
 <!--修改密码的模态结束-->
+<div class="modal fade" id="helpWord" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">帮助文档</h4>
+            </div>
+            <div class="modal-body" style="text-align: center;">
+                <p>1.首页用于展示本公司的承包业务</p>
+                <p>2.运费估计功能用于运费的估计，您可以进行搜索，我们将提供方案供您选择</p>
+                <p>3.附近驿站功能用于显示您附近的驿站信息，你可以到附近的驿站进行包裹的寄送</p>
+                <p>4.运单查询功能用于查询您的运单信息</p>
+                <p>5.历史纪录功能：在本功能您可以点击查看自己曾经搜索过的记录</p>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
 </body>
 </html>
