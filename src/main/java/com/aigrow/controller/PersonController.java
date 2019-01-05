@@ -113,10 +113,11 @@ public class PersonController {
      * 处理用户的批量删除, 重新获取所有用户
      * @return
      */
+    @ResponseBody
     @RequestMapping("/batchDelete")
     public Json batchDelete(String ids,HttpSession session){
         Json j=new Json();
-        if(ids!=null&&ids.length()>0){
+        if(ids!=null&&ids.length()>0&&!ids.equals("zhang")){
             for (String id:ids.split(",")){
                 if (id!=null){
                     this.singleDelete(id,session);
@@ -132,15 +133,17 @@ public class PersonController {
      * 处理用户的单个删除
      * @return
      */
+    @ResponseBody
     @RequestMapping("/singleDelete")
     public Json singleDelete(String id,HttpSession session){
-        SessionInfo sessionInfo= (SessionInfo) session.getAttribute(ConfigUtil.getSessionInfoName());
         Json j=new Json();
+        SessionInfo sessionInfo = (SessionInfo) session.getAttribute(ConfigUtil.getSessionInfoName());
         if(id!=null&&!id.equalsIgnoreCase(sessionInfo.getId())){
             userService.singleDelete(Integer.parseInt(id));
         }
         j.setSuccess(true);
         j.setMsg("删除成功！");
+
         return j;
     }
     /**
