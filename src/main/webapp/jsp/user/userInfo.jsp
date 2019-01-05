@@ -254,7 +254,11 @@
                 <h4 class="modal-title">帮助文档</h4>
             </div>
             <div class="modal-body" style="text-align: center;">
-                aaaa
+                用户的个人信息面板。<br><br>
+                用户的编号和身份是不可更改的。<br><br>
+                用户可以更改自己的姓名和用户名，<br><br>
+                用户名需要进行唯一性验证，<br><br>
+                若以存在，按钮则会变灰并不可点击。<br>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->

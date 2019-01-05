@@ -222,7 +222,9 @@
                 <h4 class="modal-title">帮助文档</h4>
             </div>
             <div class="modal-body" style="text-align: center;">
-                aaaa
+                用户可以通过在输入框输入地址来查询附近的驿站信息。<br><br>
+                用户可以点击历史记录来查看自己的查询历史，<br><br>
+                并可以点击历史信息中的地址来显示附近驿站的信息<br><br>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
