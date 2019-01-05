@@ -157,7 +157,7 @@
     <!--End-breadcrumbs-->
     <div style="margin: 0px 0px 0px 50px">
 
-        <iframe src="manager_manager.jsp" width="95%" height="550px" name="iframeContainer" id="iframeContainer">
+        <iframe src="manager_manager" width="95%" height="550px" name="iframeContainer" id="iframeContainer">
         </iframe>
 
     </div>
