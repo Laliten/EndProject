@@ -193,7 +193,7 @@
         })
     })
     $("#history").click(function () {
-        $("#iframe").attr("src","/packageController/history?user_id=${sessionInfo.doneUser.id}")
+        $("#iframe").attr("src","/packageController/history?userId=${sessionInfo.doneUser.id}")
         $(".right").animate({
             height: "toggle"
         });
