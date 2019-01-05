@@ -112,7 +112,6 @@
             },
             type: "post",
             success: function (res) {
-                var num = totalRecordSize;
                 var map = res.obj;
                 var datas = map["allMeters"];
                 var page = map["page"];
@@ -127,7 +126,7 @@
 
                         var row=table.insertRow(table.rows.length);
                         var c1=row.insertCell(0);
-                        c1.innerHTML= num--;
+                        c1.innerHTML= i + 1;
 
                         var c2=row.insertCell(1);
                         c2.innerHTML=datas[i].destination;

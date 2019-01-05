@@ -162,7 +162,6 @@
                 "totalRecordSize": totalRecordSize
             },
             success: function (res) {
-                var num = totalRecordSize;
                 var map = res.obj;
                 var datas = map["allUsers"];
                 var page = map["page"];
@@ -174,7 +173,7 @@
                 } else {
                     $("#tables tr:not(:first)").empty("");
                     for (var i = 0; i < datas.length; i++) {
-                        var row=table.insertRow(1);
+                        var row=table.insertRow(table.rows.length);
                         var c1 = row.insertCell(0);
                         c1.innerHTML = '<input type="checkbox" style="float: left" name="checkbox" value="' + datas[i].id + '">' + (i + 1);
 
