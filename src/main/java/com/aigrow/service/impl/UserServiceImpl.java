@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<UserDto> getAllUsers(Page page, String type) {
         String hql = "from User u where u.type="+type;
-        List<User> userList = userDao.find(hql);
+        List<User> userList = userDao.find(hql,page.getNextPage(),page.getPageSize());
         return this.e2d(userList);
     }
 
@@ -153,6 +153,7 @@ public class UserServiceImpl implements UserService{
     public UserDto update(UserDto userDto) {
 
         User user = userDao.get(User.class,userDto.getId());
+
         user.setName(userDto.getName());
         user.setAccount(userDto.getAccount());
 
@@ -191,6 +192,17 @@ public class UserServiceImpl implements UserService{
             return true;
         }
         return false;
+    }
+
+    /**
+     * 获取有多少用户
+     * @param requestType
+     * @return
+     */
+    @Override
+    public long numOfUsers(String requestType) {
+        long num = userDao.count("select count(*) from User u where u.type="+requestType);
+        return num;
     }
 
     /**

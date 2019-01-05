@@ -54,4 +54,11 @@ public interface MeterService {
      * @return
      */
     void batchDelete(String meterIds);
+
+    /**
+     * 获取计价表的总条数
+     * @param companyCode
+     * @return
+     */
+    long numOfMeters(String companyCode);
 }

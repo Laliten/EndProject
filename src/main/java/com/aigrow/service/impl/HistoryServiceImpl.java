@@ -18,7 +18,7 @@ import java.util.*;
  * @author GaoJiaHui
  */
 @Service
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class HistoryServiceImpl implements HistoryService {
 
     @Autowired
@@ -34,7 +34,7 @@ public class HistoryServiceImpl implements HistoryService {
     @Override
     public List<HistoryDto> findHistory(int userId,String type) {
         String hql = "select h from History h,User u where h.users.id=u.id and u.id=:userId and h.type=:type";
-        Map<String,Object> params = new HashMap<>();
+        Map<String,Object> params = new HashMap<>(0);
         params.put("userId", userId);
         params.put("type", type);
         List<History> history = historyDao.find(hql,params);

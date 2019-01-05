@@ -3,13 +3,18 @@ package com.aigrow.controller;
 import com.aigrow.model.dto.MeterDto;
 import com.aigrow.model.dto.Json;
 import com.aigrow.model.dto.Page;
+import com.aigrow.model.dto.SessionInfo;
 import com.aigrow.service.MeterService;
+import com.aigrow.util.ConfigUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author YangDeJian
@@ -114,16 +119,34 @@ public class MeterController {
      */
     @ResponseBody
     @RequestMapping("/companyMeter")
-    public Json getMeter(Page page, String companyCode){
-        Json json = new Json();
+    public Json getMeter(HttpSession session, Page page, String companyCode){
+        Map<String, Object> map = new HashMap<>(0);
+
+        SessionInfo sessionInfo = (SessionInfo) session.getAttribute(ConfigUtil.getSessionInfoName());
+
+
+        long numOfMeters = meterService.numOfMeters(companyCode);
+        long totalPages = numOfMeters%page.getPageSize()==0?
+                (numOfMeters/page.getPageSize()):((numOfMeters/page.getPageSize())+1);
+        page.setTotalRecordSize(numOfMeters);
+        page.setTotalPages(totalPages);
+        sessionInfo.setPage(page);
+        session.setAttribute(ConfigUtil.getSessionInfoName(),sessionInfo);
+        map.put("page", page);
+
         List<MeterDto> companyMeter = meterService.getCompanyMeter(companyCode, page);
+        map.put("allMeters", companyMeter);
+
+        Json json = new Json();
         try{
             if (companyMeter != null && companyMeter.size() != 0){
                 json.setSuccess(true);
                 json.setMsg("查询成功");
-                json.setObj(companyMeter);
+                json.setObj(map);
             } else {
+                json.setSuccess(false);
                 json.setMsg("当前还未有数据");
+                json.setObj(map);
             }
         } catch (Exception e){
             e.printStackTrace();

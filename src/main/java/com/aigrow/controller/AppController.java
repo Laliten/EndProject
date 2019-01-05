@@ -156,7 +156,7 @@ public class AppController {
     public ModelAndView managerMeter(String companyCode){
         ModelAndView mv = new ModelAndView();
         mv.setViewName("admin/manager_meter");
-        mv.addObject("functionName", "/companyMeter");
+        mv.addObject("functionName", "companyMeter");
         switch (companyCode.trim()){
             case "SF": mv.addObject("companyCode","SF");break;
             case "STO": mv.addObject("companyCode","STO");break;

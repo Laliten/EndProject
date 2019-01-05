@@ -19,6 +19,9 @@
     <style>
         body{
             padding-top: 50px;
+            background: url("../../image/city_banner.png");
+            background-repeat:no-repeat;
+            background-size:100% 100%;
         }
         .starter{
             padding: 40px 15px;
