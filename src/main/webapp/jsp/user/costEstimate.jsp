@@ -76,7 +76,7 @@
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="/appController/userInfo?page=运费估计"><i class="icon-user"></i>个人资料</a></li>
+                        <li><a href="/appController/userInfo?pageName=costEstimate"><i class="icon-user"></i>个人资料</a></li>
                         <li class="divider"></li>
                         <li><a href="#passwordModel" data-toggle="modal"><i class="icon-check"></i> 修改密码</a></li>
                     </ul>
@@ -111,7 +111,7 @@
                                 <span class="intro">终点</span>
                                 <input type="text" name="destination" class="search form-control form-control-inline" id="destination">
                                 <span class="intro">重量</span>
-                                <input type="text" name="weight" value="12" class="form-control form-control-inline"
+                                <input type="text" name="weight" class="form-control form-control-inline"
                                        id="weight">
                                 <button class="btn btn-default" type="button">kg</button>
                                 <input type="button" class="btn btn-primary form-control-inline"
@@ -173,7 +173,7 @@
         <%--<span class="intro">公司名称</span>：顺丰--%>
         <%--<br>--%>
         <%--<span class="intro">备注</span>：很快--%>
-        <iframe src="/packageController/history?user_id=123"></iframe>
+        <iframe id="iframe" style="height: 1000px"></iframe>
     </div>
 </div>
 <script src="../../js/costEstimate/plugins/kuCity.js"></script>
@@ -190,6 +190,7 @@
         })
     })
     $("#history").click(function () {
+        $("#iframe").attr("src","/packageController/history?user_id=${sessionInfo.doneUser.id}")
         $(".right").animate({
             height: "toggle"
         });
@@ -214,7 +215,7 @@
             var weight = $("#weight").val();
             var start = $("#start").val();
             $.ajax({
-                url:'/packageController/costQuery?destination='+destination+'&weight='+weight+'&start='+start,
+                url:'/packageController/costQuery?destination='+destination+'&weight='+weight+'&start='+start+'&userId=${sessionInfo.doneUser.id}',
                 type:"post",
                 success:function (res) {
                     datas = eval(res);
@@ -223,7 +224,6 @@
                     }
                     $("#table").bootstrapTable({
                         data: str,
-                        striped: true,
                         pageSize: 8,
                         pagination: true,
                         pageNumber: 1,
@@ -249,10 +249,11 @@
                             }, {
                                 filed: "cost",
                                 title: "花费",
-                                sortable: true, width:100,
+                                sortable: true, width:100
                             }, {
                                 filed: "trustDegree",
                                 title: "信用等级", width:100,
+                                sortable:true
                             }
                         ]
                     })

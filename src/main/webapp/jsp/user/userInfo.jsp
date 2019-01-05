@@ -38,7 +38,6 @@
             display: block;
         }
         .fileInputContainer{
-
             height: 99px;
             width: 99px;
             margin: 0 auto ;
@@ -117,7 +116,7 @@
     function check(){
         var account = $("#account").val();
         $.ajax({
-            url:"/appController/checkUsername.html",
+            url:"/appController/checkUsername",
             type:"post",
             dataType:"JSON",
             async:true,
@@ -164,7 +163,7 @@
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="/appController/userInfo?page=用户信息"><i class="icon-user"></i>个人资料</a></li>
+                        <li><a href="/appController/userInfo?pageName=userInfo"><i class="icon-user"></i>个人资料</a></li>
                         <li class="divider"></li>
                         <li><a href="#passwordModel" data-toggle="modal"><i class="icon-check"></i> 修改密码</a></li>
                     </ul>
@@ -175,7 +174,7 @@
 </nav>
 <br><br><br><br>
 
-<input type="hidden" name="page" id="page" value="${page}" form="form1">
+<input type="hidden" name="pageName" id="pageName" value="${pageName}" form="form1">
 <form action="/personController/updateUserInfo" method="post" name="form1" id="form1"></form>
 <div class="Content-Main">
     <h1>个人信息</h1>

@@ -17,7 +17,7 @@ public interface MeterService {
      * @param start
      * @return
      */
-    List<CostEstimateDto> cost(int weight, String destination, Page page, String start);
+    List<CostEstimateDto> cost(double weight, String destination, Page page, String start);
 
     /**
      * 获取对应公司名字的计价表
@@ -54,4 +54,11 @@ public interface MeterService {
      * @return
      */
     void batchDelete(String meterIds);
+
+    /**
+     * 获取计价表的总条数
+     * @param companyCode
+     * @return
+     */
+    long numOfMeters(String companyCode);
 }

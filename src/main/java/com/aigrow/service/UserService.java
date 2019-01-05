@@ -31,7 +31,7 @@ public interface UserService {
      * @param type
      * @return
      */
-    List<UserDto> getAllUsers(Page page,  String type);
+    List<UserDto> getAllUsers(Page page, String type);
 
     /**
      * 进行注册验证，验证用户名是否唯一，正确返回0，失败返回1
@@ -73,5 +73,12 @@ public interface UserService {
      * @param pwd
      * @return
      */
-    boolean editCurrentUserPwd(String userId, String oldPwd, String pwd);
+    boolean editCurrentUserPwd(int userId, String oldPwd, String pwd);
+
+    /**
+     * 获取有多少用户
+     * @param requestType
+     * @return
+     */
+    long numOfUsers(String requestType);
 }

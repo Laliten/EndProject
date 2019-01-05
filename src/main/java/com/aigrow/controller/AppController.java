@@ -104,9 +104,9 @@ public class AppController {
      * @return
      */
     @RequestMapping("/userInfo")
-    public ModelAndView userInfo(String page){
+    public ModelAndView userInfo(String pageName){
         ModelAndView mv = new ModelAndView("user/userInfo");
-        mv.addObject("page",page);
+        mv.addObject("pageName",pageName);
         return mv;
     }
 
@@ -140,9 +140,9 @@ public class AppController {
         mv.setViewName("admin/manager_manager");
 
         if ("user".equals(requestType)){
-            mv.addObject("functionName", "/userManager");
+            mv.addObject("functionName", "userManager");
         } else {
-            mv.addObject("functionName", "/adminManager");
+            mv.addObject("functionName", "adminManager");
         }
         return mv;
     }
@@ -156,7 +156,7 @@ public class AppController {
     public ModelAndView managerMeter(String companyCode){
         ModelAndView mv = new ModelAndView();
         mv.setViewName("admin/manager_meter");
-        mv.addObject("functionName", "/companyMeter");
+        mv.addObject("functionName", "companyMeter");
         switch (companyCode.trim()){
             case "SF": mv.addObject("companyCode","SF");break;
             case "STO": mv.addObject("companyCode","STO");break;

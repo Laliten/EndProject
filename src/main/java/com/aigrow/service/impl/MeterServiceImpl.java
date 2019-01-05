@@ -32,7 +32,7 @@ public class MeterServiceImpl implements MeterService{
     private CompanyDao companyDao;
 
     @Override
-    public List<CostEstimateDto> cost(int weight, String destination, Page page, String start) {
+    public List<CostEstimateDto> cost(double weight, String destination, Page page, String start) {
         List<CostEstimateDto> costEstimateDtos = new ArrayList<>();
         List<Meter> meterList;
         List<Company> companyList;
@@ -51,7 +51,7 @@ public class MeterServiceImpl implements MeterService{
                 Meter meter = meterList.get(i);
                 Company company = companyList.get(i);
 
-                cost = meter.getFirstWeightPrice()+(weight-1)*(meter.getNextWeightPrice());
+                cost = (int) (meter.getFirstWeightPrice()+(weight-1)*(meter.getNextWeightPrice()));
 
                 costEstimateDto.setId(meter.getId());
                 costEstimateDto.setCost(cost);
@@ -84,6 +84,20 @@ public class MeterServiceImpl implements MeterService{
             return this.e2d(meters);
         }
         return null;
+    }
+
+    /**
+     * 获取计价表的总条数
+     * @param companyCode
+     * @return
+     */
+    @Override
+    public long numOfMeters(String companyCode) {
+        Map<String,Object> map = new HashMap<>(0);
+        map.put("code", companyCode);
+        String hql = "select count(*) from Meter m where m.company.code=:code";
+        long numOfMeters = meterDao.count(hql,map);
+        return numOfMeters;
     }
 
     /**

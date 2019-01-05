@@ -14,10 +14,8 @@ public class SessionInfo implements Serializable {
     private String id;
     private String username;
     private List<UserDto> userDtos=new ArrayList<>();
-    /**
-     * 将登录人的对象放到这里
-     */
     private UserDto doneUser = new UserDto();
+    private Page page = new Page();
 
     public UserDto getDoneUser() {
         return doneUser;
@@ -49,5 +47,13 @@ public class SessionInfo implements Serializable {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Page getPage() {
+        return page;
+    }
+
+    public void setPage(Page page) {
+        this.page = page;
     }
 }

@@ -37,7 +37,7 @@
     <input type="button" name="select_delete" id="select_delete" value="批量删除">
     <input type="button" name="ensure" id="ensure" value="确定" style="display: none" >
 </div>
-<div>
+<div style="text-align: center">
     <table id="tables" class="table table-hover table-bordered" style="text-align: center">
         <tr>
             <th>编号</th>
@@ -48,50 +48,111 @@
             <th>操作</th>
         </tr>
     </table>
+    <span>
+        <form id="pageForm" method="post">
+            <input type="hidden" id="currentPage" name="currentPage" value="${sessionScope.sessionInfo.page.currentPage}">
+            <input type="hidden" id="nextPage" name="nextPage" value="${sessionScope.sessionInfo.page.nextPage}">
+            <input type="hidden" id="pageSize" name="pageSize" value="${sessionScope.sessionInfo.page.pageSize}">
+            <input type="hidden" id="totalPages" name="totalPages" value="${sessionScope.sessionInfo.page.totalPages}">
+            <input type="hidden" id="totalRecordSize" name="totalRecordSize" value="${sessionScope.sessionInfo.page.totalRecordSize}">
 
-    <script>
-        window.onload=function () {
-            $.ajax({
-                url: '/meterController/${functionName}',
-                data:{
-                    "companyCode":"${companyCode}"
-                },
-                type: "post",
-                success: function (res) {
-                    data = eval(res);
-                    var datas = data.obj;
-                    var table=document.getElementById("tables");
-                    if (datas.length == 0){
-                        var temp = table.insertRow(table.rows.length).insertCell(0);
-                        temp.innerHTML = "暂无数据";
-                        temp.colSpan = table.rows[0].cells.length;
-                    } else {
-                        for(var i=0;i<datas.length;i++){
-                            var row=table.insertRow(table.rows.length);
-                            var c1=row.insertCell(0);
-                            c1.innerHTML=datas[i].id;
-
-                            var c2=row.insertCell(1);
-                            c2.innerHTML=datas[i].destination;
-
-                            var c3=row.insertCell(2);
-                            c3.innerHTML=datas[i].firstWeight;
-
-                            var c4=row.insertCell(3);
-                            c4.innerHTML=datas[i].firstWeightPrice;
-
-                            var c5=row.insertCell(4);
-                            c5.innerHTML=datas[i].nextWeightPrice;
-
-                            var c6=row.insertCell(5);
-                            c6.innerHTML='<p>修改</p>'
-                        }
-                    }
-
-                }
-            })
-        }
-    </script>
+        </form>
+        <a href="javascript:void(0);" name="pre" onclick="initUser('pre')"><u><< 上一页</u></a>
+        &nbsp;
+        <a href="javascript:void(0);" name="next" onclick="initUser('next')"><u>下一页 >></u></a>
+    </span>
 </div>
+<script>
+    $(function () {
+        initUser("init");
+    });
+    function initUser (action) {
+        var currentPage = parseInt($("#currentPage").val());
+        var nextPage = parseInt($("#nextPage").val());
+        var pageSize = parseInt($("#pageSize").val());
+        var totalPages = parseInt($("#totalPages").val());
+        var totalRecordSize = parseInt($("#totalRecordSize").val());
+        switch (action){
+            case "pre":
+                if (currentPage - 1 <= 0){
+                    nextPage = 1;
+                    currentPage = nextPage;
+                } else {
+                    nextPage = currentPage -1;
+                    currentPage = nextPage;
+                }
+                break;
+            case "next":
+                if (currentPage + 1 <= totalPages){
+                    nextPage = currentPage + 1;
+                    currentPage = nextPage;
+                } else {
+                    nextPage = totalPages;
+                    currentPage = nextPage;
+                }
+                break;
+            default:
+                currentPage = 1;
+                nextPage = 1;
+                pageSize = 10;
+                totalPages = 1;
+                totalRecordSize = 10;
+                break;
+        }
+
+        $.ajax({
+            url: "/meterController/${functionName}",
+            data:{
+                "companyCode":"${companyCode}",
+                "currentPage":currentPage,
+                "nextPage": nextPage,
+                "pageSize": pageSize,
+                "totalPages": totalPages,
+                "totalRecordSize": totalRecordSize
+            },
+            type: "post",
+            success: function (res) {
+                var num = totalRecordSize;
+                var map = res.obj;
+                var datas = map["allMeters"];
+                var page = map["page"];
+                var table=document.getElementById("tables");
+                if (!res.success){
+                    var temp = table.insertRow(table.rows.length).insertCell(0);
+                    temp.innerHTML = res.msg;
+                    temp.colSpan = table.rows[0].cells.length;
+                } else {
+                    for(var i=0;i<datas.length;i++){
+                        $("#tables tr:not(:first)").empty("");
+
+                        var row=table.insertRow(table.rows.length);
+                        var c1=row.insertCell(0);
+                        c1.innerHTML= num--;
+
+                        var c2=row.insertCell(1);
+                        c2.innerHTML=datas[i].destination;
+
+                        var c3=row.insertCell(2);
+                        c3.innerHTML=datas[i].firstWeight;
+
+                        var c4=row.insertCell(3);
+                        c4.innerHTML=datas[i].firstWeightPrice;
+
+                        var c5=row.insertCell(4);
+                        c5.innerHTML=datas[i].nextWeightPrice;
+
+                        var c6=row.insertCell(5);
+                        c6.innerHTML='<p>修改</p>'
+                    }
+                }
+                $("#currentPage").val(page.currentPage);
+                $("#nextPage").val(page.nextPage);
+                $("#pageSize").val(page.pageSize);
+                $("#totalPages").val(page.totalPages);
+                $("#totalRecordSize").val(page.totalRecordSize);
+            }
+        })
+    }
+</script>
 </body>
 </html>

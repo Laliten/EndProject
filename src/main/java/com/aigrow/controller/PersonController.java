@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,13 +40,30 @@ public class PersonController {
      */
     @ResponseBody
     @RequestMapping("/adminManager")
-    public Json doAdminManager(@RequestParam Page page){
+    public Json doAdminManager(HttpSession session, Page page){
+        Map<String, Object> map = new HashMap<>(0);
+
+
+        SessionInfo sessionInfo = (SessionInfo) session.getAttribute(ConfigUtil.getSessionInfoName());
+        // 1代表管理员，0代表用户
+        long numOfUsers = userService.numOfUsers("1");
         List<UserDto> userDtos = userService.getAllUsers(page,"1");
+        map.put("allUsers",userDtos);
+
+
+        long totalPages = numOfUsers%page.getPageSize()==0?
+                (numOfUsers/page.getPageSize()):((numOfUsers/page.getPageSize())+1);
+        page.setTotalPages(totalPages);
+        page.setTotalRecordSize(numOfUsers);
+        sessionInfo.setPage(page);
+        session.setAttribute(ConfigUtil.getSessionInfoName(), sessionInfo);
+        map.put("page", page);
+
         Json j = new Json();
         if (userDtos.size() != 0){
             j.setSuccess(true);
             j.setMsg("查询成功");
-            j.setObj(userDtos);
+            j.setObj(map);
         } else {
             j.setSuccess(false);
             j.setMsg("当前还未有管理员");
@@ -59,16 +77,34 @@ public class PersonController {
      */
     @ResponseBody
     @RequestMapping("/userManager")
-    public Json doUserManager(@RequestParam Page page){
+    public Json doUserManager(HttpSession session, Page page){
+        Map<String, Object> map = new HashMap<>(0);
+
+
+        SessionInfo sessionInfo = (SessionInfo) session.getAttribute(ConfigUtil.getSessionInfoName());
+        // 1代表管理员，0代表用户
+        long numOfUsers = userService.numOfUsers("0");
         List<UserDto> userDtos = userService.getAllUsers(page,"0");
+        map.put("allUsers",userDtos);
+
+
+        long totalPages = numOfUsers%page.getPageSize()==0?
+                (numOfUsers/page.getPageSize()):((numOfUsers/page.getPageSize())+1);
+        page.setTotalPages(totalPages);
+        page.setTotalRecordSize(numOfUsers);
+        sessionInfo.setPage(page);
+        session.setAttribute(ConfigUtil.getSessionInfoName(), sessionInfo);
+        map.put("page", page);
+
         Json j = new Json();
         if (userDtos.size() != 0){
             j.setSuccess(true);
             j.setMsg("查询成功");
-            j.setObj(userDtos);
+            j.setObj(map);
         } else {
             j.setSuccess(false);
-            j.setMsg("当前还未有管理");
+            j.setMsg("当前还未有用户");
+            j.setObj(map);
         }
         return j;
     }
@@ -91,6 +127,7 @@ public class PersonController {
         }
         return j;
     }
+
     /**
      * 处理用户的单个删除
      * @return
@@ -100,7 +137,7 @@ public class PersonController {
         SessionInfo sessionInfo= (SessionInfo) session.getAttribute(ConfigUtil.getSessionInfoName());
         Json j=new Json();
         if(id!=null&&!id.equalsIgnoreCase(sessionInfo.getId())){
-//            userService.delete(id);
+            userService.singleDelete(Integer.parseInt(id));
         }
         j.setSuccess(true);
         j.setMsg("删除成功！");
@@ -126,32 +163,19 @@ public class PersonController {
     }
 
     /**
-     * 跳转到编辑用户密码页面
-     *
-     * @param id
-     * @param request
-     * @return
-     */
-    @RequestMapping("/editPwdPage")
-    public String editPwdPage(Integer id, HttpServletRequest request){
-//        User u=userService.get(id);
-//        request.setAttribute("user",u);
-        return "/personController/modifyPassword";
-    }
-
-    /**
      * 处理用户的密码修改，成功后重新登录
      * @return
      */
+    @ResponseBody
     @RequestMapping("/modifyPassword")
-    public Json editCurrentUserPwd(HttpSession session, String oldPwd, String pwd) {
+    public Json editCurrentUserPwd(HttpSession session, String oldPwd, String newPwd) {
         Json json = new Json();
         if (session != null) {
             SessionInfo sessionInfo = (SessionInfo) session.getAttribute(ConfigUtil.getSessionInfoName());
             if (sessionInfo != null) {
-                if (userService.editCurrentUserPwd(sessionInfo.getId(), oldPwd, pwd)) {
+                if (userService.editCurrentUserPwd(sessionInfo.getDoneUser().getId(), oldPwd, newPwd)) {
                     json.setSuccess(true);
-                    json.setMsg("编辑密码成功，下次登录生效！");
+                    json.setMsg("修改密码成功，下次登录生效！");
                 } else {
                     json.setMsg("原密码错误！");
                 }
@@ -160,6 +184,21 @@ public class PersonController {
             }
         } else {
             json.setMsg("登录超时，请重新登录！");
+        }
+        return json;
+    }
+
+    @ResponseBody
+    @RequestMapping("/editUserInfoAtAdminPost")
+    public Json editUserInfoAtAdminPost(UserDto userDto){
+        Json json = new Json();
+        if (userDto.getId() != 0){
+            UserDto doneUser = userService.update(userDto);
+            json.setObj(doneUser);
+            json.setSuccess(true);
+            json.setMsg("修改信息成功");
+        } else {
+            json.setMsg("修改信息失败");
         }
         return json;
     }
@@ -180,25 +219,28 @@ public class PersonController {
      * @return
      */
     @RequestMapping("/updateUserInfo")
-    public ModelAndView updateUserInfo(UserDto userDto,HttpSession session,String page){
+    public ModelAndView updateUserInfoAtUserPost(UserDto userDto,HttpSession session,String pageName){
         ModelAndView mv = new ModelAndView();
-        SessionInfo sessionInfo = new SessionInfo();
-        switch (page){
-            case "附近驿站":
+
+        SessionInfo sessionInfo = (SessionInfo) session.getAttribute(ConfigUtil.getSessionInfoName());
+
+        switch (pageName){
+            case "nearby":
                 mv.setViewName("user/nearby");
                 break;
-            case "运费估计":
+            case "costEstimate":
                 mv.setViewName("user/costEstimate");
                 break;
-            case "主界面":
+            case "userHome":
                 mv.setViewName("user/userHome");
                 break;
-            case "运单查询":
+            case "wayBillQuery":
                 mv.setViewName("user/wayBillQuery");
                 break;
-            case "用户信息":
+            case "userInfo":
                 mv.setViewName("user/userInfo");
                 break;
+                default:break;
         }
 
         UserDto doneUser = userService.update(userDto);

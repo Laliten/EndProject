@@ -7,16 +7,9 @@ package com.aigrow.model.dto;
 public class Page {
     private int pageSize = 10;
     private int currentPage = 1;
-    private int totalPages = 1;
-    private int nextPage = 2;
-
-    public int getNextPage() {
-        return nextPage;
-    }
-
-    public void setNextPage(int nextPage) {
-        this.nextPage = nextPage;
-    }
+    private long totalPages = 1;
+    private int nextPage = 1;
+    private long totalRecordSize = 10;
 
     public int getPageSize() {
         return pageSize;
@@ -34,11 +27,27 @@ public class Page {
         this.currentPage = currentPage;
     }
 
-    public int getTotalPages() {
+    public long getTotalPages() {
         return totalPages;
     }
 
-    public void setTotalPages(int totalPages) {
+    public void setTotalPages(long totalPages) {
         this.totalPages = totalPages;
+    }
+
+    public int getNextPage() {
+        return nextPage;
+    }
+
+    public void setNextPage(int nextPage) {
+        this.nextPage = nextPage;
+    }
+
+    public long getTotalRecordSize() {
+        return totalRecordSize;
+    }
+
+    public void setTotalRecordSize(long totalRecordSize) {
+        this.totalRecordSize = totalRecordSize;
     }
 }

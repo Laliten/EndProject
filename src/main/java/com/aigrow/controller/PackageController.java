@@ -1,10 +1,9 @@
 package com.aigrow.controller;
 
 
-import com.aigrow.model.dto.CostEstimateDto;
-import com.aigrow.model.dto.Json;
-import com.aigrow.model.dto.PackageDto;
-import com.aigrow.model.dto.Page;
+import com.aigrow.model.dto.*;
+import com.aigrow.model.entity.History;
+import com.aigrow.service.HistoryService;
 import com.aigrow.service.MeterService;
 import com.aigrow.service.PackageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +34,9 @@ public class PackageController {
     @Autowired
     private PackageService packageService;
 
+    @Autowired
+    private HistoryService historyService;
+
     /**
      * 处理单击运单费用估计的请求，跳转界面
      * @return
@@ -51,16 +54,16 @@ public class PackageController {
     @ResponseBody
     @RequestMapping(value = "/costQuery",method = RequestMethod.POST)
     public List<CostEstimateDto> costQuery(HttpSession session,
-                                           @RequestParam("weight") int weight,
-                                           @RequestParam("destination") String destination,
-                                           @RequestParam("start") String start) {
+                                           HistoryDto historyDto) {
         Page page = new Page();
 
         Map<String,Object> map = new HashMap<>(0);
-        List<CostEstimateDto> costEstimateDtoList = meterService.cost(weight,destination,page,start);
+        List<CostEstimateDto> costEstimateDtoList = meterService.cost(historyDto.getWeight(),historyDto.getDestination(),page,historyDto.getStart());
         map.put("data",costEstimateDtoList);
         map.put("total",costEstimateDtoList.size());
-
+        if (historyDto!=null) {
+            historyService.addMeterHistory(historyDto);
+        }
         return costEstimateDtoList;
     }
 
@@ -96,14 +99,14 @@ public class PackageController {
 
     /**
      * 用户历史运单记录
-     * @param user_id
+     * @param userId
      * @return
      */
     @RequestMapping("/history")
-    public ModelAndView history(int user_id){
-        ModelAndView modelAndView = new ModelAndView("user/history");
-        List<PackageDto> packageDtoList = packageService.getHistory(user_id);
-        modelAndView.addObject("packageDtoList",packageDtoList);
+    public ModelAndView history(int userId){
+        ModelAndView modelAndView = new ModelAndView("user/historyMeter");
+        List<HistoryDto> historyList = historyService.findHistory(userId,"2");
+        modelAndView.addObject("history",historyList);
         return modelAndView;
     }
 }

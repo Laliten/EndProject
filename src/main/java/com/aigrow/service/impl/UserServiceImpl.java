@@ -1,14 +1,12 @@
 package com.aigrow.service.impl;
 
+import com.aigrow.dao.PackageDao;
 import com.aigrow.dao.UserDao;
-import com.aigrow.dao.impl.UserDaoImpl;
 import com.aigrow.model.dto.Page;
-import com.aigrow.model.dto.SessionInfo;
 import com.aigrow.model.dto.UserDto;
 import com.aigrow.model.entity.Package;
 import com.aigrow.model.entity.User;
 import com.aigrow.service.UserService;
-import com.fasterxml.jackson.databind.util.BeanUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
@@ -24,10 +22,12 @@ import java.util.*;
  */
 @Service
 @Transactional
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService{
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private PackageDao packageDao;
     /**
      * 仅限管理员使用，获取所有的管理员
      *
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> getAllUsers(Page page, String type) {
         String hql = "from User u where u.type="+type;
-        List<User> userList = userDao.find(hql);
+        List<User> userList = userDao.find(hql,page.getNextPage(),page.getPageSize());
         return this.e2d(userList);
     }
 
@@ -100,6 +100,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+
     /**
      * 进行注册用户名验证，若存在返回userDto，不存在返回null
      * @param account
@@ -152,11 +153,11 @@ public class UserServiceImpl implements UserService {
     public UserDto update(UserDto userDto) {
 
         User user = userDao.get(User.class,userDto.getId());
+
         user.setName(userDto.getName());
         user.setAccount(userDto.getAccount());
 
         userDao.update(user);
-        user = userDao.get(User.class,userDto.getId());
         return e2d(user);
     }
 
@@ -183,13 +184,25 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public boolean editCurrentUserPwd(String userId, String oldPwd, String pwd) {
-        User u = userDao.get(User.class, Integer.parseInt(userId));
-        if (oldPwd.equals(String.valueOf(u.getId()))){
+    public boolean editCurrentUserPwd(int userId, String oldPwd, String pwd) {
+        User u = userDao.get(User.class, userId);
+        if (oldPwd.equals(u.getPassword())){
             u.setPassword(pwd);
+            userDao.update(u);
             return true;
         }
         return false;
+    }
+
+    /**
+     * 获取有多少用户
+     * @param requestType
+     * @return
+     */
+    @Override
+    public long numOfUsers(String requestType) {
+        long num = userDao.count("select count(*) from User u where u.type="+requestType);
+        return num;
     }
 
     /**
@@ -201,6 +214,11 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         if (userDto != null){
             BeanUtils.copyProperties(userDto, user);
+            if (userDto.getPackagesId() != null){
+                for(Integer i : userDto.getPackagesId()){
+                    user.getPackageSet().add(packageDao.get(Package.class, i));
+                }
+            }
         }
         return user;
     }
@@ -238,5 +256,6 @@ public class UserServiceImpl implements UserService {
             }
             return userDtos;
     }
+
 
 }
