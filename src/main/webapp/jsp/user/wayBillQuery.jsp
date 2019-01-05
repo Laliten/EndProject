@@ -45,6 +45,9 @@
                             </ul>
                         </li>
                         <li ><a href="/appController/loginOut">注销</a></li>
+                        <li>
+                            <a href="#helpWord" data-toggle="modal"><button style="width: 20px;height: 20px;border-radius: 50%;background-color:grey;border: grey;font-family: 华文细黑;color: black" >?</button></a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -101,5 +104,20 @@
     </div><!-- /.modal -->
 </div>
 <!--修改密码的模态结束-->
+
+<div class="modal fade" id="helpWord" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">帮助文档</h4>
+            </div>
+            <div class="modal-body" style="text-align: center;">
+                aaaa
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
 </body>
 </html>
