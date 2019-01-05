@@ -5,6 +5,7 @@ import com.aigrow.dao.MeterDao;
 import com.aigrow.model.dto.CostEstimateDto;
 import com.aigrow.model.dto.MeterDto;
 import com.aigrow.model.dto.Page;
+import com.aigrow.model.dto.UserDto;
 import com.aigrow.model.entity.Company;
 import com.aigrow.model.entity.Meter;
 import com.aigrow.service.MeterService;
@@ -98,6 +99,31 @@ public class MeterServiceImpl implements MeterService{
         String hql = "select count(*) from Meter m where m.company.code=:code";
         long numOfMeters = meterDao.count(hql,map);
         return numOfMeters;
+    }
+
+    /**
+     * 根据搜索的内容对计价表进行搜索
+     *
+     * @param page
+     * @param searchText
+     * @return
+     */
+    @Override
+    public List<MeterDto> searchMeters(Page page, String searchText) {
+        Map<String,Object> map = new HashMap<>(0);
+        map.put("searchText", searchText);
+
+        String hql = "from Meter m where " +
+                " m.destination=:searchText or " +
+                " m.company.code=:searchText or " +
+                " m.firstWeightPrice=:searchText or " +
+                " m.nextWeightPrice=:searchText or " +
+                " m.firstWeight=:searchText ";
+        List<MeterDto> meterDtos = this.e2d(meterDao.find(hql, map, page.getNextPage(), page.getPageSize()));
+        if (meterDtos == null || meterDtos.size()==0){
+            meterDtos = new ArrayList<>(0);
+        }
+        return meterDtos;
     }
 
     /**

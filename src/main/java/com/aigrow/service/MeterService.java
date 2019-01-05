@@ -61,4 +61,12 @@ public interface MeterService {
      * @return
      */
     long numOfMeters(String companyCode);
+
+    /**
+     * 根据搜索的内容对计价表进行搜索
+     * @param page
+     * @param searchText
+     * @return
+     */
+    List<MeterDto> searchMeters(Page page, String searchText);
 }

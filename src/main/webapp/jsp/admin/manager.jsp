@@ -114,8 +114,8 @@
 
 <!--start-top-serch-->
 <div id="search">
-    <input type="text" placeholder="搜索..."/>
-    <button type="submit" class="tip-bottom" title="Search"><i class="icon-search icon-white"></i></button>
+    <input type="text" id="searchText" placeholder="搜索..."/>
+    <button type="button" id="searchButton" class="tip-bottom" title="Search"><i class="icon-search icon-white"></i></button>
 </div>
 <!--close-top-serch-->
 
@@ -245,6 +245,75 @@
     </div>
     <!--修改密码的模态结束-->
 <!-- 模态框结束 -->
+
+
+<!-- 修改模态框 -->
+<div class="modal fade" id="sure_delete" >
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h4 class="modal-title">删除</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <span style="font-size: 15px">是否确认删除？</span>
+            </div>
+
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" >确认</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<%--添加页面的模态框--%>
+<div class="modal fade" id="add_modal" >
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h4 class="modal-title">添加</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <span style="font-size: 15px">姓名：</span><input type="text" style="width: 30%" id="addName" placeholder="请输入姓名">
+                <span style="font-size: 15px;margin-left: 30px">用户名：</span><input type="text" style="width: 30%"  id="addUsername" placeholder="请输入用户名">
+                <br>
+                <span style="font-size: 15px" >密码：</span><input type="text" style="width: 30%" id="password" placeholder="请输入密码">
+                <span style="font-size: 15px;margin-left: 30px">添加权限：</span>
+                <%--<input type="text" style="width: 20%"  id="addPower">--%>
+
+                <div class="form-group" id="select" style="float: right;margin-right: 10%">
+                    <select class="form-control" style="width:127%">
+                        <option>管理员</option>
+                        <option>用户</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="add_sure" onclick="addManager()">确认</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="add_close">关闭</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
 <script src="../../js/mjs/excanvas.min.js"></script>
 <script src="../../js/mjs/jquery.ui.custom.js"></script>
 <script src="../../js/mjs/bootstrap.min.js"></script>
@@ -348,6 +417,12 @@
             $("#iframeContainer").attr("src", src);
         });
     });
+
+
+
+
+
+
     function goPage (newURL) {
 
         if (newURL != "") {
@@ -365,74 +440,5 @@
     }
 
 </script>
-
-<!-- 修改模态框 -->
-<div class="modal fade" id="sure_delete" >
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-
-            <!-- 模态框头部 -->
-            <div class="modal-header">
-                <h4 class="modal-title">删除</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-
-            <!-- 模态框主体 -->
-            <div class="modal-body">
-                <span style="font-size: 15px">是否确认删除？</span>
-            </div>
-
-            <!-- 模态框底部 -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" >确认</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<%--添加页面的模态框--%>
-<div class="modal fade" id="add_modal" >
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-
-            <!-- 模态框头部 -->
-            <div class="modal-header">
-                <h4 class="modal-title">添加</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-
-            <!-- 模态框主体 -->
-            <div class="modal-body">
-                <span style="font-size: 15px">姓名：</span><input type="text" style="width: 30%" id="addName" placeholder="请输入姓名">
-                <span style="font-size: 15px;margin-left: 30px">用户名：</span><input type="text" style="width: 30%"  id="addUsername" placeholder="请输入用户名">
-                <br>
-                <span style="font-size: 15px" >密码：</span><input type="text" style="width: 30%" id="password" placeholder="请输入密码">
-                <span style="font-size: 15px;margin-left: 30px">添加权限：</span>
-                <%--<input type="text" style="width: 20%"  id="addPower">--%>
-
-                <div class="form-group" id="select" style="float: right;margin-right: 10%">
-                    <select class="form-control" style="width:127%">
-                        <option>管理员</option>
-                        <option>用户</option>
-                    </select>
-                </div>
-
-            </div>
-
-            <!-- 模态框底部 -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" id="add_sure" onclick="addManager()">确认</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="add_close">关闭</button>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-
-
-
 </body>
 </html>

@@ -45,6 +45,7 @@
             <th>首重(kg)</th>
             <th>首重价格(kg/元)</th>
             <th>续重价格(kg/元)</th>
+            <th>公司名称</th>
             <th>操作</th>
         </tr>
     </table>
@@ -121,9 +122,9 @@
                     temp.innerHTML = res.msg;
                     temp.colSpan = table.rows[0].cells.length;
                 } else {
-                    for(var i=0;i<datas.length;i++){
-                        $("#tables tr:not(:first)").empty("");
+                    $("#tables tr:not(:first)").empty("");
 
+                    for(var i=0;i<datas.length;i++){
                         var row=table.insertRow(table.rows.length);
                         var c1=row.insertCell(0);
                         c1.innerHTML= i + 1;
@@ -141,7 +142,10 @@
                         c5.innerHTML=datas[i].nextWeightPrice;
 
                         var c6=row.insertCell(5);
-                        c6.innerHTML='<p>修改</p>'
+                        c6.innerHTML='<p>韵达</p>'
+
+                        var c7=row.insertCell(6);
+                        c7.innerHTML='<p>修改</p>'
                     }
                 }
                 $("#currentPage").val(page.currentPage);
@@ -152,6 +156,73 @@
             }
         })
     }
+
+    $("#searchButton", parent.document).click(function () {
+        var searchText = $("#searchText",parent.document);
+        var iframe = $("#iframeContainer", parent.document);
+        var type = iframe.attr("src").substring(iframe.attr("src").lastIndexOf("_")+1,iframe.attr("src").lastIndexOf("?"));
+
+        if (searchText.val() != "" || searchText.val() != null || searchText.length != 0){
+            if (iframe.attr("src") == "manager_manager"){
+                type = "user";
+            } else if (iframe.attr("src") == "/manager_meter"){
+                type = "meter";
+            }
+            $.ajax({
+                url:  "/searchController/doSearch",
+                type:"post",
+                data:{
+                    "searchText": searchText.val(),
+                    "type": type,
+                    "currentPage":1,
+                    "nextPage": 1,
+                    "pageSize": 20,
+                    "totalPages": 1,
+                    "totalRecordSize": 0
+                },
+                success:function (res) {
+                    alert(res.msg);
+                    var map = res.obj;
+                    var datas = map["allMeters"];
+                    var table = document.getElementById("tables");
+                    if (!res.success){
+                        var temp = table.insertRow(table.rows.length).insertCell(0);
+                        temp.innerHTML = res.msg;
+                        temp.colSpan = table.rows[0].cells.length;
+                    } else {
+                        for(var i=0;i<datas.length;i++){
+                            $("#tables tr:not(:first)").empty("");
+
+                            var row=table.insertRow(table.rows.length);
+                            var c1=row.insertCell(0);
+                            c1.innerHTML = '<input type="checkbox" style="float: left" name="checkbox" value="' + datas[i].id + '">' + (i + 1);
+
+                            var c2=row.insertCell(1);
+                            c2.innerHTML=datas[i].destination;
+
+                            var c3=row.insertCell(2);
+                            c3.innerHTML=datas[i].firstWeight;
+
+                            var c4=row.insertCell(3);
+                            c4.innerHTML=datas[i].firstWeightPrice;
+
+                            var c5=row.insertCell(4);
+                            c5.innerHTML=datas[i].nextWeightPrice;
+
+                            var c6=row.insertCell(5);
+                            c6.innerHTML=datas[i].companyName;
+
+                            var c7 = row.insertCell(6);
+                            c7.innerHTML = '<span style="color: green" id="revise" onclick="window.parent.$(\'#revise_modal\').modal(\'show\');rel(' + datas[i].id + ')" >修改</span><span>&nbsp;&nbsp;</span>' +
+                                ' <span style="color:black" id="delete" onclick="show2()">删除</span>' +
+                                ' <span style="color:red;display: none" id="sure_delete" onclick="del(' + datas[i].id + ');" >确认删除？</span>';
+
+                        }
+                    }
+                }
+            });
+        }
+    });
 </script>
 </body>
 </html>
