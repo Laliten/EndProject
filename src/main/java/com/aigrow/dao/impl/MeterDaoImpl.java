@@ -23,14 +23,14 @@ public class MeterDaoImpl extends BaseDaoImpl<Meter> implements MeterDao{
      * @return
      */
     @Override
-    public void batchDelete(String hql, Map<String, List<Integer>> map) {
+    public void batchDelete(String hql, Map<String, List<Meter>> map) {
         Query query = getCurrentSession().createQuery(hql);
-        if (map != null && map.size() > 0) {
-            for (Map.Entry<String, List<Integer>> entry : map.entrySet()) {
-                query.setParameterList(entry.getKey(), entry.getValue());
-            }
-        }
-
+//        if (map != null && map.size() > 0) {
+//            for (Map.Entry<String, List<Integer>> entry : map.entrySet()) {
+//                query.setParameterList(entry.getKey(), entry.getValue());
+//            }
+//        }
+        query.setParameter("ids",map);
         query.executeUpdate();
     }
 

@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
@@ -53,7 +54,7 @@ public class MeterController {
      * @return
      */
     @ResponseBody
-    @RequestMapping("/update")
+    @RequestMapping(value = "/update",method = RequestMethod.POST)
     public Json update(MeterDto meterDto){
         Json json = new Json();
         int num = meterService.update(meterDto);
@@ -88,7 +89,7 @@ public class MeterController {
      * 处理确认批量删除的请求，处理结束返回Json对象用于显示
      * @return
      */
-    @RequestMapping("/batchDelete")
+    @RequestMapping(value = "/batchDelete",method = RequestMethod.POST)
     @ResponseBody
     public Json batchDelete(String meterIds){
         Json json = new Json();

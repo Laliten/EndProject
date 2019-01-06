@@ -12,7 +12,7 @@ public interface MeterDao extends BaseDao<Meter>{
      * @param
      * @return
      */
-    void batchDelete(String hql, Map<String, List<Integer>> map);
+    void batchDelete(String hql, Map<String, List<Meter>> map);
 
     /**
      * 保存/修改meter对象信息

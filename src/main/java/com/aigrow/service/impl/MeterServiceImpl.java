@@ -1,5 +1,6 @@
 package com.aigrow.service.impl;
 
+import com.aigrow.controller.MeterController;
 import com.aigrow.dao.CompanyDao;
 import com.aigrow.dao.MeterDao;
 import com.aigrow.model.dto.CostEstimateDto;
@@ -9,16 +10,15 @@ import com.aigrow.model.dto.UserDto;
 import com.aigrow.model.entity.Company;
 import com.aigrow.model.entity.Meter;
 import com.aigrow.service.MeterService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author JDB
@@ -134,7 +134,7 @@ public class MeterServiceImpl implements MeterService{
     @Override
     public int add(MeterDto meterDto) {
         Meter meter = this.d2e(meterDto);
-        Serializable num = meterDao.save(meter);
+        Serializable num = meterDao.merge(meter);
         if (num == null) {
             return 0;
         } else {
@@ -171,6 +171,7 @@ public class MeterServiceImpl implements MeterService{
         return meterDto;
     }
 
+    private static Logger logger = LoggerFactory.getLogger(MeterController.class);
     /**
      * 批量删除
      * @param meterIds
@@ -181,19 +182,23 @@ public class MeterServiceImpl implements MeterService{
         if (meterIds == null){
             return;
         }
-        String hql = "delete from Meter m where m.id in (:ids)";
-        Map<String, List<Integer>> map = new HashMap<>();
-        List<Integer> idList = new ArrayList<Integer>(0);
+//        String hql = "delete from Meter m where m.id in (:ids)";
+//        Map<String, List<Meter>> map = new HashMap<>();
+        List<Meter> idList = new ArrayList<Meter>(0);
         String[] idArr = meterIds.split(",");
         for(String id:idArr){
             if(id!=null){
                 if(!id.equals("zhang")){
-                    idList.add(Integer.parseInt(id));
+                    Meter meter = new Meter();
+                    meter.setId(Integer.parseInt(id));
+                    meterDao.delete(meter);
+//                    idList.add(meter);
                 }
             }
         }
-        map.put("ids", idList);
-        meterDao.batchDelete(hql,map);
+//        idList.removeAll(Collections.singleton(null));
+//        map.put("ids", idList);
+
     }
 
     /**
