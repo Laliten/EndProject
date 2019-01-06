@@ -63,16 +63,36 @@
 
         }
 
-        function addPrice() {
-            var destination=document.getElementById("destination").value;
+        function check1() {
             var firstWeightPrice=document.getElementById("firstWeightPrice").value;
+            if(!/(500|[1-4]\d(0,2))/.test("firstWeightPrice"))
+            {
+                alert("只能输入1-500之间的数！");
+            }
+        }
+        function check2() {
             var firstWeight=document.getElementById("firstWeight").value;
+            if(!/(500|[1-4]\d(0,2))/.test("firstWeight"))
+            {
+                alert("只能输入1-500之间的数！");
+            }
+        }
+        function check3() {
             var nextWeightPrice=document.getElementById("nextWeightPrice").value;
-            var companyCode=$('#add_price option:selected').text();
+            if(!/(500|[1-4]\d(0,2))/.test("nextWeightPrice"))
+            {
+                alert("只能输入1-500之间的数！");
+            }
+        }
+        function check4() {
+            var destination=document.getElementById("destination").value;
             if (destination.length==0){
                 alert("目的地不能为空！");
             }
+        }
 
+        function addPrice() {
+            var companyCode=$('#add_price option:selected').text();
 
             if (companyCode=="韵达"){
                 companyCode="YD";
@@ -223,19 +243,19 @@
                     <form class="bs-example bs-example-form" role="form" id="userInfoForm" style="font-size: 15px">
                         <div class="input-group">
                             <span class="input-group-addon">用户Id&nbsp;</span>
-                            <input name="id" type="text" class="form-control" readonly value="${sessionScope.sessionInfo.doneUser.id}">
+                            <input name="id" id="id" type="text" class="form-control" readonly >
                         </div>
                         <br>
                         <div class="input-group">
-                            <span class="input-group-addon">真实姓名&nbsp;</span>
-                            <input name="name" type="text" class="form-control" placeholder="请输入真实姓名"
-                                   required pattern="\w{3,5}$" value="${sessionScope.sessionInfo.doneUser.name}">
+                            <span class="input-group-addon">姓名&nbsp;</span>
+                            <input name="name" type="text" id="name" class="form-control" placeholder="请输入真实姓名"
+                                   required pattern="\w{3,5}$" >
                         </div>
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">帐户名</span>
-                            <input name="account" type="text" class="form-control" placeholder="请输入帐户名"
-                                   required value="${sessionScope.sessionInfo.doneUser.account}">
+                            <input name="account" id="account" type="text" class="form-control" placeholder="请输入帐户名"
+                                   required >
                         </div>
                     </form>
                 </div>
@@ -368,11 +388,11 @@
 
             <!-- 模态框主体 -->
             <div class="modal-body">
-                <span style="font-size: 15px">目的地：</span><input type="text" style="width: 30%" id="destination" placeholder="请输入目的地">
-                <span style="font-size: 15px;margin-left: 15px">首重价格：</span><input type="text" style="width: 30%" id="firstWeightPrice" placeholder="请输入首重价格">
+                <span style="font-size: 15px">目的地：</span><input type="text" style="width: 30%" id="destination" placeholder="请输入目的地" onblur="check4()">
+                <span style="font-size: 15px;margin-left: 15px">首重价格：</span><input type="text" style="width: 30%" id="firstWeightPrice" placeholder="请输入首重价格" onblur="check1()">
                 <br>
-                <span style="font-size: 15px;">首&nbsp;&nbsp;&nbsp;&nbsp;重：</span><input type="text" style="width: 30%"  id="firstWeight" placeholder="请输入首重">
-                <span style="font-size: 15px;margin-left: 15px">续重价格：</span><input type="text" style="width: 30%" id="nextWeightPrice" placeholder="请输入续重价格">
+                <span style="font-size: 15px;">首&nbsp;&nbsp;&nbsp;&nbsp;重：</span><input type="text" style="width: 30%"  id="firstWeight" placeholder="请输入首重" onblur="check2()">
+                <span style="font-size: 15px;margin-left: 15px">续重价格：</span><input type="text" style="width: 30%" id="nextWeightPrice" placeholder="请输入续重价格" onblur="check3()">
                 <span style="font-size: 15px">公司名称：</span>
                 <div class="form-group" id="select_company" style="float: right;margin-right: 60%;height: 20px">
                     <select class="form-control" style="width:127%">

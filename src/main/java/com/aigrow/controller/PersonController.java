@@ -255,4 +255,21 @@ public class PersonController {
         return mv;
     }
 
+    /**
+     * 点击修改按钮查找对应id的user
+     * @param id
+     * @return
+     */
+    @RequestMapping("/search")
+    @ResponseBody
+    public Json search(int id){
+        Json json = new Json();
+        if (id != 0){
+            UserDto doneUser = userService.search(id);
+            json.setObj(doneUser);
+            json.setSuccess(true);
+        }
+        return json;
+    }
+
 }

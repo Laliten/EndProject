@@ -182,7 +182,6 @@ public class MeterServiceImpl implements MeterService{
         if (meterIds == null){
             return;
         }
-        List<Meter> idList = new ArrayList<Meter>(0);
         String[] idArr = meterIds.split(",");
         for(String id:idArr){
             if(id!=null){
@@ -190,13 +189,20 @@ public class MeterServiceImpl implements MeterService{
                     Meter meter = new Meter();
                     meter.setId(Integer.parseInt(id));
                     meterDao.delete(meter);
-//                    idList.add(meter);
                 }
             }
         }
-//        idList.removeAll(Collections.singleton(null));
-//        map.put("ids", idList);
+    }
 
+    /**
+     * 根据id查询用户
+     * @param id
+     * @return
+     */
+    @Override
+    public MeterDto search(int id) {
+        MeterDto meterDto = e2d(meterDao.get(Meter.class,id));
+        return meterDto;
     }
 
     /**
