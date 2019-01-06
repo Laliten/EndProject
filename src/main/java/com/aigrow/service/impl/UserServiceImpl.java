@@ -205,6 +205,30 @@ public class UserServiceImpl implements UserService{
         return num;
     }
 
+
+    /**
+     * 根据输入的信息搜索用户
+     * @param page
+     * @param searchText
+     * @return
+     */
+    @Override
+    public List<UserDto> searchUser(Page page, String searchText){
+
+        Map<String,Object> map = new HashMap<>(0);
+        map.put("searchText", searchText);
+
+        String hql = "from User u where " +
+                    " u.name=:searchText or " +
+                    " u.account=:searchText or" +
+                    " u.type=:searchText ";
+        List<UserDto> userDtos = this.e2d(userDao.find(hql, map, page.getNextPage(), page.getPageSize()));
+        if (userDtos == null || userDtos.size()==0){
+            userDtos = new ArrayList<>(0);
+        }
+        return userDtos;
+    }
+
     /**
      * 将userDto对象转换为user实体类对象
      * @param userDto

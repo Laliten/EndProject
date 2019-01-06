@@ -81,4 +81,13 @@ public interface UserService {
      * @return
      */
     long numOfUsers(String requestType);
+
+    /**
+     * 根据输入的信息搜索用户
+     * @param page
+     * @param searchText
+     * @return
+     */
+    List<UserDto> searchUser(Page page, String searchText);
+
 }
