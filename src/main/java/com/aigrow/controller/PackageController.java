@@ -105,7 +105,7 @@ public class PackageController {
     @RequestMapping("/history")
     public ModelAndView history(int userId){
         ModelAndView modelAndView = new ModelAndView("user/historyMeter");
-        List<HistoryDto> historyList = historyService.findHistory(userId,"2");
+        List<HistoryDto> historyList = historyService.findHistory(userId,"1");
         modelAndView.addObject("history",historyList);
         return modelAndView;
     }

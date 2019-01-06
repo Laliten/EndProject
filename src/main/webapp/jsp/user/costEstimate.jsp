@@ -11,25 +11,19 @@
     <meta charset="UTF-8"/>
     <title>运费估计</title>
     <script src="../../jslib/jquery-1.8.3.js"></script>
-    <script src="../../jslib/jquery-easyui-1.3.3/jquery.easyui.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="../../jslib/jquery-easyui-1.3.3/themes/default/easyui.css">
     <link rel="stylesheet" href="../../css/costEstimate/plugins/kuCity.css">
     <link href="../../css/bootstrap.css" rel="stylesheet">
 
-    <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap.js"></script>
 
     <link rel="stylesheet" href="../../css/costEstimate/costEsitmate.css">
 
-    <link rel="stylesheet" href="../../css/costEstimate/plugins/bc.grid-1.0.0.min.css">
+    <script type="text/javascript" src="../../js/bootstrap-table.js"></script>
 
-    <script type="text/javascript" src="../../Bootstrap/bootstrap-table.js"></script>
+    <link rel="stylesheet" href="../../js/bootstrap-table.css">
 
-    <script type="text/javascript" src="../../Bootstrap/locale/bootstrap-table-zh-CN.js"></script>
+    <script type="text/javascript" src="../../js/mjs/bootstrap-table-zh-CN.js"></script>
 
-    <link rel="stylesheet" href="../../Bootstrap/Content/bootstrap-table.css">
 
     <style>
         div .shadow{
@@ -88,9 +82,7 @@
 <div class="zm-banner text-center">
     <div class="zm-banner-bac">
         <h1 style="color: #fff; padding-top: 30px">快递帮--为你选出性价比最高的公司</h1>
-        <input type="text" class="form-control form-control-inline" style="width: 300px;margin-left: 0px;z-index: 99"
-               placeholder="搜索。。。">
-        <button class="btn btn-primary">搜索</button>
+
     </div>
 </div>
 <div class="zm-main-container">
