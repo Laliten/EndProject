@@ -181,7 +181,19 @@ public class MeterServiceImpl implements MeterService{
         if (meterIds == null){
             return;
         }
-        meterDao.batchDelete(meterIds);
+        String hql = "delete from Meter m where m.id in (:ids)";
+        Map<String, List<Integer>> map = new HashMap<>();
+        List<Integer> idList = new ArrayList<Integer>(0);
+        String[] idArr = meterIds.split(",");
+        for(String id:idArr){
+            if(id!=null){
+                if(!id.equals("zhang")){
+                    idList.add(Integer.parseInt(id));
+                }
+            }
+        }
+        map.put("ids", idList);
+        meterDao.batchDelete(hql,map);
     }
 
     /**

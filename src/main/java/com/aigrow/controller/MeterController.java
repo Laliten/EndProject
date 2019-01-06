@@ -92,7 +92,7 @@ public class MeterController {
     @ResponseBody
     public Json batchDelete(String meterIds){
         Json json = new Json();
-
+        logger.info("     "+meterIds);
         meterService.batchDelete(meterIds);
         json.setSuccess(true);
         json.setMsg("删除成功！");

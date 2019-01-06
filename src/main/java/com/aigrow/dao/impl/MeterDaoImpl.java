@@ -1,41 +1,39 @@
 package com.aigrow.dao.impl;
 
+import com.aigrow.controller.MeterController;
 import com.aigrow.dao.MeterDao;
 import com.aigrow.model.entity.Meter;
 import org.hibernate.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author XQH
  */
 @Repository
 public class MeterDaoImpl extends BaseDaoImpl<Meter> implements MeterDao{
-
     /**
      * 批量删除
-     * @param meterIds
+     * @param
      * @return
      */
     @Override
-    public void batchDelete(String meterIds) {
-        if(meterIds==null||meterIds.trim().length()==0){
-            return;
-        }
-        List<Integer> idList = new ArrayList<Integer>(0);
-        String[] idArr = meterIds.split(",");
-        for(String id:idArr){
-            if(id!=null){
-                idList.add(Integer.parseInt(id));
+    public void batchDelete(String hql, Map<String, List<Integer>> map) {
+        Query query = getCurrentSession().createQuery(hql);
+        if (map != null && map.size() > 0) {
+            for (Map.Entry<String, List<Integer>> entry : map.entrySet()) {
+                query.setParameterList(entry.getKey(), entry.getValue());
             }
         }
 
-        Query query = getCurrentSession().createQuery("delete from Meter m where m.id in:ids");
-        query.setParameter("ids",idList);
         query.executeUpdate();
     }
+
 
     /**
      * 保存/修改meter对象信息
