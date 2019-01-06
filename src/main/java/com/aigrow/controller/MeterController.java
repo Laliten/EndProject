@@ -6,9 +6,12 @@ import com.aigrow.model.dto.Page;
 import com.aigrow.model.dto.SessionInfo;
 import com.aigrow.service.MeterService;
 import com.aigrow.util.ConfigUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
@@ -51,7 +54,7 @@ public class MeterController {
      * @return
      */
     @ResponseBody
-    @RequestMapping("/update")
+    @RequestMapping(value = "/update",method = RequestMethod.POST)
     public Json update(MeterDto meterDto){
         Json json = new Json();
         int num = meterService.update(meterDto);
@@ -65,6 +68,8 @@ public class MeterController {
         return json;
     }
 
+    private static Logger logger = LoggerFactory.getLogger(MeterController.class);
+
     /**
      * 处理表中的删除按钮的请求，处理结束返回Json对象用于显示
      * @return
@@ -73,7 +78,8 @@ public class MeterController {
     @ResponseBody
     public Json singleDelete(MeterDto meterDto){
         Json json = new Json();
-        meterService.singleDelete(meterDto.getId());
+        logger.info("     "+meterDto.getId());
+        meterService.singleDelete(meterDto);
         json.setSuccess(true);
         json.setMsg("删除成功！");
         return json;
@@ -83,11 +89,11 @@ public class MeterController {
      * 处理确认批量删除的请求，处理结束返回Json对象用于显示
      * @return
      */
-    @RequestMapping("/batchDelete")
+    @RequestMapping(value = "/batchDelete",method = RequestMethod.POST)
     @ResponseBody
     public Json batchDelete(String meterIds){
         Json json = new Json();
-
+        logger.info("     "+meterIds);
         meterService.batchDelete(meterIds);
         json.setSuccess(true);
         json.setMsg("删除成功！");

@@ -38,6 +38,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 
     @Override
     public Serializable save(T o) {
+
         if (o != null) {
             return this.getCurrentSession().save(o);
         }
@@ -76,6 +77,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 
     @Override
     public void delete(T o) {
+        getCurrentSession().clear();
         if (o != null) {
             this.getCurrentSession().delete(o);
         }
@@ -86,7 +88,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
         if (o != null) {
             this.getCurrentSession().update(o);
             getCurrentSession().flush();
-    }
+        }
     }
 
     @Override

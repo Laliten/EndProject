@@ -63,6 +63,48 @@
 
         }
 
+        function addPrice() {
+            var destination=document.getElementById("destination").value;
+            var firstWeightPrice=document.getElementById("firstWeightPrice").value;
+            var firstWeight=document.getElementById("firstWeight").value;
+            var nextWeightPrice=document.getElementById("nextWeightPrice").value;
+            var companyCode=$('#add_price option:selected').text();
+            if (destination.length==0){
+                alert("目的地不能为空！");
+            }
+
+
+            if (companyCode=="韵达"){
+                companyCode="YD";
+            }
+            if (companyCode=="申通"){
+                companyCode="STO";
+            }
+            if (companyCode=="顺丰"){
+                companyCode="SF";
+            }
+            if (companyCode=="圆通"){
+                companyCode="YTO";
+            }
+            if (destination.length!=0&&firstWeightPrice.length!=0&&firstWeight.length!=0&&nextWeightPrice.length!=0) {
+                $.ajax({
+                    url:'/meterController/add',
+                    type:"post",
+                    data:{
+                        "destination":destination,
+                        "firstWeightPrice":firstWeightPrice,
+                        "firstWeight":firstWeight,
+                        "nextWeightPrice":nextWeightPrice,
+                        "companyCode":companyCode
+                    },
+                    success:function () {
+                        location.reload(true);
+                    }
+                })
+            }
+
+        }
+
     </script>
 </head>
 <body>
@@ -114,8 +156,8 @@
 
 <!--start-top-serch-->
 <div id="search">
-    <input type="text" placeholder="搜索..."/>
-    <button type="submit" class="tip-bottom" title="Search"><i class="icon-search icon-white"></i></button>
+    <input type="text" id="searchText" placeholder="搜索..."/>
+    <button type="button" id="searchButton" class="tip-bottom" title="Search"><i class="icon-search icon-white"></i></button>
 </div>
 <!--close-top-serch-->
 
@@ -157,7 +199,7 @@
     <!--End-breadcrumbs-->
     <div style="margin: 0px 0px 0px 50px">
 
-        <iframe src="manager_manager.jsp" width="95%" height="550px" name="iframeContainer" id="iframeContainer">
+        <iframe src="manager_manager" width="95%" height="550px" name="iframeContainer" id="iframeContainer">
         </iframe>
 
     </div>
@@ -245,6 +287,114 @@
     </div>
     <!--修改密码的模态结束-->
 <!-- 模态框结束 -->
+
+
+<!-- 修改模态框 -->
+<div class="modal fade" id="sure_delete" >
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h4 class="modal-title">删除</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <span style="font-size: 15px">是否确认删除？</span>
+            </div>
+
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" >确认</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<%--添加页面的模态框--%>
+<div class="modal fade" id="add_modal" >
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h4 class="modal-title">添加</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <span style="font-size: 15px">姓名：</span><input type="text" style="width: 30%" id="addName" placeholder="请输入姓名">
+                <span style="font-size: 15px;margin-left: 30px">用户名：</span><input type="text" style="width: 30%"  id="addUsername" placeholder="请输入用户名">
+                <br>
+                <span style="font-size: 15px" >密码：</span><input type="text" style="width: 30%" id="password" placeholder="请输入密码">
+                <span style="font-size: 15px;margin-left: 30px">添加权限：</span>
+                <%--<input type="text" style="width: 20%"  id="addPower">--%>
+
+                <div class="form-group" id="select" style="float: right;margin-right: 10%">
+                    <select class="form-control" style="width:127%">
+                        <option>管理员</option>
+                        <option>用户</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="add_sure" onclick="addManager()">确认</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="add_close">关闭</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<%--计价表添加页面的模态框--%>
+<div class="modal fade" id="add_price" >
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h4 class="modal-title">添加</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <span style="font-size: 15px">目的地：</span><input type="text" style="width: 30%" id="destination" placeholder="请输入目的地">
+                <span style="font-size: 15px;margin-left: 15px">首重价格：</span><input type="text" style="width: 30%" id="firstWeightPrice" placeholder="请输入首重价格">
+                <br>
+                <span style="font-size: 15px;">首&nbsp;&nbsp;&nbsp;&nbsp;重：</span><input type="text" style="width: 30%"  id="firstWeight" placeholder="请输入首重">
+                <span style="font-size: 15px;margin-left: 15px">续重价格：</span><input type="text" style="width: 30%" id="nextWeightPrice" placeholder="请输入续重价格">
+                <span style="font-size: 15px">公司名称：</span>
+                <div class="form-group" id="select_company" style="float: right;margin-right: 60%;height: 20px">
+                    <select class="form-control" style="width:127%">
+                        <option>韵达</option>
+                        <option>申通</option>
+                        <option>顺丰</option>
+                        <option>圆通</option>
+                    </select>
+                </div>
+
+
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="addPrice_sure" onclick="addPrice()">确认</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="addPrice_close">关闭</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+
 <script src="../../js/mjs/excanvas.min.js"></script>
 <script src="../../js/mjs/jquery.ui.custom.js"></script>
 <script src="../../js/mjs/bootstrap.min.js"></script>
@@ -365,74 +515,5 @@
     }
 
 </script>
-
-<!-- 修改模态框 -->
-<div class="modal fade" id="sure_delete" >
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-
-            <!-- 模态框头部 -->
-            <div class="modal-header">
-                <h4 class="modal-title">删除</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-
-            <!-- 模态框主体 -->
-            <div class="modal-body">
-                <span style="font-size: 15px">是否确认删除？</span>
-            </div>
-
-            <!-- 模态框底部 -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" >确认</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<%--添加页面的模态框--%>
-<div class="modal fade" id="add_modal" >
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-
-            <!-- 模态框头部 -->
-            <div class="modal-header">
-                <h4 class="modal-title">添加</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-
-            <!-- 模态框主体 -->
-            <div class="modal-body">
-                <span style="font-size: 15px">姓名：</span><input type="text" style="width: 30%" id="addName" placeholder="请输入姓名">
-                <span style="font-size: 15px;margin-left: 30px">用户名：</span><input type="text" style="width: 30%"  id="addUsername" placeholder="请输入用户名">
-                <br>
-                <span style="font-size: 15px" >密码：</span><input type="text" style="width: 30%" id="password" placeholder="请输入密码">
-                <span style="font-size: 15px;margin-left: 30px">添加权限：</span>
-                <%--<input type="text" style="width: 20%"  id="addPower">--%>
-
-                <div class="form-group" id="select" style="float: right;margin-right: 10%">
-                    <select class="form-control" style="width:127%">
-                        <option>管理员</option>
-                        <option>用户</option>
-                    </select>
-                </div>
-
-            </div>
-
-            <!-- 模态框底部 -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" id="add_sure" onclick="addManager()">确认</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="add_close">关闭</button>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-
-
-
 </body>
 </html>

@@ -1,23 +1,24 @@
 package com.aigrow.service.impl;
 
+import com.aigrow.controller.MeterController;
 import com.aigrow.dao.CompanyDao;
 import com.aigrow.dao.MeterDao;
 import com.aigrow.model.dto.CostEstimateDto;
 import com.aigrow.model.dto.MeterDto;
 import com.aigrow.model.dto.Page;
+import com.aigrow.model.dto.UserDto;
 import com.aigrow.model.entity.Company;
 import com.aigrow.model.entity.Meter;
 import com.aigrow.service.MeterService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author JDB
@@ -101,6 +102,31 @@ public class MeterServiceImpl implements MeterService{
     }
 
     /**
+     * 根据搜索的内容对计价表进行搜索
+     *
+     * @param page
+     * @param searchText
+     * @return
+     */
+    @Override
+    public List<MeterDto> searchMeters(Page page, String searchText) {
+        Map<String,Object> map = new HashMap<>(0);
+        map.put("searchText", searchText);
+
+        String hql = "from Meter m where " +
+                " m.destination=:searchText or " +
+                " m.company.code=:searchText or " +
+                " m.firstWeightPrice=:searchText or " +
+                " m.nextWeightPrice=:searchText or " +
+                " m.firstWeight=:searchText ";
+        List<MeterDto> meterDtos = this.e2d(meterDao.find(hql, map, page.getNextPage(), page.getPageSize()));
+        if (meterDtos == null || meterDtos.size()==0){
+            meterDtos = new ArrayList<>(0);
+        }
+        return meterDtos;
+    }
+
+    /**
      * 添加对应公司的计价单
      * @param meterDto
      * @return
@@ -108,7 +134,7 @@ public class MeterServiceImpl implements MeterService{
     @Override
     public int add(MeterDto meterDto) {
         Meter meter = this.d2e(meterDto);
-        Serializable num = meterDao.save(meter);
+        Serializable num = meterDao.merge(meter);
         if (num == null) {
             return 0;
         } else {
@@ -131,18 +157,21 @@ public class MeterServiceImpl implements MeterService{
 
     /**
      * 删除一条价格
-     * @param meterId
+     * @param meterDto
      * @return
      */
     @Override
-    public void singleDelete(int meterId) {
-        if(meterId==0){
-            return;
+    public MeterDto singleDelete(MeterDto meterDto) {
+        if(meterDto==null){
+            return null;
         }
-        Meter meter = meterDao.get(Meter.class,meterId);
+        Meter meter = new Meter();
+        BeanUtils.copyProperties(meterDto,meter);
         meterDao.delete(meter);
+        return meterDto;
     }
 
+    private static Logger logger = LoggerFactory.getLogger(MeterController.class);
     /**
      * 批量删除
      * @param meterIds
@@ -153,7 +182,23 @@ public class MeterServiceImpl implements MeterService{
         if (meterIds == null){
             return;
         }
-        meterDao.batchDelete(meterIds);
+//        String hql = "delete from Meter m where m.id in (:ids)";
+//        Map<String, List<Meter>> map = new HashMap<>();
+        List<Meter> idList = new ArrayList<Meter>(0);
+        String[] idArr = meterIds.split(",");
+        for(String id:idArr){
+            if(id!=null){
+                if(!id.equals("zhang")){
+                    Meter meter = new Meter();
+                    meter.setId(Integer.parseInt(id));
+                    meterDao.delete(meter);
+//                    idList.add(meter);
+                }
+            }
+        }
+//        idList.removeAll(Collections.singleton(null));
+//        map.put("ids", idList);
+
     }
 
     /**
@@ -165,14 +210,10 @@ public class MeterServiceImpl implements MeterService{
         Meter meter = new Meter();
         Map<String, Object> map = new HashMap<>(0);
         map.put("companyCode",meterDto.getCompanyCode());
-        map.put("companyName",meterDto.getCompanyName());
         if (meterDto != null){
             BeanUtils.copyProperties(meterDto, meter);
             if(meterDto.getCompanyCode()!=null){
                 meter.setCompany(companyDao.get("from Company c where c.code=:companyCode",map));
-            }
-            if(meterDto.getCompanyName()!=null){
-                meter.setCompany(companyDao.get("from Company c where c.name=:companyName",map));
             }
         }
         return meter;
