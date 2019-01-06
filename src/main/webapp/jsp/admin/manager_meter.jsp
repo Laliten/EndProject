@@ -49,7 +49,7 @@
                 $.ajax({
                     url:'/meterController/batchDelete',
                     type:"post",
-                    data:{"ids":arr},
+                    data:{"meterIds":arr},
                     success:function (res) {
                         location.reload(true);
                     }
