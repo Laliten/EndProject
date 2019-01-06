@@ -76,16 +76,20 @@
         $(str).toggle();
     }
     var i=0;
-    // function myCan() {
-    //     i++;
-    //     if (i%2){
-    //     var t1=document.getElementById("delete");
-    //     t1.innerHTML="取消删除";
-    //     } else {
-    //     var t=document.getElementById("delete");
-    //     t.innerHTML="删除";
-    // }
-    // }
+
+    function rel(id) {
+        $.ajax({
+            url:'/personController/search',
+            type:"post",
+            data:{"id":id},
+            success:function (res) {
+                parent.document.getElementById('id').value=res.obj.id;
+                parent.document.getElementById('name').value=res.obj.name;
+                parent.document.getElementById('account').value=res.obj.account;
+            }
+        })
+        parent.document.getElementById('id').value=place;
+    }
 
 </script>
 </head>

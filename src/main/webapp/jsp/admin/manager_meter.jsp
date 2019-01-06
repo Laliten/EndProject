@@ -128,6 +128,19 @@
 </div>
 <script>
 
+    function rel(id) {
+        $.ajax({
+            url:'/meterController/search',
+            type:"post",
+            data:{"id":id},
+            success:function (res) {
+                parent.document.getElementById('id').value=res.obj.id;
+                parent.document.getElementById('name').value=res.obj.name;
+                parent.document.getElementById('account').value=res.obj.account;
+            }
+        })
+        parent.document.getElementById('id').value=place;
+    }
 
     //全选checkbox
     document.getElementById("checkboxMain").onclick=function () {

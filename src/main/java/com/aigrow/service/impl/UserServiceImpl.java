@@ -230,6 +230,17 @@ public class UserServiceImpl implements UserService{
     }
 
     /**
+     * 根据id查询用户
+     * @param id
+     * @return
+     */
+    @Override
+    public UserDto search(int id) {
+        UserDto userDto = e2d(userDao.get(User.class,id));
+        return userDto;
+    }
+
+    /**
      * 将userDto对象转换为user实体类对象
      * @param userDto
      * @return

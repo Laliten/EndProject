@@ -69,4 +69,11 @@ public interface MeterService {
      * @return
      */
     List<MeterDto> searchMeters(Page page, String searchText);
+
+    /**
+     * 根据id查询计价条
+     * @param id
+     * @return
+     */
+    MeterDto search(int id);
 }

@@ -17,22 +17,6 @@ import java.util.Map;
  */
 @Repository
 public class MeterDaoImpl extends BaseDaoImpl<Meter> implements MeterDao{
-    /**
-     * 批量删除
-     * @param
-     * @return
-     */
-    @Override
-    public void batchDelete(String hql, Map<String, List<Meter>> map) {
-        Query query = getCurrentSession().createQuery(hql);
-//        if (map != null && map.size() > 0) {
-//            for (Map.Entry<String, List<Integer>> entry : map.entrySet()) {
-//                query.setParameterList(entry.getKey(), entry.getValue());
-//            }
-//        }
-        query.setParameter("ids",map);
-        query.executeUpdate();
-    }
 
 
     /**

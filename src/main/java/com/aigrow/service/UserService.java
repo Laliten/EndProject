@@ -90,4 +90,10 @@ public interface UserService {
      */
     List<UserDto> searchUser(Page page, String searchText);
 
+    /**
+     * 根据id查询用户
+     * @param id
+     * @return
+     */
+    UserDto search(int id);
 }

@@ -161,4 +161,21 @@ public class MeterController {
         return json;
     }
 
+    /**
+     * 点击修改按钮查找对应id的meter
+     * @param id
+     * @return
+     */
+    @RequestMapping("/search")
+    @ResponseBody
+    public Json search(int id){
+        Json json = new Json();
+        if (id != 0){
+            MeterDto doneMeter = meterService.search(id);
+            json.setObj(doneMeter);
+            json.setSuccess(true);
+        }
+        return json;
+    }
+
 }
