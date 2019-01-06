@@ -15,10 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 包裹控制器
@@ -55,6 +52,10 @@ public class PackageController {
     @RequestMapping(value = "/costQuery",method = RequestMethod.POST)
     public List<CostEstimateDto> costQuery(HttpSession session,
                                            HistoryDto historyDto) {
+        if(historyDto.getDestination() == null || historyDto.getStart() == null || historyDto.getWeight() == null){
+            return new ArrayList<CostEstimateDto>();
+        }
+
         Page page = new Page();
 
         Map<String,Object> map = new HashMap<>(0);

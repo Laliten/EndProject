@@ -182,8 +182,6 @@ public class MeterServiceImpl implements MeterService{
         if (meterIds == null){
             return;
         }
-//        String hql = "delete from Meter m where m.id in (:ids)";
-//        Map<String, List<Meter>> map = new HashMap<>();
         List<Meter> idList = new ArrayList<Meter>(0);
         String[] idArr = meterIds.split(",");
         for(String id:idArr){
