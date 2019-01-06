@@ -91,7 +91,7 @@
                     type:"post",
                     data:{"destination":destination,"firstWeightPrice":firstWeightPrice,"firstWeight":firstWeight,"nextWeightPrice":nextWeightPrice,"companyCode":companyCode},
                     success:function () {
-                        location.reload(true);
+                        $('#iframeContainer').attr('src', $('#iframeContainer').attr('src'));
                     }
                 })
             }

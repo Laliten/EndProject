@@ -68,16 +68,6 @@
             $(str).toggle();
         }
         var i=0;
-        // function myCan() {
-        //     i++;
-        //     if (i%2){
-        //         var t1=document.getElementById("delete");
-        //         t1.innerHTML="取消删除";
-        //     } else {
-        //         var t=document.getElementById("delete");
-        //         t.innerHTML="删除";
-        //     }
-        // }
 
         //单个删除
         function del(id){
