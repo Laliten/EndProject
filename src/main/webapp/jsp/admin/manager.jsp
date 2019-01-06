@@ -63,36 +63,15 @@
 
         }
 
-        function check1() {
-            var firstWeightPrice=document.getElementById("firstWeightPrice").value;
-            if(!/(500|[1-4]\d(0,2))/.test("firstWeightPrice"))
-            {
-                alert("只能输入1-500之间的数！");
-            }
-        }
-        function check2() {
-            var firstWeight=document.getElementById("firstWeight").value;
-            if(!/(500|[1-4]\d(0,2))/.test("firstWeight"))
-            {
-                alert("只能输入1-500之间的数！");
-            }
-        }
-        function check3() {
-            var nextWeightPrice=document.getElementById("nextWeightPrice").value;
-            if(!/(500|[1-4]\d(0,2))/.test("nextWeightPrice"))
-            {
-                alert("只能输入1-500之间的数！");
-            }
-        }
-        function check4() {
+        function addPrice() {
             var destination=document.getElementById("destination").value;
+            var firstWeightPrice=document.getElementById("firstWeightPrice").value;
+            var firstWeight=document.getElementById("firstWeight").value;
+            var nextWeightPrice=document.getElementById("nextWeightPrice").value;
+            var companyCode=$('#add_price option:selected').text();
             if (destination.length==0){
                 alert("目的地不能为空！");
             }
-        }
-
-        function addPrice() {
-            var companyCode=$('#add_price option:selected').text();
 
             if (companyCode=="韵达"){
                 companyCode="YD";
@@ -110,13 +89,7 @@
                 $.ajax({
                     url:'/meterController/add',
                     type:"post",
-                    data:{
-                        "destination":destination,
-                        "firstWeightPrice":firstWeightPrice,
-                        "firstWeight":firstWeight,
-                        "nextWeightPrice":nextWeightPrice,
-                        "companyCode":companyCode
-                    },
+                    data:{"destination":destination,"firstWeightPrice":firstWeightPrice,"firstWeight":firstWeight,"nextWeightPrice":nextWeightPrice,"companyCode":companyCode},
                     success:function () {
                         location.reload(true);
                     }
@@ -176,8 +149,8 @@
 
 <!--start-top-serch-->
 <div id="search">
-    <input type="text" id="searchText" placeholder="搜索..."/>
-    <button type="button" id="searchButton" class="tip-bottom" title="Search"><i class="icon-search icon-white"></i></button>
+    <input type="text" placeholder="搜索..."/>
+    <button type="submit" class="tip-bottom" title="Search"><i class="icon-search icon-white"></i></button>
 </div>
 <!--close-top-serch-->
 
@@ -227,194 +200,95 @@
 <!--end-main-container-part-->
 
 <!-- 模态框 -->
-    <!--修改个人信息的模态-->
-    <div class="modal fade" id="userInfoModel" style="margin-top: 100px">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
+<!--修改个人信息的模态-->
+<div class="modal fade" id="userInfoModel" style="margin-top: 100px">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
 
-                <!-- 模态框头部 -->
-                <div class="modal-header">
-                    <h4 class="modal-title">修改信息</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-
-                <!-- 模态框主体 -->
-                <div class="modal-body" style="text-align: center;">
-                    <form class="bs-example bs-example-form" role="form" id="userInfoForm" style="font-size: 15px">
-                        <div class="input-group">
-                            <span class="input-group-addon">用户Id&nbsp;</span>
-                            <input name="id" id="id" type="text" class="form-control" readonly >
-                        </div>
-                        <br>
-                        <div class="input-group">
-                            <span class="input-group-addon">姓名&nbsp;</span>
-                            <input name="name" type="text" id="name" class="form-control" placeholder="请输入真实姓名"
-                                   required pattern="\w{3,5}$" >
-                        </div>
-                        <br>
-                        <div class="input-group">
-                            <span class="input-group-addon">帐户名</span>
-                            <input name="account" id="account" type="text" class="form-control" placeholder="请输入帐户名"
-                                   required >
-                        </div>
-                    </form>
-                </div>
-
-                <!-- 模态框底部 -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-                    <button id="userInfoSubmitButton" type="button" class="btn btn-primary" form="userInfoForm">提交更改</button>
-                </div>
-
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h4 class="modal-title">修改信息</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
+
+            <!-- 模态框主体 -->
+            <div class="modal-body" style="text-align: center;">
+                <form class="bs-example bs-example-form" role="form" id="userInfoForm" style="font-size: 15px">
+                    <div class="input-group">
+                        <span class="input-group-addon">用户Id&nbsp;</span>
+                        <input name="id" type="text" class="form-control" id="id">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">真实姓名&nbsp;</span>
+                        <input name="name" type="text" class="form-control" placeholder="请输入真实姓名"
+                               required pattern="\w{3,5}$" id="name">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">帐户名</span>
+                        <input name="account" type="text" class="form-control" placeholder="请输入帐户名"
+                               required id="account">
+                    </div>
+                </form>
+            </div>
+
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                <button id="userInfoSubmitButton" type="button" class="btn btn-primary" form="userInfoForm">提交更改</button>
+            </div>
+
         </div>
     </div>
-    <!--修改个人信息的模态-->
-    <!--修改密码的模态-->
-    <div class="modal fade" id="passwordModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">修改密码</h4>
-                </div>
-                <div class="modal-body" style="text-align: center;">
+</div>
 
-                    <form class="bs-example bs-example-form" role="form" id="passwordForm" style="font-size: 15px">
-                        <div class="input-group">
-                            <span class="input-group-addon">原密码&nbsp;</span>
-                            <input name="oldPwd" type="text" class="form-control" placeholder="你的原密码" autofocus required pattern="^{a-zA-Z0-9}{1,7}$">
-                        </div>
-                        <br>
-                        <div class="input-group">
-                            <span class="input-group-addon">新密码&nbsp;</span>
-                            <input name="newPwd" type="text" class="form-control" placeholder="请输入密码" required pattern="^{a-zA-Z}\w{1,7}$">
-                        </div>
-                        <br>
-                        <div class="input-group">
-                            <span class="input-group-addon">密码确认</span>
-                            <input name="confirmPwd" type="text" class="form-control" placeholder="确认密码" required>
-                        </div>
-                    </form>
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button id="passwordSubmitButton" type="button" class="btn btn-primary" form="passwordForm">提交更改</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal -->
-    </div>
-    <!--修改密码的模态结束-->
+
+
+
+
+
+
+
+<!--修改个人信息的模态-->
+<!--修改密码的模态-->
+<div class="modal fade" id="passwordModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">修改密码</h4>
+            </div>
+            <div class="modal-body" style="text-align: center;">
+
+                <form class="bs-example bs-example-form" role="form" id="passwordForm" style="font-size: 15px">
+                    <div class="input-group">
+                        <span class="input-group-addon">原密码&nbsp;</span>
+                        <input name="oldPwd" type="text" class="form-control" placeholder="你的原密码" autofocus required pattern="^{a-zA-Z0-9}{1,7}$">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">新密码&nbsp;</span>
+                        <input name="newPwd" type="text" class="form-control" placeholder="请输入密码" required pattern="^{a-zA-Z}\w{1,7}$">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">密码确认</span>
+                        <input name="confirmPwd" type="text" class="form-control" placeholder="确认密码" required>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button id="passwordSubmitButton" type="button" class="btn btn-primary" form="passwordForm">提交更改</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<!--修改密码的模态结束-->
 <!-- 模态框结束 -->
-
-
-<!-- 修改模态框 -->
-<div class="modal fade" id="sure_delete" >
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-
-            <!-- 模态框头部 -->
-            <div class="modal-header">
-                <h4 class="modal-title">删除</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-
-            <!-- 模态框主体 -->
-            <div class="modal-body">
-                <span style="font-size: 15px">是否确认删除？</span>
-            </div>
-
-            <!-- 模态框底部 -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" >确认</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<%--添加页面的模态框--%>
-<div class="modal fade" id="add_modal" >
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-
-            <!-- 模态框头部 -->
-            <div class="modal-header">
-                <h4 class="modal-title">添加</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-
-            <!-- 模态框主体 -->
-            <div class="modal-body">
-                <span style="font-size: 15px">姓名：</span><input type="text" style="width: 30%" id="addName" placeholder="请输入姓名">
-                <span style="font-size: 15px;margin-left: 30px">用户名：</span><input type="text" style="width: 30%"  id="addUsername" placeholder="请输入用户名">
-                <br>
-                <span style="font-size: 15px" >密码：</span><input type="text" style="width: 30%" id="password" placeholder="请输入密码">
-                <span style="font-size: 15px;margin-left: 30px">添加权限：</span>
-                <%--<input type="text" style="width: 20%"  id="addPower">--%>
-
-                <div class="form-group" id="select" style="float: right;margin-right: 10%">
-                    <select class="form-control" style="width:127%">
-                        <option>管理员</option>
-                        <option>用户</option>
-                    </select>
-                </div>
-
-            </div>
-
-            <!-- 模态框底部 -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" id="add_sure" onclick="addManager()">确认</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="add_close">关闭</button>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-
-<%--计价表添加页面的模态框--%>
-<div class="modal fade" id="add_price" >
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-
-            <!-- 模态框头部 -->
-            <div class="modal-header">
-                <h4 class="modal-title">添加</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-
-            <!-- 模态框主体 -->
-            <div class="modal-body">
-                <span style="font-size: 15px">目的地：</span><input type="text" style="width: 30%" id="destination" placeholder="请输入目的地" onblur="check4()">
-                <span style="font-size: 15px;margin-left: 15px">首重价格：</span><input type="text" style="width: 30%" id="firstWeightPrice" placeholder="请输入首重价格" onblur="check1()">
-                <br>
-                <span style="font-size: 15px;">首&nbsp;&nbsp;&nbsp;&nbsp;重：</span><input type="text" style="width: 30%"  id="firstWeight" placeholder="请输入首重" onblur="check2()">
-                <span style="font-size: 15px;margin-left: 15px">续重价格：</span><input type="text" style="width: 30%" id="nextWeightPrice" placeholder="请输入续重价格" onblur="check3()">
-                <span style="font-size: 15px">公司名称：</span>
-                <div class="form-group" id="select_company" style="float: right;margin-right: 60%;height: 20px">
-                    <select class="form-control" style="width:127%">
-                        <option>韵达</option>
-                        <option>申通</option>
-                        <option>顺丰</option>
-                        <option>圆通</option>
-                    </select>
-                </div>
-
-
-            <!-- 模态框底部 -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" id="addPrice_sure" onclick="addPrice()">确认</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="addPrice_close">关闭</button>
-            </div>
-
-        </div>
-    </div>
-</div>
-</div>
-
 <script src="../../js/mjs/excanvas.min.js"></script>
 <script src="../../js/mjs/jquery.ui.custom.js"></script>
 <script src="../../js/mjs/bootstrap.min.js"></script>
@@ -535,5 +409,90 @@
     }
 
 </script>
+
+<%--用户添加页面的模态框--%>
+<div class="modal fade" id="add_modal" >
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h4 class="modal-title">添加</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <span style="font-size: 15px">姓名：</span><input type="text" style="width: 30%" id="addName" placeholder="请输入姓名">
+                <span style="font-size: 15px;margin-left: 30px">用户名：</span><input type="text" style="width: 30%"  id="addUsername" placeholder="请输入用户名">
+                <br>
+                <span style="font-size: 15px" >密码：</span><input type="text" style="width: 30%" id="password" placeholder="请输入密码">
+                <span style="font-size: 15px;margin-left: 30px">添加权限：</span>
+                <%--<input type="text" style="width: 20%"  id="addPower">--%>
+
+                <div class="form-group" id="select" style="float: right;margin-right: 10%">
+                    <select class="form-control" style="width:127%">
+                        <option>管理员</option>
+                        <option>用户</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="add_sure" onclick="addManager()">确认</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="add_close">关闭</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<%--计价表添加页面的模态框--%>
+<div class="modal fade" id="add_price" >
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h4 class="modal-title">添加</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <span style="font-size: 15px">目的地：</span><input type="text" style="width: 30%" id="destination" placeholder="请输入目的地">
+                <span style="font-size: 15px;margin-left: 15px">首重价格：</span><input type="text" style="width: 30%" id="firstWeightPrice" placeholder="请输入首重价格">
+                <br>
+                <span style="font-size: 15px;">首&nbsp;&nbsp;&nbsp;&nbsp;重：</span><input type="text" style="width: 30%"  id="firstWeight" placeholder="请输入首重">
+                <span style="font-size: 15px;margin-left: 15px">续重价格：</span><input type="text" style="width: 30%" id="nextWeightPrice" placeholder="请输入续重价格">
+                <span style="font-size: 15px">公司名称：</span>
+                <div class="form-group" id="select_company" style="float: right;margin-right: 60%;height: 20px">
+                    <select class="form-control" style="width:127%">
+                        <option>韵达</option>
+                        <option>申通</option>
+                        <option>顺丰</option>
+                        <option>圆通</option>
+                    </select>
+                </div>
+                <!-- 模态框底部 -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="addPrice_sure" onclick="addPrice()">确认</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="addPrice_close">关闭</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
 </body>
 </html>
